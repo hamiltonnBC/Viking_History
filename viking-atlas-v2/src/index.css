@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;800&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #020617;
+  color: #F8FAFC;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root, #app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide the old counter if it still around */
+.counter {
+  display: none;
+}

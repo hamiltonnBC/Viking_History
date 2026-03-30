@@ -1,0 +1,283 @@
+:root {
+    --parchment: #c8a96e;
+    --parchment-light: #e8d5a3;
+    --parchment-dark: #8b6914;
+    --ink: #1a0f00;
+    --blood: #8b1a1a;
+    --blood-bright: #c0392b;
+    --sea: #1e3a5c;
+    --sea-dark: #0d1f33;
+    --gold: #d4a017;
+    --gold-bright: #f0c040;
+    --land: #9a7a45;
+    --land-stroke: #6b5020;
+    --font-heading: 'Cinzel Decorative', serif;
+    --font-subheading: 'Cinzel', serif;
+    --font-body: 'IM Fell English', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #0a0600;
+    font-family: var(--font-body);
+    color: var(--parchment-light);
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* HEADER */
+#header {
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(180deg, #0a0600 0%, rgba(26, 15, 0, 0.8) 100%);
+    border-bottom: 1px solid var(--parchment-dark);
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+#header h1 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--gold-bright);
+    text-shadow: 0 0 15px rgba(212, 160, 23, 0.5);
+    letter-spacing: 0.1em;
+}
+
+#year-display {
+    font-family: var(--font-subheading);
+    font-size: 2.5rem;
+    margin: 5px 0;
+}
+
+#era-label {
+    font-style: italic;
+    color: var(--parchment);
+    font-size: 1rem;
+}
+
+/* MAIN ATLAS AREA */
+#atlas-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+}
+
+#map-holder {
+    flex: 1;
+    position: relative;
+    background: var(--sea-dark);
+}
+
+#viking-map {
+    width: 100%;
+    height: 100%;
+}
+
+/* INFO PANEL */
+#info-panel {
+    width: 350px;
+    background: rgba(10, 6, 0, 0.95);
+    border-left: 1px solid var(--parchment-dark);
+    padding: 20px;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    z-index: 50;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+}
+
+#info-panel.open {
+    transform: translateX(0);
+}
+
+#panel-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--parchment-dark);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#panel-header h2 {
+    font-family: var(--font-subheading);
+    color: var(--gold-bright);
+    margin-bottom: 10px;
+}
+
+#panel-date {
+    display: block;
+    color: var(--blood-bright);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    font-family: var(--font-subheading);
+}
+
+#panel-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid var(--parchment-dark);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+#panel-body {
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+#panel-body p {
+    margin-bottom: 15px;
+}
+
+/* TIMELINE */
+#timeline-container {
+    padding: 20px 40px;
+    background: #0a0600;
+    border-top: 1px solid var(--parchment-dark);
+}
+
+#timeline-wrapper {
+    position: relative;
+    height: 40px;
+    margin: 10px 0;
+}
+
+#timeline-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--ink);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 2px;
+    transform: translateY(-50%);
+}
+
+#timeline-fill {
+    height: 100%;
+    background: var(--blood);
+    width: 0%;
+}
+
+#year-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#year-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 10px var(--gold);
+}
+
+#timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-subheading);
+    font-size: 0.8rem;
+    color: var(--parchment-dark);
+}
+
+#timeline-instructions {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--parchment-dark);
+    font-style: italic;
+}
+
+/* ZOOM CONTROLS */
+#zoom-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#zoom-controls button {
+    width: 36px;
+    height: 36px;
+    background: rgba(10, 6, 0, 0.8);
+    border: 1px solid var(--parchment-dark);
+    color: var(--parchment-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+#zoom-controls button:hover {
+    background: var(--parchment-dark);
+    color: var(--ink);
+}
+
+/* D3 Elements */
+.land {
+    fill: var(--land);
+    stroke: var(--land-stroke);
+    stroke-width: 0.5;
+}
+
+.ocean {
+    fill: var(--sea-dark);
+}
+
+.route {
+    fill: none;
+    stroke-width: 2;
+    stroke-dasharray: 5,5;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.route.active {
+    opacity: 0.8;
+}
+
+.hotspot {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.hotspot:hover {
+    transform: scale(1.2);
+}
+
+.hotspot.hidden {
+    display: none;
+}
+
+.hotspot circle {
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+}

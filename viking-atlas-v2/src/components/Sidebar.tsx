@@ -1,0 +1,136 @@
+import React, { useState } from 'react';
+import type { EventType } from '../types';
+import { ChronicleEntry } from './ChronicleEntry';
+import { TIMELINE_ENTRIES } from '../data/timelineEntries';
+import clsx from 'clsx';
+
+const ALL_FILTERS: { type: EventType; label: string; color: string; description: string }[] = [
+  {
+    type: 'origin',
+    label: 'Origins',
+    color: 'var(--gold-bright)',
+    description: 'The Norse world before the raids — shipbuilding, burial customs, and the culture that launched an age.',
+  },
+  {
+    type: 'raid',
+    label: 'Raids',
+    color: 'var(--blood-bright)',
+    description: 'Swift, devastating strikes on monasteries, towns, and coastlines that defined the Viking Age in European memory.',
+  },
+  {
+    type: 'settlement',
+    label: 'Settlements',
+    color: 'var(--parchment, #e8d5a3)',
+    description: 'Where raiders became farmers, founders, and kings — from the Danelaw to Dublin to the edge of Greenland.',
+  },
+  {
+    type: 'trade',
+    label: 'Trade Routes',
+    color: 'var(--gold)',
+    description: 'Norse merchants connected the Baltic to Byzantium, exchanging furs, amber, silver, and slaves across continents.',
+  },
+  {
+    type: 'exploration',
+    label: 'Exploration',
+    color: 'var(--text-primary)',
+    description: 'Driven by curiosity and necessity, Vikings reached Iceland, Greenland, and North America centuries before Columbus.',
+  },
+  {
+    type: 'battle',
+    label: 'Battles',
+    color: 'var(--blood)',
+    description: 'From river sieges to open sea warfare, Viking battles shaped the political map of medieval Europe.',
+  },
+  {
+    type: 'conquest',
+    label: 'Conquests',
+    color: 'var(--blood-bright)',
+    description: 'Permanent territorial takeovers — Norse warlords who stopped raiding and started ruling entire kingdoms.',
+  },
+];
+
+type Tab = 'filters' | 'chronicle';
+
+interface SidebarProps {
+  activeFilters: EventType[];
+  onToggleFilter: (type: EventType) => void;
+}
+
+export function Sidebar({ activeFilters, onToggleFilter }: SidebarProps) {
+  const [activeTab, setActiveTab] = useState<Tab>('filters');
+
+  /** For the Chronicle tab, only show entries whose tags overlap active filters */
+  const visibleEntries = TIMELINE_ENTRIES.filter((entry) =>
+    entry.tags.some((tag) => activeFilters.includes(tag))
+  ).sort((a, b) => a.year - b.year);
+
+  return (
+    <aside className="sidebar">
+      {/* Tab navigation */}
+      <div className="sidebar-tabs">
+        <button
+          id="sidebar-tab-filters"
+          className={clsx('sidebar-tab', { active: activeTab === 'filters' })}
+          onClick={() => setActiveTab('filters')}
+        >
+          Filters
+        </button>
+        <button
+          id="sidebar-tab-chronicle"
+          className={clsx('sidebar-tab', { active: activeTab === 'chronicle' })}
+          onClick={() => setActiveTab('chronicle')}
+        >
+          Chronicle
+          {visibleEntries.length > 0 && (
+            <span className="sidebar-tab-count">{visibleEntries.length}</span>
+          )}
+        </button>
+      </div>
+
+      {/* ── FILTERS TAB ── */}
+      {activeTab === 'filters' && (
+        <div className="sidebar-content">
+          <p className="sidebar-desc">
+            Select the types of Viking events you want to display on the map.
+          </p>
+          <div className="filter-list">
+            {ALL_FILTERS.map((filter) => {
+              const isActive = activeFilters.includes(filter.type);
+              return (
+                <button
+                  key={filter.type}
+                  className={clsx('filter-btn', { active: isActive })}
+                  onClick={() => onToggleFilter(filter.type)}
+                  style={{ '--filter-color': filter.color } as React.CSSProperties}
+                >
+                  <div className="filter-indicator" />
+                  <div className="filter-btn-text">
+                    <span className="filter-label">{filter.label}</span>
+                    <span className="filter-desc">{filter.description}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── CHRONICLE TAB ── */}
+      {activeTab === 'chronicle' && (
+        <div className="sidebar-content sidebar-chronicle">
+          {visibleEntries.length === 0 ? (
+            <p className="sidebar-desc chronicle-empty">
+              No chronicle entries match the active filters. Enable more event types to see entries.
+            </p>
+          ) : (
+            <div className="chronicle-list">
+              {visibleEntries.map((entry) => (
+                <ChronicleEntry key={entry.id} entry={entry} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </aside>
+  );
+}
