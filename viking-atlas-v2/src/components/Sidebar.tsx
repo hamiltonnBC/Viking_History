@@ -9,7 +9,7 @@ const ALL_FILTERS: { type: EventType; label: string; color: string; description:
     type: 'origin',
     label: 'Origins',
     color: 'var(--gold-bright)',
-    description: 'The Norse world before the raids — shipbuilding, burial customs, and the culture that launched an age.',
+    description: 'Explore the Norse world before the era of raids, encompassing their masterful shipbuilding, intricate burial customs, and the vibrant culture that launched an entire age.',
   },
   {
     type: 'raid',
@@ -21,7 +21,7 @@ const ALL_FILTERS: { type: EventType; label: string; color: string; description:
     type: 'settlement',
     label: 'Settlements',
     color: 'var(--parchment, #e8d5a3)',
-    description: 'Where raiders became farmers, founders, and kings — from the Danelaw to Dublin to the edge of Greenland.',
+    description: 'Discover where fierce raiders transitioned into dedicated farmers, founders, and kings, stretching out from the Danelaw to Dublin and all the way to the icy edges of Greenland.',
   },
   {
     type: 'trade',
@@ -45,7 +45,7 @@ const ALL_FILTERS: { type: EventType; label: string; color: string; description:
     type: 'conquest',
     label: 'Conquests',
     color: 'var(--blood-bright)',
-    description: 'Permanent territorial takeovers — Norse warlords who stopped raiding and started ruling entire kingdoms.',
+    description: 'Witness the permanent territorial takeovers executed by Norse warlords who eventually abandoned raiding in favor of ruling entire newly formed kingdoms.',
   },
 ];
 

@@ -3,9 +3,10 @@ import { START_YEAR, END_YEAR } from '../data/vikingData';
 interface TimelineProps {
   currentYear: number;
   onYearChange: (year: number) => void;
+  onOpenRunes: () => void;
 }
 
-export function Timeline({ currentYear, onYearChange }: TimelineProps) {
+export function Timeline({ currentYear, onYearChange, onOpenRunes }: TimelineProps) {
   const pct = ((currentYear - START_YEAR) / (END_YEAR - START_YEAR)) * 100;
 
   return (
@@ -53,6 +54,9 @@ export function Timeline({ currentYear, onYearChange }: TimelineProps) {
 
         </div>
       </div>
+      <button className="rune-btn" onClick={onOpenRunes} title="Write your name in runes">
+        Write your name in Runes!
+      </button>
     </footer>
   );
 }
