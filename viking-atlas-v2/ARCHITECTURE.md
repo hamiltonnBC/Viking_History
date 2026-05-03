@@ -19,6 +19,8 @@ State is localized primarily in `App.tsx` using two hooks:
 
 A third boolean `isHomeVisible` controls the About page overlay (`HomeSplash`), and `isRuneVisible` controls the Rune Translator overlay.
 
+A fourth state variable `scrollToEra: number | null` carries a one-way scroll signal from the Timeline to the Sidebar. It is set when the user clicks an era marker or arrow button, consumed by `Sidebar`'s `useEffect`, and immediately reset to `null` via `onScrollToEraConsumed`.
+
 Because the app is relatively simple, we elevate this state to the top-level container (`App.tsx`) and pass it via standard React props.
 
 ### 2. React-driven Data Visualization
@@ -39,7 +41,8 @@ Instead of relying on standard `d3.select().enter().append()` patterns which con
      - Renders the event hotspots (`<circle>`) that are revealed as the timeline progresses.
    - **`ZoomControls`**: Standard buttons (+, -, reset) which trigger the zoomed D3 instance via isolated handler callbacks injected into the window context.
    - **`InfoPanel`**: Absolute positioned HTML overlaid on the map. Slide-in animation is purely CSS-driven based on the presence of a selected event state.
-   - **`Timeline`**: Controls the `currentYear`. Sliding it directly updates `App` state, causing the whole interface to react synchronously.
+   - **`Sidebar`**: Accepts `activeFilters`, `onToggleFilter`, `scrollToEra`, and `onScrollToEraConsumed` props. When `scrollToEra` is non-null, a `useEffect` switches the active tab to `'chronicle'` and scrolls to the corresponding era section header, then calls `onScrollToEraConsumed` to reset the signal.
+   - **`Timeline`**: Controls the `currentYear`. Sliding it directly updates `App` state, causing the whole interface to react synchronously. Also accepts `onEraJump`, called when the user clicks an era marker or the prev/next arrow buttons, which triggers a scroll in the Sidebar chronicle.
 
 ## Data Models
 See `src/types.ts` for strict typing of the timeline entries. The core concepts split data by **Events** (specific historical milestones and coordinates) and **Routes** (lines drawn between points, which only appear when an event that references them becomes active).
