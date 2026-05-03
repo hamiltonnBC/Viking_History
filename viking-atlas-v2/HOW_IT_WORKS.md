@@ -162,6 +162,7 @@ App
 ├── currentYear: number           ← drives map visibility + header
 ├── selectedEvent: VikingEvent    ← drives InfoPanel open/closed
 ├── activeFilters: EventType[]    ← drives map + sidebar Chronicle
+├── isHomeVisible: boolean        ← controls the About overlay (HomeSplash)
 │
 ├── <Header currentYear />
 ├── <Sidebar activeFilters onToggleFilter />
@@ -215,6 +216,10 @@ Each `Route` is drawn as a `<path>` with `className="route"`. It becomes `active
 `d3-zoom` is attached to the SVG's `<g>` wrapper via a `useEffect`. Zoom transforms are applied by updating the `transform` attribute on that `<g>` — React does not need to re-render the children; D3 manipulates the transform directly in this one intentional exception to the "D3 for maths only" rule.
 
 The `ZoomControls` component fires zoom actions by calling handler functions exposed on the `window` object by `MapContainer`. This is a pragmatic escape hatch to avoid prop-drilling the D3 zoom instance.
+
+### Cursor Feedback
+
+`MapContainer` tracks a local `isDragging: boolean` state. `onMouseDown` on the SVG sets it to `true`; `onMouseUp` on the SVG sets it back to `false`. A `window` `mouseup` listener (registered and cleaned up inside the D3 zoom `useEffect`) ensures the cursor resets even if the user releases the mouse button outside the SVG element. The `isDragging` state drives a `.dragging` CSS class on the SVG: `.viking-map` has `cursor: grab` by default, and `.viking-map.dragging` overrides it with `cursor: grabbing`.
 
 ---
 
@@ -309,6 +314,14 @@ Glassmorphism panels (sidebar, header, timeline, info panel) all use `backdrop-f
 
 Interactive elements use `cubic-bezier(0.16, 1, 0.3, 1)` — an "ease-out spring" curve — for hover/active transitions.
 
+Notable CSS classes added during the UX polish pass:
+
+- `.viking-map.dragging` — applies `cursor: grabbing` during active map drag (default is `cursor: grab` on `.viking-map`)
+- `.rune-copy-btn` — Copy to Clipboard button inside the Rune Translator overlay; mirrors `.rune-btn` hover styling
+- `.home-toggle-label` — "About" text label inside the header toggle button; hidden via `display: none` on viewports below 600px
+- `.header-left` — flex column container for the app title and era label in the header (stacks them vertically with `gap: 2px`)
+- `.rune-translator` uses `max-height: min(60%, calc(100vh - 80px))` for responsive height instead of a fixed `height: 60%`, ensuring the overlay never overflows on short viewports
+
 ---
 
 ## Adding New Events
@@ -364,6 +377,8 @@ Add to `ROUTES` in `vikingData.ts` and reference its `id` from the appropriate e
 5. Add a colour mapping in `MapContainer.tsx` (the `typeColor` map)
 
 ---
+
+> The in-app credits block has moved from the Timeline footer to the **About page** (`HomeSplash`). The credits below are for the documentation file only.
 
 ### Made by Nicholas Hamilton & America Gaona Borges
 

@@ -17,6 +17,8 @@ State is localized primarily in `App.tsx` using two hooks:
 - `currentYear`: Drives the timeline slider, the displayed active Era, and filters which data points and routes appear on the map.
 - `selectedEvent`: Controls what information displays in the sliding `InfoPanel`. Clicking a hotspot sets this state.
 
+A third boolean `isHomeVisible` controls the About page overlay (`HomeSplash`), and `isRuneVisible` controls the Rune Translator overlay.
+
 Because the app is relatively simple, we elevate this state to the top-level container (`App.tsx`) and pass it via standard React props.
 
 ### 2. React-driven Data Visualization
@@ -27,7 +29,8 @@ Instead of relying on standard `d3.select().enter().append()` patterns which con
 
 ### 3. Component Hierarchy
 1. **`App`**: Global state holder.
-   - **`Header`**: Renders the current year and era. Computes the active era continuously.
+   - **`Header`**: Renders the app title, era label, and current year in a three-column layout (left: title + era label stacked; centre: year display; right: About button). Computes the active era continuously from the `ERAS` array.
+   - **`HomeSplash`**: Full-screen overlay that serves as the **About page**. Contains the app introduction text and the author credits (Nicholas Hamilton & America Gaona Borges). Toggled by the `isHomeVisible` state in `App`.
    - **`MapContainer`**: The core SVG wrapper.
      - Automatically scales on resize via a ResizeObserver or local listener.
      - Maintains a local D3-Zoom instance bound to a `<g>` wrapper.
