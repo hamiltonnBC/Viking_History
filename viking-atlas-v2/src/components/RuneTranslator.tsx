@@ -17,7 +17,7 @@ const RUNIC_MAPS = {
 
 type RuneTheme = 'younger' | 'elder';
 
-function translateToRunes(text: string, theme: RuneTheme): string {
+export function translateToRunes(text: string, theme: RuneTheme): string {
   let lower = text.toLowerCase();
   lower = lower.replace(/th/g, 'ᚦ');
   if (theme === 'elder') {
@@ -34,6 +34,21 @@ interface RuneTranslatorProps {
 export function RuneTranslator({ isVisible, onClose }: RuneTranslatorProps) {
   const [inputText, setInputText] = useState('');
   const [activeTheme, setActiveTheme] = useState<RuneTheme>('younger');
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const runeOutput = translateToRunes(inputText, activeTheme);
+  const isPlaceholder = inputText.trim() === '';
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(runeOutput);
+      setCopyStatus('success');
+    } catch {
+      setCopyStatus('error');
+    } finally {
+      setTimeout(() => setCopyStatus('idle'), 2000);
+    }
+  };
 
   return (
     <div className={`rune-translator ${isVisible ? 'visible' : 'hidden'}`}>
@@ -74,8 +89,15 @@ export function RuneTranslator({ isVisible, onClose }: RuneTranslatorProps) {
 
         <div className="rune-output-container">
           <div className="rune-output-box">
-            {translateToRunes(inputText, activeTheme) || '...'}
+            {runeOutput || '...'}
           </div>
+          <button
+            className="rune-copy-btn"
+            onClick={handleCopy}
+            disabled={isPlaceholder}
+          >
+            {copyStatus === 'success' ? 'Copied!' : copyStatus === 'error' ? 'Copy failed' : 'Copy to Clipboard'}
+          </button>
         </div>
       </div>
     </div>
