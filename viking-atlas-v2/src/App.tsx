@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { Header } from './components/Header';
 import { Timeline } from './components/Timeline';
@@ -18,15 +18,26 @@ function App() {
   const [activeFilters, setActiveFilters] = useState<EventType[]>([
     'origin', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'
   ]);
+  const [scrollToEra, setScrollToEra] = useState<number | null>(null);
 
+useEffect(() => {
   if (selectedEvent && currentYear < selectedEvent.year) {
     setSelectedEvent(null);
   }
+}, [currentYear, selectedEvent]);
 
   const handleToggleFilter = (type: EventType) => {
     setActiveFilters(prev => 
       prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
     );
+  };
+
+  const handleEraJump = (eraIndex: number) => {
+    setScrollToEra(eraIndex);
+  };
+
+  const handleScrollToEraConsumed = () => {
+    setScrollToEra(null);
   };
 
   return (
@@ -36,7 +47,12 @@ function App() {
       <Header currentYear={currentYear} onOpenHome={() => setIsHomeVisible(true)} />
       
       <main className="atlas-container">
-        <Sidebar activeFilters={activeFilters} onToggleFilter={handleToggleFilter} />
+        <Sidebar
+          activeFilters={activeFilters}
+          onToggleFilter={handleToggleFilter}
+          scrollToEra={scrollToEra}
+          onScrollToEraConsumed={handleScrollToEraConsumed}
+        />
         <MapContainer 
           currentYear={currentYear} 
           events={EVENTS} 
@@ -54,6 +70,7 @@ function App() {
         currentYear={currentYear} 
         onYearChange={setCurrentYear} 
         onOpenRunes={() => setIsRuneVisible(true)}
+        onEraJump={handleEraJump}
       />
     </div>
   );

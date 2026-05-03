@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { EventType } from '../types';
 import { ChronicleEntry } from './ChronicleEntry';
 import { TIMELINE_ENTRIES } from '../data/timelineEntries';
+import { ERAS } from '../data/vikingData';
 import clsx from 'clsx';
 
 const ALL_FILTERS: { type: EventType; label: string; color: string; description: string }[] = [
@@ -54,10 +55,43 @@ type Tab = 'filters' | 'chronicle';
 interface SidebarProps {
   activeFilters: EventType[];
   onToggleFilter: (type: EventType) => void;
+  // When timeline has requested to scroll to specific era, 
+  // sidebar consumes this value and calls onScrollToEraConsumed to reset it.
+  scrollToEra: number | null;
+  onScrollToEraConsumed: () => void;
 }
 
-export function Sidebar({ activeFilters, onToggleFilter }: SidebarProps) {
+export function Sidebar({ activeFilters, onToggleFilter, scrollToEra, onScrollToEraConsumed }: SidebarProps) {
   const [activeTab, setActiveTab] = useState<Tab>('filters');
+  const chronicleContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollToEra === null) return;
+
+    // 1. Switch to chronicle tab so the content is mounted and visible
+    setActiveTab('chronicle');
+
+    // 2. Defer scroll until after the tab switch re-render
+    let cancelled = false;
+    const frameId = requestAnimationFrame(() => {
+      if (cancelled) return;
+      // Walk forward from the requested era index to find the nearest rendered header.
+      for (let i = scrollToEra; i < ERAS.length; i++) {
+        const el = document.getElementById(`chronicle-era-${i}`);
+        if (el && chronicleContentRef.current) {
+          const container = chronicleContentRef.current;
+          container.scrollTo({ top: el.offsetTop - container.offsetTop, behavior: 'smooth' });
+          break;
+        }
+      }
+      onScrollToEraConsumed();
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frameId);
+    };
+  }, [scrollToEra, onScrollToEraConsumed]);
 
   /** For the Chronicle tab, only show entries whose tags overlap active filters */
   const visibleEntries = TIMELINE_ENTRIES.filter((entry) =>
@@ -117,16 +151,39 @@ export function Sidebar({ activeFilters, onToggleFilter }: SidebarProps) {
 
       {/* ── CHRONICLE TAB ── */}
       {activeTab === 'chronicle' && (
-        <div className="sidebar-content sidebar-chronicle">
+        <div className="sidebar-content sidebar-chronicle" ref={chronicleContentRef}>
           {visibleEntries.length === 0 ? (
             <p className="sidebar-desc chronicle-empty">
               No chronicle entries match the active filters. Enable more event types to see entries.
             </p>
           ) : (
             <div className="chronicle-list">
-              {visibleEntries.map((entry) => (
-                <ChronicleEntry key={entry.id} entry={entry} />
-              ))}
+              {(() => {
+                let lastEraIndex = -1;
+                return visibleEntries.map((entry) => {
+                  const eraIndex = ERAS.findIndex(
+                    (era) => entry.year >= era.min && entry.year <= era.max
+                  );
+                  const showHeader = eraIndex !== -1 && eraIndex !== lastEraIndex;
+                  if (showHeader) lastEraIndex = eraIndex;
+
+                  return (
+                    <React.Fragment key={entry.id}>
+                      {showHeader && (
+                        <div
+                          className="chronicle-era-header"
+                          id={`chronicle-era-${eraIndex}`}
+                        >
+                          <span className="chronicle-era-label">
+                            {ERAS[eraIndex].label}
+                          </span>
+                        </div>
+                      )}
+                      <ChronicleEntry entry={entry} />
+                    </React.Fragment>
+                  );
+                });
+              })()}
             </div>
           )}
         </div>
