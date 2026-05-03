@@ -147,10 +147,6 @@
   /* cursor is controlled via inline style in MapContainer.tsx */
 }
 
-/* Fallback for environments where inline style isn't applied */
-.viking-map.dragging {
-  cursor: grabbing;
-}
 
 /* SIDEBAR */
 .sidebar {
@@ -166,12 +162,10 @@
 
 /* RUNE TRANSLATOR */
 .rune-translator {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: auto;
-  max-height: min(60%, calc(100vh - 80px));
   background: var(--glass-bg);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
@@ -616,6 +610,40 @@
   flex-shrink: 0;
 }
 
+/* CHRONICLE ERA HEADERS */
+.chronicle-era-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 4px 10px;
+  margin-top: 8px;
+}
+
+.chronicle-era-header::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--glass-border);
+}
+
+.chronicle-era-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--glass-border);
+}
+
+.chronicle-era-label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-bright);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* INFO PANEL */
 .info-panel {
   width: 400px;
@@ -726,7 +754,7 @@
 
 .timeline-wrapper {
   position: relative;
-  height: 40px;
+  height: 52px;
   margin: 10px 0;
 }
 
@@ -778,15 +806,6 @@
   transform: scale(1.2);
 }
 
-.timeline-labels {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
 .timeline-instructions {
   text-align: center;
   font-size: 0.8rem;
@@ -794,6 +813,108 @@
   margin-top: 5px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+}
+
+/* TIMELINE ERA NAVIGATION */
+.timeline-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.timeline-era-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.timeline-era-btn:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--gold-bright);
+  color: var(--gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.timeline-era-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ERA PILL BUTTONS */
+.era-pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.era-pill {
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.era-pill:hover {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: var(--text-primary);
+}
+
+.era-pill.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--gold-bright);
+  color: var(--gold-bright);
+}
+
+/* YEAR TICK MARKS */
+.year-tick {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.year-tick:hover {
+  background: var(--gold-bright);
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.year-tick.active {
+  background: var(--gold-bright);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
 }
 
 /* ZOOM CONTROLS */
@@ -842,10 +963,6 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   pointer-events: none;
-}
-
-.ocean {
-  fill: none;
 }
 
 .route {
