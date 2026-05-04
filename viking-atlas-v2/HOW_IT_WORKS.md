@@ -55,15 +55,18 @@ viking-atlas-v2/
 │   │
 │   ├── data/
 │   │   ├── vikingData.ts       # Map events, routes, eras (the "main" dataset)
-│   │   └── timelineEntries.ts  # Scholarly chronicle entries (sidebar-only)
+│   │   ├── timelineEntries.ts  # Scholarly chronicle entries (sidebar-only)
+│   │   └── filterConstants.ts  # ALL_FILTERS array shared by FiltersOverlay
 │   │
 │   └── components/
 │       ├── Header.tsx          # Top bar: title, year, era name
-│       ├── Timeline.tsx        # Bottom slider
-│       ├── Sidebar.tsx         # Tabbed panel: Filters + Chronicle
+│       ├── Timeline.tsx        # Bottom slider + era pills + prev/next
+│       ├── Sidebar.tsx         # Collapsible Chronicle panel
+│       ├── FiltersOverlay.tsx  # Floating filter dropdown (map overlay)
 │       ├── Badge.tsx           # Reusable colored tag pill
-│       ├── ChronicleEntry.tsx  # Single chronicle card
-│       ├── InfoPanel.tsx       # Slide-in detail panel (map click)
+│       ├── ChronicleEntry.tsx  # Single expandable chronicle card
+│       ├── InfoPanel.tsx       # Slide-in detail panel (event or route)
+│       ├── RuneTranslator.tsx  # Rune translation overlay
 │       └── Map/
 │           ├── MapContainer.tsx    # SVG map, routes, hotspots
 │           └── ZoomControls.tsx    # +/−/reset buttons
@@ -111,6 +114,8 @@ interface Route {
   id: string;
   type: 'raid' | 'exploration' | 'trade';
   points: [lng, lat][];   // sequence of geographic coordinates
+  name: string;           // displayed in the tooltip and InfoPanel header
+  description: string;    // shown in the InfoPanel route view
 }
 ```
 
@@ -159,24 +164,28 @@ State flows top-down from `App.tsx`. No external state library is needed.
 
 ```
 App
-├── currentYear: number           ← drives map visibility + header
-├── selectedEvent: VikingEvent    ← drives InfoPanel open/closed
-├── activeFilters: EventType[]    ← drives map + sidebar Chronicle
-├── isHomeVisible: boolean        ← controls the About overlay (HomeSplash)
-├── scrollToEra: number | null    ← one-way scroll signal from Timeline to Sidebar
+├── currentYear: number              ← drives map visibility + header
+├── selectedItem: VikingEvent|Route  ← drives InfoPanel open/closed
+├── activeFilters: EventType[]       ← drives map + sidebar Chronicle
+├── isHomeVisible: boolean           ← controls the About overlay (HomeSplash)
+├── isSidebarOpen: boolean           ← controls sidebar collapse/expand
+├── isFiltersOpen: boolean           ← controls FiltersOverlay visibility
+├── scrollToEra: number | null       ← one-way scroll signal from Timeline to Sidebar
 │
 ├── <Header currentYear />
-├── <Sidebar activeFilters onToggleFilter />
-├── <MapContainer currentYear events routes activeFilters onEventClick />
-├── <InfoPanel event onClose />
-└── <Timeline currentYear onYearChange />
+├── <Sidebar isOpen activeFilters scrollToEra onScrollToEraConsumed />
+├── <MapContainer currentYear events routes activeFilters onEventClick onRouteClick />
+├── <FiltersOverlay isOpen activeFilters onToggleFilter onSelectAll />
+├── <InfoPanel selectedItem events onSelectEvent onClose />
+└── <Timeline currentYear onYearChange onEraJump />
 ```
 
 ### How state flows
 
 1. **User drags the slider** → `Timeline` calls `onYearChange(n)` → `App` sets `currentYear` → `MapContainer` re-renders, showing/hiding hotspots and routes.
-2. **User clicks a hotspot** → `MapContainer` calls `onEventClick(event)` → `App` sets `selectedEvent` → `InfoPanel` slides in.
-3. **User toggles a filter** → `Sidebar` calls `onToggleFilter(type)` → `App` toggles it in the `activeFilters` array → `MapContainer` hides matching dots, `Sidebar` hides matching Chronicle entries.
+2. **User clicks a hotspot** → `MapContainer` calls `onEventClick(event)` → `App` sets `selectedItem` → `InfoPanel` slides in showing event detail.
+3. **User clicks a route** → `MapContainer` calls `onRouteClick(route)` → `App` sets `selectedItem` → `InfoPanel` slides in showing route name, description, and connected events.
+4. **User toggles a filter** → `FiltersOverlay` calls `onToggleFilter(type)` → `App` toggles it in the `activeFilters` array → `MapContainer` hides matching dots and routes, `Sidebar` hides matching Chronicle entries.
 
 ---
 
@@ -210,7 +219,7 @@ The dot colour is determined by a `type → colour` map inside the component.
 
 ### Routes
 
-Each `Route` is drawn as a `<path>` with `className="route"`. It becomes `active` (and gains an animated stroke-dashoffset animation) when any event that references it is currently visible on the map.
+Each `Route` is drawn as a `<path>` with `className="route"`. It becomes `active` (and gains an animated dashed stroke) when its type is in `activeFilters` AND at least one active event references it. Active routes also render a wide transparent hit-area path on top (20px stroke, `pointerEvents: 'stroke'`) to make them easy to click. Clicking a route calls `onRouteClick`, which opens the `InfoPanel` in route mode showing the route's name, description, and a list of connected events. Hovering a route shows a `route-tooltip` with the route name. Active routes also render SVG `<marker>` arrowheads at the end and a dot at the start, defined in a `<defs>` block — one set per route type (raid, exploration, trade).
 
 ### Zoom
 
@@ -248,15 +257,13 @@ Prev/Next arrow buttons (`.timeline-era-btn`) flank the slider inside a `.timeli
 
 ## The Sidebar & Chronicle
 
-`Sidebar` manages two tabs via local `activeTab` state (`'filters' | 'chronicle'`). It receives `activeFilters` and `onToggleFilter` from `App`.
+`Sidebar` is a collapsible panel. It accepts `isOpen`, `onToggle`, `activeFilters`, `scrollToEra`, and `onScrollToEraConsumed` props. When closed, it slides off-screen via `transform: translateX(-100%)` and `margin-left: -360px`. A collapse button (`.sidebar-collapse-btn`) peeks into the map area from the sidebar's right edge; when the sidebar is closed, a reopen tab (`.sidebar-reopen-tab`) appears on the left edge of the map instead.
 
-### Filters Tab
+Filters have moved out of the sidebar entirely. They are now controlled by `FiltersOverlay` — a floating dropdown anchored to a `Filters` button (`.filters-toggle-btn`) in the top-left corner of the map. The overlay closes when clicking outside it. A badge on the button shows the active count when any filters are disabled.
 
-Renders a list of `filter-btn` buttons, one per `EventType`. Each button has a coloured indicator dot and is styled with a CSS custom property (`--filter-color`) so a single rule drives the active glow, border, and dot fill.
+### Chronicle
 
-### Chronicle Tab
-
-Renders `TIMELINE_ENTRIES` filtered to only those whose `tags` overlap `activeFilters`, sorted chronologically. The count badge on the tab updates live.
+Renders `TIMELINE_ENTRIES` filtered to only those whose `tags` overlap `activeFilters`, sorted chronologically. The count badge in the sidebar header updates live.
 
 Each entry is rendered by `<ChronicleEntry>`, which composes:
 - **Date** — gold, uppercase, small
@@ -271,7 +278,7 @@ The chronicle list now includes `.chronicle-era-header` dividers inserted before
 
 ### Scroll-to-Era Signal
 
-`Sidebar` accepts a `scrollToEra: number | null` prop. When non-null, a `useEffect` switches the active tab to `'chronicle'`, defers a `scrollIntoView` call to the next animation frame (to allow the tab-switch render to commit), then calls `onScrollToEraConsumed()` to reset the signal in `App`. Manual scrolling of the chronicle never updates `currentYear` or `scrollToEra` — the signal is strictly one-way from timeline to chronicle.
+`Sidebar` accepts a `scrollToEra: number | null` prop. When non-null, a `useEffect` defers a `scrollIntoView` call to the next animation frame, then calls `onScrollToEraConsumed()` to reset the signal in `App`. If the sidebar is closed when an era jump is triggered, `App` automatically reopens it first. Manual scrolling of the chronicle never updates `currentYear` or `scrollToEra` — the signal is strictly one-way from timeline to chronicle.
 
 ### Badge Component
 
@@ -297,12 +304,13 @@ The colour is injected as a CSS custom property so a single `.badge` CSS rule dr
 .info-panel.open         { transform: translateX(0); }     /* slides in */
 ```
 
-The slide animation is a CSS transition (`transition: transform 0.5s cubic-bezier(...)`). React's only job is to add/remove the `open` class based on whether `selectedEvent` is non-null.
+The slide animation is a CSS transition (`transition: transform 0.5s cubic-bezier(...)`). React's only job is to add/remove the `open` class based on whether `selectedItem` is non-null.
 
-When a valid event is selected, the panel renders:
-- The event `title`, `date`, and a `<Badge>` for its `type`
-- The `body` text, split on `<br><br>` into separate `<p>` elements
-- A close button that calls `onClose`, which sets `selectedEvent` back to `null`
+The panel renders in one of two modes depending on what was clicked:
+
+**Event mode** (user clicked a hotspot): renders the event `title`, `date`, a `<Badge>` for its `type`, and the `body` text split on `<br><br>` into separate `<p>` elements.
+
+**Route mode** (user clicked a route): renders the route `name`, a `<Badge>` for its type, a `description` paragraph, and a "Connected Events" list. Each item in the list is a button — clicking it switches the panel to event mode for that event.
 
 ---
 
@@ -312,17 +320,21 @@ All styles live in `App.css`. The foundation is a set of CSS custom properties (
 
 ```css
 :root {
-  --blood: #DC2626;         /* raid / battle events */
-  --blood-bright: #EF4444;
-  --sea: #0F172A;           /* map background */
-  --gold: #D97706;          /* trade / highlight */
-  --gold-bright: #F59E0B;   /* dates, active tab, year display */
-  --land: #1E293B;          /* country polygons */
-  --glass-bg: rgba(15,23,42,0.6);    /* backdrop for panels */
-  --glass-border: rgba(255,255,255,0.08);
+  --blood: #630707;         /* battle events */
+  --blood-bright: #e40707;  /* raid events */
+  --conquest: #462ff8;      /* conquest events */
+  --gold: #1f8e3e;          /* trade events */
+  --gold-bright: #F59E0B;   /* ships, UI accents, dates */
+  --parchment: #f9eccc;     /* settlement events */
+  --exploration: #60e5fa;   /* exploration events */
+  --sea: #111b30;           /* map background */
+  --sea-dark: #040a27;      /* map background outer */
+  --land: #1E293B;          /* country polygon fill */
+  --land-stroke: #596f8c;   /* country polygon outline */
+  --glass-bg: rgba(12,27,62,0.6);
+  --glass-border: rgba(255,255,255,0.144);
 
   --font-heading: 'Outfit', sans-serif;
-  --font-subheading: 'Cinzel', serif;
   --font-body: 'Inter', sans-serif;
 }
 ```
@@ -331,19 +343,29 @@ Glassmorphism panels (sidebar, header, timeline, info panel) all use `backdrop-f
 
 Interactive elements use `cubic-bezier(0.16, 1, 0.3, 1)` — an "ease-out spring" curve — for hover/active transitions.
 
-Notable CSS classes added during the UX polish pass:
+Notable CSS classes:
 
 - `.viking-map` — `cursor: grab` set via inline style; switches to `cursor: grabbing` during active drag (driven by D3 zoom start/end events via `isDragging` state)
-- `.rune-copy-btn` — Copy to Clipboard button inside the Rune Translator overlay; mirrors `.rune-btn` hover styling
+- `.rune-copy-btn` — Copy to Clipboard button inside the Rune Translator overlay
 - `.home-toggle-label` — "About" text label inside the header toggle button; hidden via `display: none` on viewports below 600px
-- `.header-left` — flex column container for the app title and era label in the header (stacks them vertically with `gap: 2px`)
-- `.rune-translator` uses `max-height: min(60%, calc(100vh - 80px))` for responsive height instead of a fixed `height: 60%`, ensuring the overlay never overflows on short viewports
+- `.header-left` — flex column container for the app title and era label in the header
 - `.timeline-nav` — flex row container for the prev arrow, timeline wrapper, and next arrow
 - `.era-pills` — flex row container for the era pill buttons, rendered above the slider
-- `.era-pill` — era jump button; `left` is not used (pills are in a flex row, not absolutely positioned); active pill highlighted via `.era-pill.active`
+- `.era-pill` — era jump button; active pill highlighted via `.era-pill.active`
 - `.timeline-era-btn` — prev/next event arrow buttons flanking the timeline wrapper
 - `.chronicle-era-header` — era section divider in the Chronicle tab with `::before`/`::after` separator lines
 - `.chronicle-era-label` — era name text inside `.chronicle-era-header`
+- `.sidebar--closed` — applied when sidebar is collapsed; slides it off-screen via `transform` + `margin-left`
+- `.sidebar-collapse-btn` — tab on the sidebar's right edge that collapses it
+- `.sidebar-reopen-tab` — tab on the map's left edge that reopens the sidebar (rendered by `App` when sidebar is closed)
+- `.filters-toggle-btn` — floating "Filters" button in the top-left of the map
+- `.filters-toggle-badge` — count badge on the filters button when some filters are inactive
+- `.filters-overlay` — floating filter dropdown; animated open/close via opacity + transform
+- `.filters-overlay--open` — applied when the overlay is visible
+- `.route-tooltip` — hover tooltip showing a route's name
+- `.panel-route-description` — route description paragraph in the InfoPanel route view
+- `.panel-connected-events` — container for the connected events list in route view
+- `.panel-connected-event-item` — clickable button for each connected event in route view
 
 ---
 
@@ -388,7 +410,13 @@ Add an entry to `TIMELINE_ENTRIES` in `src/data/timelineEntries.ts`:
 Add to `ROUTES` in `vikingData.ts` and reference its `id` from the appropriate event's `routes` array:
 
 ```ts
-{ id: 'route-my-route', type: 'raid', points: [[lng1, lat1], [lng2, lat2]] }
+{
+  id: 'route-my-route',
+  type: 'raid',
+  points: [[lng1, lat1], [lng2, lat2]],
+  name: 'My Route Name',
+  description: 'What this route represents...'
+}
 ```
 
 ### To add a new EventType
@@ -396,8 +424,10 @@ Add to `ROUTES` in `vikingData.ts` and reference its `id` from the appropriate e
 1. Add the literal to the `EventType` union in `src/types.ts`
 2. Add a colour mapping in `Badge.tsx` (`TAG_COLORS`)
 3. Add a label mapping in `Badge.tsx` (`TAG_LABELS`)
-4. Add the filter button config in `Sidebar.tsx` (`ALL_FILTERS`)
-5. Add a colour mapping in `MapContainer.tsx` (the `typeColor` map)
+4. Add the filter entry in `src/data/filterConstants.ts` (`ALL_FILTERS`)
+5. Add a colour mapping in `MapContainer.tsx` (`getEventColor`)
+6. Add a CSS variable for the colour in `:root` in `App.css`
+7. Add an SVG `<marker>` in `MapContainer.tsx`'s `<defs>` block if it's also a route type
 
 ---
 
