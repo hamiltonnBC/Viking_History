@@ -24,6 +24,8 @@ export interface Route {
   id: string;
   type: RouteType;
   points: [number, number][];
+  name: string;
+  description: string;
 }
 
 export interface VikingData {

@@ -10,9 +10,10 @@ interface MapContainerProps {
   routes: Route[];
   activeFilters: EventType[];
   onEventClick: (event: VikingEvent) => void;
+  onRouteClick: (route: Route) => void;
 }
 
-export function MapContainer({ currentYear, events, routes, activeFilters, onEventClick }: MapContainerProps) {
+export function MapContainer({ currentYear, events, routes, activeFilters, onEventClick, onRouteClick }: MapContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomGroupRef = useRef<SVGGElement>(null);
@@ -24,7 +25,8 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   // (zoom-invariant markers: r_svg = BASE_R / k  →  r_screen ≈ BASE_R always)
   const [zoomScale, setZoomScale] = useState(1);
   const BASE_R = 8; // target on-screen radius in pixels
-
+  const [hoveredRoute, setHoveredRoute] = useState<Route | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   // Load GeoJSON data
   useEffect(() => {
     async function loadData() {
@@ -110,24 +112,30 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
 
   // Derived state based on current year and filters
   const activeEvents = events.filter(e => currentYear >= e.year && activeFilters.includes(e.type));
-  // A route is active if any active event uses it
+  // A route is active if its own type is in activeFilters AND at least one active event references it
+  const activeEventRouteIds = new Set(activeEvents.flatMap(e => e.routes || []));
   const activeRouteIds = new Set(
-    activeEvents.flatMap(e => e.routes || [])
+    routes
+      .filter(r => activeFilters.includes(r.type as EventType) && activeEventRouteIds.has(r.id))
+      .map(r => r.id)
   );
 
   const getEventColor = (type: EventType) => {
-    if (['raid', 'battle', 'conquest'].includes(type)) return 'var(--blood-bright)';
+    if (type === 'raid') return 'var(--blood-bright)';
+    if (type === 'conquest') return 'var(--conquest)';
+    if (type === 'battle') return 'var(--blood)';
     if (type === 'trade') return 'var(--gold)';
     if (type === 'origin') return 'var(--gold-bright)';
     if (type === 'settlement') return 'var(--parchment)';
-    if (type === 'exploration') return '#60a5fa';
+    if (type === 'exploration') return 'var(--exploration)';
     return 'var(--text-primary)';
   };
 
   const getRouteColor = (type: string) => {
     if (type === 'raid') return 'var(--blood-bright)';
     if (type === 'trade') return 'var(--gold)';
-    return 'var(--sea-light)';
+    if (type === 'exploration') return 'var(--exploration)';
+    return 'var(--text-primary)';
   };
 
   return (
@@ -140,6 +148,28 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
         ref={svgRef}
         style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
       >
+        <defs>
+          {/* Arrowhead markers — one per RouteType, sized small so they don't overwhelm the line */}
+          <marker id="arrow-raid" markerWidth="3" markerHeight="3" refX="2.5" refY="1.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M 0 0 L 3 1.5 L 0 3 Z" fill="var(--blood-bright)" />
+          </marker>
+          <marker id="arrow-exploration" markerWidth="3" markerHeight="3" refX="2.5" refY="1.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M 0 0 L 3 1.5 L 0 3 Z" fill="var(--exploration)" />
+          </marker>
+          <marker id="arrow-trade" markerWidth="3" markerHeight="3" refX="2.5" refY="1.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M 0 0 L 3 1.5 L 0 3 Z" fill="var(--gold)" />
+          </marker>
+          {/* Start-dot markers — half the original size */}
+          <marker id="dot-raid" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" markerUnits="strokeWidth">
+            <circle cx="1.5" cy="1.5" r="1.2" fill="var(--blood-bright)" />
+          </marker>
+          <marker id="dot-exploration" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" markerUnits="strokeWidth">
+            <circle cx="1.5" cy="1.5" r="1.2" fill="var(--exploration)" />
+          </marker>
+          <marker id="dot-trade" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" markerUnits="strokeWidth">
+            <circle cx="1.5" cy="1.5" r="1.2" fill="var(--gold)" />
+          </marker>
+        </defs>
         <g ref={zoomGroupRef}>
           {/* Base Landmass */}
           {geoData && (
@@ -206,14 +236,40 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
               
               const pathStr = d3.line()(lineData);
               const isActive = activeRouteIds.has(route.id);
+              const routeColor = getRouteColor(route.type);
               
               return (
-                <path
-                  key={route.id}
-                  className={clsx(`route ${route.type}`, { active: isActive })}
-                  d={pathStr || undefined}
-                  style={{ stroke: getRouteColor(route.type) }}
-                />
+                <g key={route.id}>
+                  {/* Visible styled route line */}
+                  <path
+                    className={clsx(`route ${route.type}`, { active: isActive })}
+                    d={pathStr || undefined}
+                    style={{ stroke: routeColor, pointerEvents: 'none' }}
+                    markerEnd={isActive ? `url(#arrow-${route.type})` : undefined}
+                    markerStart={isActive ? `url(#dot-${route.type})` : undefined}
+                  />
+                  {/* Wide transparent hit-area — makes the whole route easy to click */}
+                  {isActive && (
+                    <path
+                      d={pathStr || undefined}
+                      style={{
+                        fill: 'none',
+                        stroke: 'transparent',
+                        strokeWidth: 20,
+                        pointerEvents: 'stroke',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={() => setHoveredRoute(route)}
+                      onMouseLeave={() => setHoveredRoute(null)}
+                      onMouseMove={(e) => {
+                        const rect = containerRef.current?.getBoundingClientRect();
+                        if (!rect) return;
+                        setTooltipPos({ x: e.clientX - rect.left + 12, y: e.clientY - rect.top + 12 });
+                      }}
+                      onClick={() => onRouteClick(route)}
+                    />
+                  )}
+                </g>
               );
             })}
           </g>
@@ -268,6 +324,14 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
           </g>
         </g>
       </svg>
+      {hoveredRoute && (
+        <div
+          className="route-tooltip"
+          style={{ left: tooltipPos.x, top: tooltipPos.y }}
+        >
+          {hoveredRoute.name}
+        </div>
+      )}
       <ZoomControls />
     </div>
   );

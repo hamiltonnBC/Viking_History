@@ -1,20 +1,21 @@
 :root {
-  --blood: #DC2626;
-  --blood-bright: #EF4444;
-  --sea: #0F172A;
-  --sea-dark: #020617;
-  --gold: #D97706;
-  --gold-bright: #F59E0B;
-  --parchment: #e8d5a3;
-  --land: #1E293B;
-  --land-stroke: #334155;
-  --glass-bg: rgba(15, 23, 42, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --blood: #630707;         /* battles */
+  --blood-bright: #e40707;  /* raids */
+  --conquest: #462ff8;      /* conquests */
+  --gold: #1f8e3e;          /* trade */
+  --gold-bright: #F59E0B;   /* ships, UI accents */
+  --parchment: #f9eccc;     /* settlements */
+  --exploration: #60e5fa;   /* exlporation */
+  --sea: #111b30;           /* map background */
+  --sea-dark: #040a27;      /* map background */
+  --land: #1E293B;          /* landmass fill/outline */
+  --land-stroke: #596f8c;   /* landmass fill/outline */
+  --glass-bg: rgba(12, 27, 62, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.144);
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
-  
+
   --font-heading: 'Outfit', sans-serif;
-  --font-subheading: 'Cinzel', serif;
   --font-body: 'Inter', sans-serif;
 }
 
@@ -301,7 +302,6 @@
 .filters-overlay-title {
   font-family: var(--font-body);
   font-size: 0.72rem;
-  /* font-weight: 700; */
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--text-secondary);
@@ -858,18 +858,6 @@
   margin-bottom: 12px;
 }
 
-.panel-tag {
-  display: inline-block;
-  padding: 4px 12px;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 20px;
-  color: var(--gold-bright);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
 .panel-body {
   line-height: 1.6;
   font-size: 1.0rem;
@@ -1235,4 +1223,89 @@
 
 .enter-button:active {
   transform: translateY(0);
+}
+
+/* Route hover tooltip */
+.route-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  z-index: 60;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.1s ease;
+}
+
+/* InfoPanel route view */
+.panel-route-description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* Connected events list */
+.panel-connected-events {
+  margin-top: 8px;
+}
+
+.panel-connected-events-title {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.panel-connected-events-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panel-connected-event-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+  width: 100%;
+}
+
+.panel-connected-event-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.panel-connected-event-title {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.panel-connected-event-date {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--gold-bright);
 }
