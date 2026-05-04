@@ -10,13 +10,13 @@ import { FiltersOverlay } from './components/FiltersOverlay';
 import { HomeSplash } from './components/HomeSplash';
 import { RuneTranslator } from './components/RuneTranslator';
 import { EVENTS, ROUTES, START_YEAR } from './data/vikingData';
-import type { VikingEvent, EventType } from './types';
+import type { VikingEvent, Route, EventType } from './types';
 
 function App() {
   const [isHomeVisible, setIsHomeVisible] = useState(true);
   const [isRuneVisible, setIsRuneVisible] = useState(false);
   const [currentYear, setCurrentYear] = useState(START_YEAR);
-  const [selectedEvent, setSelectedEvent] = useState<VikingEvent | null>(null);
+  const [selectedItem, setSelectedItem] = useState<VikingEvent | Route | null>(null);
   const [activeFilters, setActiveFilters] = useState<EventType[]>([
     'origin', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'
   ]);
@@ -26,10 +26,10 @@ function App() {
   const filtersToggleRef = useRef<HTMLButtonElement>(null);
 
 useEffect(() => {
-  if (selectedEvent && currentYear < selectedEvent.year) {
-    setSelectedEvent(null);
+  if (selectedItem && 'coords' in selectedItem && currentYear < selectedItem.year) {
+    setSelectedItem(null);
   }
-}, [currentYear, selectedEvent]);
+}, [currentYear, selectedItem]);
 
   useEffect(() => {
     if (scrollToEra !== null && !isSidebarOpen) {
@@ -78,7 +78,8 @@ useEffect(() => {
             events={EVENTS} 
             routes={ROUTES} 
             activeFilters={activeFilters}
-            onEventClick={setSelectedEvent} 
+            onEventClick={event => setSelectedItem(event)}
+            onRouteClick={route => setSelectedItem(route)}
           />
           {/* Reopen tab — visible on the left edge of the map when sidebar is closed */}
           {!isSidebarOpen && (
@@ -111,8 +112,10 @@ useEffect(() => {
             toggleButtonRef={filtersToggleRef}
           />
           <InfoPanel 
-            event={selectedEvent} 
-            onClose={() => setSelectedEvent(null)} 
+            selectedItem={selectedItem}
+            events={EVENTS}
+            onSelectEvent={event => setSelectedItem(event)}
+            onClose={() => setSelectedItem(null)} 
           />
         </div>
       </main>

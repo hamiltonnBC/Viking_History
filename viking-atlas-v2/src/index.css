@@ -25,7 +25,3 @@ body {
   box-sizing: border-box;
 }
 
-/* Hide the old counter if it still around */
-.counter {
-  display: none;
-}
