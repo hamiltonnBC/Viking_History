@@ -394,3 +394,6 @@ export const ROUTES: Route[] = [
   { id: 'route-seine',         type: 'raid',        points: [[9.5, 56.2], [0.82, 49.43]] },
   { id: 'route-volga',         type: 'trade',       points: [[18.0, 59.3], [28.9, 41.0], [37.6, 55.7], [49.1, 55.8]] },
 ];
+
+// used as discrete snap points on the timeline slider
+export const EVENT_YEARS: number[] = [...new Set(EVENTS.map(e => e.year))].sort((a, b) => a - b);

@@ -17,6 +17,7 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomGroupRef = useRef<SVGGElement>(null);
   
+  const [isDragging, setIsDragging] = useState(false);
   const [geoData, setGeoData] = useState<d3.ExtendedFeatureCollection | null>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   // Track the D3 zoom scale so we can shrink markers as the user zooms in
@@ -61,13 +62,22 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
     const svg = d3.select(svgRef.current);
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 8])
+      .on('start', () => {
+        // When user begins a drag — use D3 zoom's 'start' to set grabbing cursor instead of relying on React mousedown that might cause lag 
+        setIsDragging(true);
+      })
       .on('zoom', (e) => {
         d3.select(zoomGroupRef.current).attr('transform', e.transform.toString());
-        // Update React state so markers can rescale themselves
         setZoomScale(e.transform.k);
+      })
+      .on('end', () => {
+        setIsDragging(false);
       });
 
     svg.call(zoom as any);
+
+    // Remove D3 zoom cursor sets on the SVG element so React inline style (set via isDragging state) is the only followed.
+    svg.style('cursor', null);
 
     // Provide methods to standard buttons
     const handleZoomIn = () => svg.transition().call(zoom.scaleBy as any, 1.5);
@@ -75,9 +85,13 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
     const handleZoomReset = () => svg.transition().call(zoom.transform as any, d3.zoomIdentity);
     
     (window as any).__vikingMapZoomControls = { handleZoomIn, handleZoomOut, handleZoomReset };
+
+    const handleWindowMouseUp = () => setIsDragging(false);
+    window.addEventListener('mouseup', handleWindowMouseUp);
     
     return () => {
-      svg.on('.zoom', null); // cleanup
+      svg.on('.zoom', null);
+      window.removeEventListener('mouseup', handleWindowMouseUp);
     };
   }, []);
 
@@ -105,7 +119,9 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
     if (['raid', 'battle', 'conquest'].includes(type)) return 'var(--blood-bright)';
     if (type === 'trade') return 'var(--gold)';
     if (type === 'origin') return 'var(--gold-bright)';
-    return 'var(--parchment)';
+    if (type === 'settlement') return 'var(--parchment)';
+    if (type === 'exploration') return '#60a5fa';
+    return 'var(--text-primary)';
   };
 
   const getRouteColor = (type: string) => {
@@ -115,8 +131,15 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   };
 
   return (
-    <div className="map-holder" ref={containerRef}>
-      <svg className="viking-map" ref={svgRef}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+      {/* cursor is set via inline style so it always wins over D3 zoom's own
+          inline cursor style. isDragging is driven by D3's zoom start/end
+          events rather than React mousedown/mouseup to avoid race conditions. */}
+      <svg
+        className="viking-map"
+        ref={svgRef}
+        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+      >
         <g ref={zoomGroupRef}>
           {/* Base Landmass */}
           {geoData && (

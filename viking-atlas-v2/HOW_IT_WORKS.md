@@ -162,6 +162,8 @@ App
 ├── currentYear: number           ← drives map visibility + header
 ├── selectedEvent: VikingEvent    ← drives InfoPanel open/closed
 ├── activeFilters: EventType[]    ← drives map + sidebar Chronicle
+├── isHomeVisible: boolean        ← controls the About overlay (HomeSplash)
+├── scrollToEra: number | null    ← one-way scroll signal from Timeline to Sidebar
 │
 ├── <Header currentYear />
 ├── <Sidebar activeFilters onToggleFilter />
@@ -216,6 +218,12 @@ Each `Route` is drawn as a `<path>` with `className="route"`. It becomes `active
 
 The `ZoomControls` component fires zoom actions by calling handler functions exposed on the `window` object by `MapContainer`. This is a pragmatic escape hatch to avoid prop-drilling the D3 zoom instance.
 
+### Cursor Feedback
+
+`MapContainer` tracks a local `isDragging: boolean` state driven entirely by D3's zoom events — `zoom.on('start')` sets it to `true`, `zoom.on('end')` sets it back to `false`. A `window` `mouseup` listener (registered and cleaned up inside the D3 zoom `useEffect`) ensures the cursor resets even if the user releases the mouse button outside the SVG element.
+
+The `isDragging` state is applied as an inline `style` directly on the `<svg>` element (`cursor: grabbing` when dragging, `cursor: grab` otherwise). D3 zoom sets its own inline cursor style on the SVG at initialisation, so that style is immediately cleared (`svg.style('cursor', null)`) to ensure React's inline style is the single source of truth and the `grabbing` cursor is never overridden.
+
 ---
 
 ## The Timeline Slider
@@ -229,6 +237,12 @@ const pct = ((currentYear - START_YEAR) / (END_YEAR - START_YEAR)) * 100;
 ```
 
 Map events appear at the exact year they occurred. Dragging the slider past a year causes that event's hotspot to fade in, and retracting it causes it to disappear.
+
+### Era Navigation
+
+Era pill buttons (`.era-pill`) are rendered above the slider in a `.era-pills` flex row — one per era. Clicking a pill calls both `onYearChange(era.min)` (to jump the slider to the start of that era) and `onEraJump(i)` (to trigger a scroll in the Sidebar chronicle). The active pill is highlighted based on `getActiveEraIndex(currentYear)`, which finds the era whose `min`/`max` range contains the current year and clamps to the last era if no match is found.
+
+Prev/Next arrow buttons (`.timeline-era-btn`) flank the slider inside a `.timeline-nav` flex row. These navigate by **event year** — snapping to the nearest earlier or later entry in `EVENT_YEARS` — rather than by era boundary. They call `onYearChange` only; they do not trigger `onEraJump`.
 
 ---
 
@@ -250,6 +264,14 @@ Each entry is rendered by `<ChronicleEntry>`, which composes:
 - **Title** — bold, white
 - **Body** — de-emphasised prose
 - **Source** — italic citation with a 📖 icon
+
+### Era Section Headers
+
+The chronicle list now includes `.chronicle-era-header` dividers inserted before the first `ChronicleEntry` of each era. Headers are only rendered for eras that have at least one entry in `visibleEntries` (entries matching active filters, sorted by year). Each header has a stable `id="chronicle-era-{i}"` used as a scroll target, and a `.chronicle-era-label` span displaying the era name.
+
+### Scroll-to-Era Signal
+
+`Sidebar` accepts a `scrollToEra: number | null` prop. When non-null, a `useEffect` switches the active tab to `'chronicle'`, defers a `scrollIntoView` call to the next animation frame (to allow the tab-switch render to commit), then calls `onScrollToEraConsumed()` to reset the signal in `App`. Manual scrolling of the chronicle never updates `currentYear` or `scrollToEra` — the signal is strictly one-way from timeline to chronicle.
 
 ### Badge Component
 
@@ -309,6 +331,20 @@ Glassmorphism panels (sidebar, header, timeline, info panel) all use `backdrop-f
 
 Interactive elements use `cubic-bezier(0.16, 1, 0.3, 1)` — an "ease-out spring" curve — for hover/active transitions.
 
+Notable CSS classes added during the UX polish pass:
+
+- `.viking-map` — `cursor: grab` set via inline style; switches to `cursor: grabbing` during active drag (driven by D3 zoom start/end events via `isDragging` state)
+- `.rune-copy-btn` — Copy to Clipboard button inside the Rune Translator overlay; mirrors `.rune-btn` hover styling
+- `.home-toggle-label` — "About" text label inside the header toggle button; hidden via `display: none` on viewports below 600px
+- `.header-left` — flex column container for the app title and era label in the header (stacks them vertically with `gap: 2px`)
+- `.rune-translator` uses `max-height: min(60%, calc(100vh - 80px))` for responsive height instead of a fixed `height: 60%`, ensuring the overlay never overflows on short viewports
+- `.timeline-nav` — flex row container for the prev arrow, timeline wrapper, and next arrow
+- `.era-pills` — flex row container for the era pill buttons, rendered above the slider
+- `.era-pill` — era jump button; `left` is not used (pills are in a flex row, not absolutely positioned); active pill highlighted via `.era-pill.active`
+- `.timeline-era-btn` — prev/next event arrow buttons flanking the timeline wrapper
+- `.chronicle-era-header` — era section divider in the Chronicle tab with `::before`/`::after` separator lines
+- `.chronicle-era-label` — era name text inside `.chronicle-era-header`
+
 ---
 
 ## Adding New Events
@@ -364,6 +400,8 @@ Add to `ROUTES` in `vikingData.ts` and reference its `id` from the appropriate e
 5. Add a colour mapping in `MapContainer.tsx` (the `typeColor` map)
 
 ---
+
+> The in-app credits block has moved from the Timeline footer to the **About page** (`HomeSplash`). The credits below are for the documentation file only.
 
 ### Made by Nicholas Hamilton & America Gaona Borges
 

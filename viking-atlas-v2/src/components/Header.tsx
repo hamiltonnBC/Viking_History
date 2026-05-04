@@ -11,14 +11,14 @@ export function Header({ currentYear, onOpenHome }: HeaderProps) {
 
   return (
     <header className="header">
-      <h1>The Viking Age</h1>
+      <div className="header-left">
+        <h1>The Viking Age</h1>
+        <div className="era-label">{era ? era.label : 'Unknown Era'}</div>
+      </div>
       <div className="year-display">{currentYear} AD</div>
       <div className="header-right">
-        <div className="era-label">{era ? era.label : 'Unknown Era'}</div>
-        <button className="home-toggle-btn" onClick={onOpenHome} title="Show Introduction">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+        <button className="home-toggle-btn" onClick={onOpenHome} title="Show About">
+          <span className="home-toggle-label">About</span>
         </button>
       </div>
     </header>
