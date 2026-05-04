@@ -209,3 +209,5 @@ __marimo__/
 # Kiro 
 .kiro/
 viking-atlas-v2/src/test/
+
+.DS_Store
