@@ -29,7 +29,7 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch('/data/world.geojson');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/world.geojson`);
         const data = await response.json();
         setGeoData(data);
       } catch (error) {
