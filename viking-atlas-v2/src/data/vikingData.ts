@@ -4,10 +4,10 @@ export const START_YEAR = 750;
 export const END_YEAR = 1408;
 
 export const ERAS: Era[] = [
-  { min: 750, max: 869,  label: 'The Dawn of Raids', summary: 'The beginning of the Viking Age and early settlements.' },
-  { min: 870, max: 979,  label: 'The Golden Age', summary: 'Consolidation of kingdoms and grand explorations.' },
-  { min: 980, max: 1100, label: 'The Twilight Age',  summary: 'Peak expansion followed by the end of the Viking era.' },
-  { min: 1101, max: 1408, label: 'The Long Decline', summary: 'The Norse world contracts as settlements fade and the Viking Age passes into history.' }
+  { min: 750, max: 869,  label: 'Age of Raids', summary: 'The beginning of the Viking Age and early settlements.' },
+  { min: 870, max: 979,  label: 'Age of Conquest & Settlement', summary: 'Consolidation of kingdoms and grand explorations.' },
+  { min: 980, max: 1100, label: 'Age of Kings',  summary: 'Peak expansion followed by the end of the Viking era.' },
+  { min: 1101, max: 1408, label: 'End of the Viking Age', summary: 'The Norse world contracts as settlements fade and the Viking Age passes into history.' }
 ];
 
 export const EVENTS: VikingEvent[] = [
@@ -52,7 +52,7 @@ export const EVENTS: VikingEvent[] = [
     title: 'Vinland: The New World',
     date: 'c. 1000 AD',
     tag: 'Exploration',
-    body: 'Leif Erikson leads an expedition from Greenland to North America, arriving 500 years before Columbus. Though settlements at places like L\'Anse aux Meadows proved temporary, it marks their furthest reach.',
+    body: 'Leif Eriksson leads an expedition from Greenland to North America, arriving 500 years before Columbus. Though settlements at places like L\'Anse aux Meadows proved temporary, it marks their furthest reach.',
     type: 'exploration',
     routes: ['route-newfoundland']
   },

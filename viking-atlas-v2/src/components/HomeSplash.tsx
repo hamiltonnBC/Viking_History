@@ -9,8 +9,7 @@ export function HomeSplash({ isVisible, onEnter }: HomeSplashProps) {
       <div className="home-splash-content">
         <h1>About The Viking Age</h1>
         <p>
-          The Viking Age (c. 750–1100 AD - Maybe put specific dates here?) was a period of rapid expansion, exploration, and
-          conquest. - Add general description of viking history here
+          The Viking Age (c. 750–1100 AD) was a period of rapid Scandinavian expansion driven by a culture of gift-giving, internal politics, and maritime innovation. What began as raids on monasteries and coastal towns evolved into permanent settlements, long-distance trade networks, and the formation of new kingdoms from the Danelaw to Dublin, Iceland to Greenland, and even briefly North America.
         </p>
         <p>
           Use the timeline below to travel through centuries of history, exploring the battles,
@@ -43,6 +42,9 @@ export function HomeSplash({ isVisible, onEnter }: HomeSplashProps) {
               </a>
             </div>
 
+          </div>
+          <div style={{ marginTop: '16px' }}>
+            Professor: <a href="https://www.berea.edu/facultyMember/dr-tyler-sergent" target="_blank" rel="noreferrer" style={{ color: 'var(--gold-bright)', textDecoration: 'none' }}><strong>Dr. Tyler Sergent</strong></a>
           </div>
         </div>
       </div>

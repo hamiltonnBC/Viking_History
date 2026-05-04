@@ -18,7 +18,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '774 AD',
     title: "Charlemagne's Conquest of Pavia",
     body: "Charlemagne, King of the Franks, conquered northern Italy and seized the royal treasury of the Lombards. This event is a critical precursor to the Viking Age because it demonstrates that successful early medieval kings relied on a \"gift economy\" fueled by seized booty to reward magnates and maintain the loyalty of their followers, establishing the exact system Viking chieftains would go on to use.",
-    source: 'The Age of the Vikings, Chapter 2',
+    source: 'The Age of the Vikings, pp. 6, 9-11',
     tags: ['conquest'],
   },
   {
@@ -27,7 +27,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '782 AD',
     title: 'The Massacre of Verden',
     body: "Charlemagne ordered the decapitation of 4,500 Saxons in a single day as punishment for their resistance and oath-breaking. This act of state-sponsored violence puts Viking raids into perspective, showing that the contemporary Christian world was often more brutal and destructive than the Scandinavian raiders.",
-    source: 'The Age of the Vikings, Chapter 2',
+    source: 'The Age of the Vikings, pp. 9-10, 41-44',
     tags: ['battle', 'conquest'],
   },
   {
@@ -36,7 +36,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: 'c. 800 AD',
     title: 'The Adoption of the Sail',
     body: "Around this time, picture stones on the island of Gotland began to depict ships with sails rather than just rowing boats. This technological shift was the \"great mystery\" of Scandinavian history, as it took centuries for the Norse to adopt Roman-style sailing technology, but once they did, it allowed for the long-distance ocean travel required for the Viking Age.",
-    source: 'The Age of the Vikings, Chapter 4',
+    source: 'The Age of the Vikings, pp. 11, 73',
     tags: ['exploration', 'origin'],
   },
   {
@@ -63,7 +63,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '796 AD',
     title: "Looting of the \"Avar Ring\"",
     body: "Charlemagne's army defeated the Avars in Hungary and discovered undreamed-of riches. This massive influx of wealth was distributed among Charlemagne's followers, illustrating the essential need for rulers to acquire loot or tribute to ensure the survival of their kingdom.",
-    source: 'The Age of the Vikings, Chapter 2',
+    source: 'The Age of the Vikings, pp. 9-10, 41-43',
     tags: ['conquest', 'raid'],
   },
   {
@@ -81,7 +81,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '815–820 AD',
     title: 'Construction of the Oseberg Ship',
     body: "Built in Norway, this is the oldest Scandinavian sailing ship found by archaeologists. Its design shows the early, somewhat awkward transition to sail technology, featuring a mast that was likely unsafe in high winds, yet it remains one of the most exquisitely carved examples of Viking naval art.",
-    source: 'The Age of the Vikings, Chapter 4',
+    source: 'The Age of the Vikings, pp. 11, 73',
     tags: ['exploration', 'origin'],
   },
   {
@@ -90,7 +90,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: 'c. 834 AD',
     title: 'The Oseberg Ship Burial',
     body: "Two high-status women were buried in the Oseberg ship with incredibly rich grave goods, including a wagon, sleds, and slaughtered horses. This burial illustrates the Norse belief that the Afterworld was reached by ship, with the vessel functioning as a \"ferry\" to the realm of the dead.",
-    source: 'The Age of the Vikings, Chapter 4',
+    source: 'The Age of the Vikings, pp. 11, 73',
     tags: ['origin'],
   },
   {
@@ -108,7 +108,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '840–843 AD',
     title: 'The Frankish Civil War',
     body: "Following the death of Emperor Louis the Pious, his three sons tore the empire apart in a bloody civil war. This period is crucial because it created a military power vacuum that Vikings used their fast ships to exploit.",
-    source: 'The Age of the Vikings, Chapter 2',
+    source: 'The Age of the Vikings, pp. 12, 18',
     tags: ['battle', 'conquest'],
   },
   {
@@ -144,7 +144,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '850 AD',
     title: 'Roric Captures Dorestad',
     body: "The Viking leader Roric took the major trade town of Dorestad and refused to leave. Realizing he could not be easily expelled, Emperor Lothar accepted Roric as his vassal, essentially hiring a \"Viking to fight Vikings\" to defend the region.",
-    source: 'The Age of the Vikings, Chapter 3',
+    source: 'The Age of the Vikings, pp. 47-48, 51',
     tags: ['conquest', 'trade'],
   },
   {
@@ -181,7 +181,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '866 AD',
     title: 'The Death of King Ella at York',
     body: 'The sons of the legendary Ragnar Hairy-Breeches defeated and killed King Ella of Northumbria at York. Contemporary evidence suggests he simply died in battle, though later saga tradition elaborated the killing into an elaborate revenge ritual.',
-    source: 'The Age of the Vikings, Chapter 2',
+    source: 'The Age of the Vikings, pp. 24, 50',
     tags: ['battle', 'conquest'],
   },
   {
@@ -244,7 +244,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: 'c. 900 AD',
     title: 'Specialization of Ship Design',
     body: 'By this period, Scandinavian shipwrights had branched into two distinct designs: long, sleek warships optimized for speed and raiding, and broad, sturdy cargo ships called knarrs built for carrying heavy loads across the open ocean. This specialization allowed for both more efficient trade networks and more focused, high-speed military incursions.',
-    source: 'The Age of the Vikings, Chapter 4',
+    source: 'The Age of the Vikings, pp. 11, 73-74',
     tags: ['exploration', 'trade'],
   },
   {
@@ -262,7 +262,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '907 AD',
     title: 'Rus-Byzantine Trade Treaty',
     body: 'A delegation from the Rurikid principality in Russia negotiated a formal trade treaty in Constantinople. The delegation included men with Scandinavian names like Karl and Rulav, demonstrating the continuous Norse cultural influence in the early Rurikid state and the vast commercial reach of the eastern Viking network.',
-    source: 'The Age of the Vikings, Chapter 3',
+    source: 'The Age of the Vikings, pp. 24, 54',
     tags: ['trade', 'settlement'],
   },
   {
@@ -271,7 +271,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     date: '917 AD',
     title: "Founding of Dublin's Fortress",
     body: 'The Viking leader Sitric arrived in Ireland and constructed a fortress with a planned street layout on a ridge above the "black pool" (dub linn). This site became the city of Dublin, which grew into Ireland\'s first major commercial centre and a hub of the Viking slave and silver trade.',
-    source: 'The Age of the Vikings, Chapter 3',
+    source: 'The Age of the Vikings, pp. 24, 50, 54',
     tags: ['settlement', 'trade'],
   },
   {
