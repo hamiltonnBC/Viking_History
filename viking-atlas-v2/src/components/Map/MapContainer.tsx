@@ -119,7 +119,9 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
     if (['raid', 'battle', 'conquest'].includes(type)) return 'var(--blood-bright)';
     if (type === 'trade') return 'var(--gold)';
     if (type === 'origin') return 'var(--gold-bright)';
-    return 'var(--parchment)';
+    if (type === 'settlement') return 'var(--parchment)';
+    if (type === 'exploration') return '#60a5fa';
+    return 'var(--text-primary)';
   };
 
   const getRouteColor = (type: string) => {
@@ -129,7 +131,7 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   };
 
   return (
-    <div className="map-holder" ref={containerRef}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
       {/* cursor is set via inline style so it always wins over D3 zoom's own
           inline cursor style. isDragging is driven by D3's zoom start/end
           events rather than React mousedown/mouseup to avoid race conditions. */}
