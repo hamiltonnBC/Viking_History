@@ -392,7 +392,7 @@ export const ROUTES: Route[] = [
   { id: 'route-mediterranean', type: 'exploration', points: [[9.5, 57.0], [-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]] },
   // Part 2 routes
   { id: 'route-seine',         type: 'raid',        points: [[9.5, 56.2], [0.82, 49.43]] },
-  { id: 'route-volga',         type: 'trade',       points: [[18.0, 59.3], [28.9, 41.0], [37.6, 55.7], [49.1, 55.8]] },
+  { id: 'route-volga',         type: 'trade',       points: [[18.0, 59.3], [37.6, 55.7], [49.1, 55.8], [28.9, 41.0]] },
 ];
 
 // used as discrete snap points on the timeline slider

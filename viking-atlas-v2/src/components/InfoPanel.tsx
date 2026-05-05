@@ -19,7 +19,7 @@ export function InfoPanel({ event, onClose }: InfoPanelProps) {
         </div>
         <div className="panel-body">
           {event ? (
-            event.body.split('<br><br>').map((p, idx) => <p key={idx}>{p}</p>)
+            event.body.split('\n\n').map((p, idx) => <p key={idx}>{p}</p>)
           ) : (
             <p>Explore the map and timeline to learn about the Viking Age.</p>
           )}

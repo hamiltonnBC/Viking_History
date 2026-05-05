@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import clsx from 'clsx';
 import './App.css';
 import { Header } from './components/Header';
@@ -25,17 +25,12 @@ function App() {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const filtersToggleRef = useRef<HTMLButtonElement>(null);
 
-useEffect(() => {
-  if (selectedEvent && currentYear < selectedEvent.year) {
-    setSelectedEvent(null);
-  }
-}, [currentYear, selectedEvent]);
+  // Clear selected event when the timeline moves before it
+  const effectiveSelectedEvent =
+    selectedEvent && currentYear < selectedEvent.year ? null : selectedEvent;
 
-  useEffect(() => {
-    if (scrollToEra !== null && !isSidebarOpen) {
-      setIsSidebarOpen(true);
-    }
-  }, [scrollToEra, isSidebarOpen]);
+  // Auto-open sidebar when an era jump is requested
+  const effectiveSidebarOpen = scrollToEra !== null ? true : isSidebarOpen;
 
   const handleToggleFilter = (type: EventType) => {
     setActiveFilters(prev => 
@@ -66,7 +61,7 @@ useEffect(() => {
       
       <main className="atlas-container">
         <Sidebar
-          isOpen={isSidebarOpen}
+          isOpen={effectiveSidebarOpen}
           onToggle={() => setIsSidebarOpen(prev => !prev)}
           activeFilters={activeFilters}
           scrollToEra={scrollToEra}
@@ -81,7 +76,7 @@ useEffect(() => {
             onEventClick={setSelectedEvent} 
           />
           {/* Reopen tab — visible on the left edge of the map when sidebar is closed */}
-          {!isSidebarOpen && (
+          {!effectiveSidebarOpen && (
             <button
               className="sidebar-reopen-tab"
               onClick={() => setIsSidebarOpen(true)}
@@ -111,7 +106,7 @@ useEffect(() => {
             toggleButtonRef={filtersToggleRef}
           />
           <InfoPanel 
-            event={selectedEvent} 
+            event={effectiveSelectedEvent} 
             onClose={() => setSelectedEvent(null)} 
           />
         </div>

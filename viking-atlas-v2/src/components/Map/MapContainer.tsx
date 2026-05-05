@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
+import type { GeoPermissibleObjects } from 'd3';
 import type { VikingEvent, Route, EventType } from '../../types';
 import { ZoomControls } from './ZoomControls';
+import { ZoomContext } from './ZoomContext';
 import clsx from 'clsx';
 
 interface MapContainerProps {
@@ -23,6 +25,7 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   // Track the D3 zoom scale so we can shrink markers as the user zooms in
   // (zoom-invariant markers: r_svg = BASE_R / k  →  r_screen ≈ BASE_R always)
   const [zoomScale, setZoomScale] = useState(1);
+  const [geoError, setGeoError] = useState(false);
   const BASE_R = 8; // target on-screen radius in pixels
 
   // Load GeoJSON data
@@ -30,10 +33,12 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
     async function loadData() {
       try {
         const response = await fetch(`${import.meta.env.BASE_URL}data/world.geojson`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         setGeoData(data);
       } catch (error) {
         console.error('Error loading GeoJSON:', error);
+        setGeoError(true);
       }
     }
     loadData();
@@ -56,6 +61,30 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
   }, []);
 
   // Setup D3 Zoom
+  // Store zoom behavior ref so we can call it from context callbacks
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+
+  const zoomControls = useMemo(() => ({
+    handleZoomIn: () => {
+      if (svgRef.current && zoomRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        d3.select(svgRef.current).transition().call(zoomRef.current.scaleBy as any, 1.5);
+      }
+    },
+    handleZoomOut: () => {
+      if (svgRef.current && zoomRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        d3.select(svgRef.current).transition().call(zoomRef.current.scaleBy as any, 0.6);
+      }
+    },
+    handleZoomReset: () => {
+      if (svgRef.current && zoomRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        d3.select(svgRef.current).transition().call(zoomRef.current.transform as any, d3.zoomIdentity);
+      }
+    },
+  }), []);
+
   useEffect(() => {
     if (!svgRef.current || !zoomGroupRef.current) return;
 
@@ -74,17 +103,12 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
         setIsDragging(false);
       });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     svg.call(zoom as any);
+    zoomRef.current = zoom;
 
     // Remove D3 zoom cursor sets on the SVG element so React inline style (set via isDragging state) is the only followed.
     svg.style('cursor', null);
-
-    // Provide methods to standard buttons
-    const handleZoomIn = () => svg.transition().call(zoom.scaleBy as any, 1.5);
-    const handleZoomOut = () => svg.transition().call(zoom.scaleBy as any, 0.6);
-    const handleZoomReset = () => svg.transition().call(zoom.transform as any, d3.zoomIdentity);
-    
-    (window as any).__vikingMapZoomControls = { handleZoomIn, handleZoomOut, handleZoomReset };
 
     const handleWindowMouseUp = () => setIsDragging(false);
     window.addEventListener('mouseup', handleWindowMouseUp);
@@ -132,6 +156,12 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+      {geoError && (
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}>
+          <p style={{ fontSize: '1.1rem' }}>⚠ Unable to load map data.</p>
+          <p style={{ fontSize: '0.85rem' }}>Check your connection and refresh the page.</p>
+        </div>
+      )}
       {/* cursor is set via inline style so it always wins over D3 zoom's own
           inline cursor style. isDragging is driven by D3's zoom start/end
           events rather than React mousedown/mouseup to avoid race conditions. */}
@@ -144,7 +174,7 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
           {/* Base Landmass */}
           {geoData && (
             <g className="land-group">
-              {geoData.features.map((feature: any, i: number) => {
+              {geoData.features.map((feature: GeoPermissibleObjects, i: number) => {
                 const pathData = pathGenerator(feature);
                 return pathData ? (
                   <path key={i} className="land" d={pathData} />
@@ -157,28 +187,47 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
           {geoData && (
             <g className="country-labels">
               {geoData.features
-                .filter((f: any) =>
-                  [
+                .filter((f: GeoPermissibleObjects) => {
+                  const props = (f as GeoJSON.Feature).properties;
+                  return props && [
                     'Norway', 'Sweden', 'Denmark', 'United Kingdom', 'Ireland',
                     'Iceland', 'France', 'Greenland', 'Canada', 'Russia'
-                  ].includes(f.properties.name)
-                )
-                .map((feature: any, i: number) => {
+                  ].includes(props.name);
+                })
+                .map((feature: GeoPermissibleObjects, i: number) => {
                   const centroid = pathGenerator.centroid(feature);
                   if (isNaN(centroid[0]) || isNaN(centroid[1])) return null;
                   
                   let [x, y] = centroid;
+                  const props = (feature as GeoJSON.Feature).properties!;
                   
-                  // Adjust huge countries to be closer to Viking action areas
-                  if (feature.properties.name === 'Canada') {
+                  // Adjust countries whose centroid is misleading due to
+                  // far-flung territories (e.g. Svalbard pulls Norway into the ocean)
+                  if (props.name === 'Norway') {
+                     const proj = projection([10, 62] as [number, number]);
+                     if (proj) { x = proj[0]; y = proj[1]; }
+                  }
+                  if (props.name === 'Sweden') {
+                     const proj = projection([16, 62] as [number, number]);
+                     if (proj) { x = proj[0]; y = proj[1]; }
+                  }
+                  if (props.name === 'United Kingdom') {
+                     const proj = projection([-2.5, 54] as [number, number]);
+                     if (proj) { x = proj[0]; y = proj[1]; }
+                  }
+                  if (props.name === 'France') {
+                     const proj = projection([2.5, 46.5] as [number, number]);
+                     if (proj) { x = proj[0]; y = proj[1]; }
+                  }
+                  if (props.name === 'Canada') {
                      const proj = projection([-55, 52] as [number, number]);
                      if (proj) { x = proj[0]; y = proj[1]; }
                   }
-                  if (feature.properties.name === 'Russia') {
+                  if (props.name === 'Russia') {
                      const proj = projection([30, 58] as [number, number]);
                      if (proj) { x = proj[0]; y = proj[1]; }
                   }
-                  if (feature.properties.name === 'Greenland') {
+                  if (props.name === 'Greenland') {
                      const proj = projection([-45, 65] as [number, number]);
                      if (proj) { x = proj[0]; y = proj[1]; }
                   }
@@ -191,7 +240,7 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
                       className="country-label"
                       textAnchor="middle"
                     >
-                      {feature.properties.name.toUpperCase()}
+                      {(props.name as string).toUpperCase()}
                     </text>
                   );
                 })}
@@ -268,7 +317,9 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
           </g>
         </g>
       </svg>
-      <ZoomControls />
+      <ZoomContext.Provider value={zoomControls}>
+        <ZoomControls />
+      </ZoomContext.Provider>
     </div>
   );
 }

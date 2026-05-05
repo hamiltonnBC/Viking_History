@@ -7,7 +7,7 @@ const TAG_COLORS: Record<EventType, string> = {
   raid:        'var(--blood-bright)',
   settlement:  'var(--parchment, #e8d5a3)',
   trade:       'var(--gold)',
-  exploration: 'var(--text-primary)',
+  exploration: '#60a5fa',
   battle:      'var(--blood)',
   conquest:    'var(--blood-bright)',
 };

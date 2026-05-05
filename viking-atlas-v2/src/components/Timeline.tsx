@@ -1,16 +1,11 @@
 import { ERAS, EVENTS, START_YEAR, END_YEAR, EVENT_YEARS } from '../data/vikingData';
+import { getActiveEraIndex } from '../utils/timelineUtils';
 
 interface TimelineProps {
   currentYear: number;
   onYearChange: (year: number) => void;
   onOpenRunes: () => void;
   onEraJump: (eraIndex: number) => void;
-}
-
-// Returns index of the era for `year` - Clamps to the last era if no match is found.
-function getActiveEraIndex(year: number): number {
-  const idx = ERAS.findIndex((era) => year >= era.min && year <= era.max);
-  return idx === -1 ? ERAS.length - 1 : idx;
 }
 
 // Snaps raw slider value to the nearest event year.
@@ -126,5 +121,3 @@ export function Timeline({ currentYear, onYearChange, onOpenRunes, onEraJump }: 
     </footer>
   );
 }
-
-export { getActiveEraIndex };
