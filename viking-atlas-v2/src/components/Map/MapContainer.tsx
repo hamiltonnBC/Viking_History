@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import type { GeoPermissibleObjects } from 'd3';
-import type { VikingEvent, Route, EventType } from '../../types';
+import type { VikingEvent, Route, EventType, OriginHub } from '../../types';
 import { ZoomControls } from './ZoomControls';
 import { ZoomContext } from './ZoomContext';
 import clsx from 'clsx';
@@ -10,11 +10,13 @@ interface MapContainerProps {
   currentYear: number;
   events: VikingEvent[];
   routes: Route[];
+  originHubs: OriginHub[];
   activeFilters: EventType[];
   onEventClick: (event: VikingEvent) => void;
+  onHubClick: (hub: OriginHub) => void;
 }
 
-export function MapContainer({ currentYear, events, routes, activeFilters, onEventClick }: MapContainerProps) {
+export function MapContainer({ currentYear, events, routes, originHubs, activeFilters, onEventClick, onHubClick }: MapContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomGroupRef = useRef<SVGGElement>(null);
@@ -247,13 +249,55 @@ export function MapContainer({ currentYear, events, routes, activeFilters, onEve
             </g>
           )}
 
+          {/* Origin Hub Markers — subtle anchor dots where routes originate */}
+          <g className="origin-hubs-group">
+            {originHubs.map(hub => {
+              const coords = projection(hub.coords);
+              if (!coords) return null;
+              const [x, y] = coords;
+              // Show hub if any active route uses it
+              const isActive = routes.some(r => r.origin === hub.id && activeRouteIds.has(r.id));
+              return (
+                <g
+                  key={hub.id}
+                  className={clsx('origin-hub', { active: isActive })}
+                  onClick={() => onHubClick(hub)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {/* Invisible hit area for easier clicking */}
+                  <circle cx={x} cy={y} r={14 / zoomScale} fill="transparent" />
+                  <circle cx={x} cy={y} r={7 / zoomScale} className="origin-hub-ring" />
+                  <circle cx={x} cy={y} r={3 / zoomScale} className="origin-hub-dot" />
+                  <g
+                    className="origin-hub-label"
+                    transform={`translate(${x}, ${y}) scale(${1 / zoomScale})`}
+                  >
+                    <text
+                      y={-12}
+                      textAnchor="middle"
+                      className="origin-hub-text"
+                    >
+                      {hub.label}
+                    </text>
+                  </g>
+                </g>
+              );
+            })}
+          </g>
+
           {/* Routes */}
           <g className="routes-group">
             {routes.map(route => {
-              const lineData: [number, number][] = route.points.map(p => projection(p as [number, number]) as [number, number]).filter(Boolean);
+              // Resolve origin hub coordinates
+              const hub = originHubs.find(h => h.id === route.origin);
+              if (!hub) return null;
+              const allPoints: [number, number][] = [hub.coords, ...route.points];
+              const lineData: [number, number][] = allPoints
+                .map(p => projection(p as [number, number]) as [number, number])
+                .filter(Boolean);
               if (lineData.length < 2) return null;
               
-              const pathStr = d3.line()(lineData);
+              const pathStr = d3.line().curve(d3.curveCatmullRom.alpha(0.5))(lineData);
               const isActive = activeRouteIds.has(route.id);
               
               return (

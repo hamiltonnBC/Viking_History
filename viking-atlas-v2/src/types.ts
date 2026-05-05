@@ -8,6 +8,15 @@ export interface Era {
   summary: string;
 }
 
+export interface OriginHub {
+  id: string;
+  label: string;
+  coords: [number, number];
+  description: string;
+  /** IDs of TIMELINE_ENTRIES associated with this country */
+  relatedEntryIds: string[];
+}
+
 export interface VikingEvent {
   id: string;
   year: number;
@@ -23,6 +32,8 @@ export interface VikingEvent {
 export interface Route {
   id: string;
   type: RouteType;
+  /** First element is an origin hub ID, rest are [lon, lat] waypoints */
+  origin: string;
   points: [number, number][];
 }
 

@@ -1,7 +1,136 @@
-import type { Era, VikingEvent, Route } from '../types';
+import type { Era, VikingEvent, Route, OriginHub } from '../types';
 
 export const START_YEAR = 750;
 export const END_YEAR = 1408;
+
+/** Named departure ports — routes originate from these fixed points on the map */
+export const ORIGIN_HUBS: OriginHub[] = [
+  {
+    id: 'hub-denmark',
+    label: 'Denmark',
+    coords: [9.8, 55.8],
+    description: 'The heartland of Viking power. Denmark\'s Jutland peninsula and islands served as the primary launching point for raids across Western Europe. Home to the great trading centre of Hedeby and the royal seat at Jelling, Danish kings like Cnut the Great built a North Sea empire that stretched from Scandinavia to England.',
+    relatedEntryIds: [
+      'tl-danish-fleet-charlemagne',
+      'tl-frisia-dorestad-raids',
+      'tl-roric-dorestad',
+      'tl-hedeby-warship',
+      'tl-cnut-reign',
+      'tl-roskilde-giant',
+      'tl-skuldelev-1',
+      'tl-roskilde-blockade',
+      'tl-sack-nantes',
+      'tl-siege-paris',
+      'tl-mediterranean-raid',
+      'tl-battle-maldon-danegeld',
+      'tl-battle-nissan',
+    ],
+  },
+  {
+    id: 'hub-norway',
+    label: 'Norway',
+    coords: [10.4, 59.9],
+    description: 'Norway\'s deep fjords and rugged coastline bred the finest sailors of the Viking Age. Norwegian explorers pushed west across the Atlantic to discover Iceland, Greenland, and Vinland. The Oseberg and Gokstad ship burials reveal a culture obsessed with maritime mastery, where a chieftain\'s ship was his most prized possession in life and death.',
+    relatedEntryIds: [
+      'tl-oseberg-ship-built',
+      'tl-oseberg-burial',
+      'tl-ottar-voyage',
+      'tl-gokstad-chieftain',
+      'tl-battle-svoldr',
+      'tl-battle-nesjar',
+      'tl-vinland-discovery',
+      'tl-greenland-bishop',
+      'tl-greenland-last-record',
+      'tl-storm-swanage',
+    ],
+  },
+  {
+    id: 'hub-sweden',
+    label: 'Sweden',
+    coords: [18.0, 59.3],
+    description: 'While Danes and Norwegians sailed west, Swedish Vikings — known as the Rus or Varangians — turned east. From the trading hub of Birka on Lake Mälaren, they navigated Russia\'s vast river systems to reach Constantinople and Baghdad, establishing the trade networks that would eventually become the Russian state.',
+    relatedEntryIds: [
+      'tl-varangian-tribute',
+      'tl-adoption-sail',
+      'tl-rus-byzantine-treaty',
+      'tl-ibn-fadlan-cremation',
+      'tl-ingvar-caspian',
+      'tl-ship-specialization',
+    ],
+  },
+  {
+    id: 'hub-iceland',
+    label: 'Iceland',
+    coords: [-21.8, 64.1],
+    description: 'Settled by Norwegian emigrants fleeing the centralising rule of Harald Fairhair, Iceland became a unique Viking republic. Its Althing (established 930 AD) was one of the world\'s oldest parliaments. Iceland served as the stepping stone for further Atlantic exploration to Greenland and Vinland, and its saga tradition preserved the memory of the entire Viking Age.',
+    relatedEntryIds: [
+      'tl-vinland-discovery',
+      'tl-greenland-bishop',
+      'tl-greenland-last-record',
+      'tl-skuldelev-1',
+    ],
+  },
+  {
+    id: 'hub-england',
+    label: 'England',
+    coords: [-1.5, 53.0],
+    description: 'England bore the brunt of Viking aggression for three centuries. From the first raid on Lindisfarne in 793 to the Norman Conquest of 1066, Norse warriors raided, settled, and eventually ruled large parts of the island. The Danelaw — a region of Norse law and custom — reshaped English language, place-names, and culture permanently.',
+    relatedEntryIds: [
+      'tl-lindisfarne',
+      'tl-thames-fleet',
+      'tl-king-ella-york',
+      'tl-partition-northumbria',
+      'tl-baptism-guthrum',
+      'tl-alfred-naval-victory',
+      'tl-benfleet-capture',
+      'tl-brunanburh',
+      'tl-battle-maldon-danegeld',
+      'tl-archbishop-alfheah',
+      'tl-cnut-reign',
+    ],
+  },
+  {
+    id: 'hub-france',
+    label: 'France',
+    coords: [2.0, 47.5],
+    description: 'Francia was one of the richest targets in Viking Europe. Norse fleets sailed up the Seine, Loire, and Garonne to sack Paris, Nantes, and dozens of monasteries. The raids culminated in 911 when King Charles the Simple granted the Viking chieftain Rollo lands at the mouth of the Seine — creating Normandy, the "Land of the Northmen," whose descendants would conquer England in 1066.',
+    relatedEntryIds: [
+      'tl-charlemagne-pavia',
+      'tl-massacre-verden',
+      'tl-avar-ring',
+      'tl-frankish-civil-war',
+      'tl-sack-nantes',
+      'tl-siege-paris',
+      'tl-jumiegos-repairs',
+      'tl-mediterranean-raid',
+    ],
+  },
+  {
+    id: 'hub-ireland',
+    label: 'Ireland',
+    coords: [-7.5, 53.3],
+    description: 'Ireland\'s wealthy monasteries drew Viking raiders from the early 9th century. What began as seasonal plundering evolved into permanent settlement — the Norse founded Dublin, Waterford, Wexford, and Limerick, Ireland\'s first true urban centres. By the 10th century, Norse and Irish cultures had deeply intertwined through trade, intermarriage, and shared political ambition.',
+    relatedEntryIds: [
+      'tl-plunder-dun-masc',
+      'tl-dublin-fortress',
+      'tl-battle-clontarf',
+      'tl-sitric-rome',
+      'tl-skuldelev-2-dublin',
+    ],
+  },
+  {
+    id: 'hub-russia',
+    label: 'Rus Lands',
+    coords: [32.0, 55.0],
+    description: 'Swedish Vikings known as the Varangians penetrated deep into Eastern Europe via the Dnieper and Volga rivers. They established trading posts, extracted tribute from Slavic peoples, and founded the Rurikid dynasty that ruled Russia for seven centuries. Their route to Constantinople — the "road from the Varangians to the Greeks" — was one of the great trade arteries of the medieval world.',
+    relatedEntryIds: [
+      'tl-varangian-tribute',
+      'tl-rus-byzantine-treaty',
+      'tl-ibn-fadlan-cremation',
+      'tl-ingvar-caspian',
+    ],
+  },
+];
 
 export const ERAS: Era[] = [
   { min: 750, max: 869,  label: 'Age of Raids', summary: 'The beginning of the Viking Age and early settlements.' },
@@ -382,17 +511,15 @@ export const EVENTS: VikingEvent[] = [
 ];
 
 export const ROUTES: Route[] = [
-  { id: 'route-england',      type: 'raid',        points: [[9.5, 56.2], [-1.8, 55.6]] },
-  { id: 'route-france',       type: 'raid',        points: [[9.5, 56.2], [1.1, 49.4]] },
-  { id: 'route-iceland',      type: 'exploration', points: [[10.2, 59.3], [-6.4, 56.3], [-21.8, 64.1]] },
-  { id: 'route-newfoundland', type: 'exploration', points: [[-21.8, 64.1], [-45.5, 61.1], [-55.5, 51.5]] },
-  // New routes for chronicle events
-  { id: 'route-frisia',        type: 'raid',        points: [[9.5, 57.0], [5.3, 53.2]] },
-  { id: 'route-nantes',        type: 'raid',        points: [[9.5, 56.2], [-4.5, 48.0], [-1.6, 47.2]] },
-  { id: 'route-mediterranean', type: 'exploration', points: [[9.5, 57.0], [-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]] },
-  // Part 2 routes
-  { id: 'route-seine',         type: 'raid',        points: [[9.5, 56.2], [0.82, 49.43]] },
-  { id: 'route-volga',         type: 'trade',       points: [[18.0, 59.3], [37.6, 55.7], [49.1, 55.8], [28.9, 41.0]] },
+  { id: 'route-england',      type: 'raid',        origin: 'hub-denmark', points: [[-1.8, 55.6]] },
+  { id: 'route-france',       type: 'raid',        origin: 'hub-denmark', points: [[1.1, 49.4]] },
+  { id: 'route-iceland',      type: 'exploration', origin: 'hub-norway',  points: [[-6.4, 56.3], [-21.8, 64.1]] },
+  { id: 'route-newfoundland', type: 'exploration', origin: 'hub-iceland', points: [[-45.5, 61.1], [-55.5, 51.5]] },
+  { id: 'route-frisia',       type: 'raid',        origin: 'hub-denmark', points: [[5.3, 53.2]] },
+  { id: 'route-nantes',       type: 'raid',        origin: 'hub-denmark', points: [[-4.5, 48.0], [-1.6, 47.2]] },
+  { id: 'route-mediterranean',type: 'exploration', origin: 'hub-denmark', points: [[-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]] },
+  { id: 'route-seine',        type: 'raid',        origin: 'hub-denmark', points: [[0.82, 49.43]] },
+  { id: 'route-volga',        type: 'trade',       origin: 'hub-sweden',  points: [[37.6, 55.7], [49.1, 55.8], [28.9, 41.0]] },
 ];
 
 // used as discrete snap points on the timeline slider

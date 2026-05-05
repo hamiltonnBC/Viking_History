@@ -4,13 +4,14 @@ import './App.css';
 import { Header } from './components/Header';
 import { Timeline } from './components/Timeline';
 import { InfoPanel } from './components/InfoPanel';
+import { HubPanel } from './components/HubPanel';
 import { MapContainer } from './components/Map/MapContainer';
 import { Sidebar } from './components/Sidebar';
 import { FiltersOverlay } from './components/FiltersOverlay';
 import { HomeSplash } from './components/HomeSplash';
 import { RuneTranslator } from './components/RuneTranslator';
-import { EVENTS, ROUTES, START_YEAR } from './data/vikingData';
-import type { VikingEvent, EventType } from './types';
+import { EVENTS, ROUTES, START_YEAR, ORIGIN_HUBS } from './data/vikingData';
+import type { VikingEvent, EventType, OriginHub } from './types';
 
 function App() {
   const [isHomeVisible, setIsHomeVisible] = useState(true);
@@ -23,6 +24,7 @@ function App() {
   const [scrollToEra, setScrollToEra] = useState<number | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [selectedHub, setSelectedHub] = useState<OriginHub | null>(null);
   const filtersToggleRef = useRef<HTMLButtonElement>(null);
 
   // Clear selected event when the timeline moves before it
@@ -71,9 +73,11 @@ function App() {
           <MapContainer 
             currentYear={currentYear} 
             events={EVENTS} 
-            routes={ROUTES} 
+            routes={ROUTES}
+            originHubs={ORIGIN_HUBS}
             activeFilters={activeFilters}
-            onEventClick={setSelectedEvent} 
+            onEventClick={(event) => { setSelectedEvent(event); setSelectedHub(null); }}
+            onHubClick={(hub) => { setSelectedHub(hub); setSelectedEvent(null); }}
           />
           {/* Reopen tab — visible on the left edge of the map when sidebar is closed */}
           {!effectiveSidebarOpen && (
@@ -108,6 +112,10 @@ function App() {
           <InfoPanel 
             event={effectiveSelectedEvent} 
             onClose={() => setSelectedEvent(null)} 
+          />
+          <HubPanel
+            hub={selectedHub}
+            onClose={() => setSelectedHub(null)}
           />
         </div>
       </main>
