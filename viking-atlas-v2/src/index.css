@@ -6,10 +6,12 @@ body {
   margin: 0;
   padding: 0;
   background-color: #020617;
-  color: #F8FAFC;
+  color: #F1F5F9;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 #root, #app {
@@ -21,6 +23,12 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+/* Smooth focus outlines for keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgba(245, 158, 11, 0.6);
+  outline-offset: 2px;
 }
 
 /* Hide the old counter if it still around */
