@@ -1,11 +1,13 @@
 :root {
-  --blood: #DC2626;
-  --blood-bright: #EF4444;
+  --blood: #630707;
+  --blood-bright: #e40707;
+  --conquest: #462ff8;
+  --gold: #1f8e3e;
+  --gold-bright: #F59E0B;
+  --parchment: #f9eccc;
+  --exploration: #60e5fa;
   --sea: #0c1524;
   --sea-dark: #020617;
-  --gold: #D97706;
-  --gold-bright: #F59E0B;
-  --parchment: #e8d5a3;
   --land: #172033;
   --land-stroke: #2a3a52;
   --glass-bg: rgba(12, 21, 36, 0.72);
@@ -23,7 +25,6 @@
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   --font-heading: 'Outfit', sans-serif;
-  --font-subheading: 'Cinzel', serif;
   --font-body: 'Inter', sans-serif;
 }
 
@@ -873,18 +874,6 @@
   letter-spacing: 0.02em;
 }
 
-.panel-tag {
-  display: inline-block;
-  padding: 4px 12px;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: var(--radius-xl);
-  color: var(--gold-bright);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
 .panel-body {
   line-height: 1.7;
   font-size: 0.92rem;
@@ -1522,4 +1511,173 @@
   font-size: 0.68rem;
   color: rgba(148, 163, 184, 0.5);
   font-style: italic;
+}
+
+/* Route hover tooltip */
+.route-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  z-index: 60;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.1s ease;
+}
+
+/* InfoPanel route view */
+.panel-route-description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* Connected events list */
+.panel-connected-events {
+  margin-top: 8px;
+}
+
+.panel-connected-events-title {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.panel-connected-events-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panel-connected-event-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+  width: 100%;
+}
+
+.panel-connected-event-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.panel-connected-event-title {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.panel-connected-event-date {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--gold-bright);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ROUTE TOOLTIP & CONNECTED EVENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.route-tooltip {
+  position: absolute;
+  z-index: 60;
+  background: rgba(8, 15, 28, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-ambient);
+}
+
+.panel-route-description {
+  margin-bottom: 20px;
+}
+
+.panel-connected-events {
+  border-top: 1px solid var(--glass-border);
+  padding-top: 16px;
+}
+
+.panel-connected-events-title {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+}
+
+.panel-connected-events-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panel-connected-event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s var(--ease-out);
+  text-align: left;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.panel-connected-event-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--glass-border-light);
+}
+
+.panel-connected-event-title {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+}
+
+.panel-connected-event-date {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--gold-bright);
+  flex-shrink: 0;
 }

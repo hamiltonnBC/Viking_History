@@ -511,15 +511,15 @@ export const EVENTS: VikingEvent[] = [
 ];
 
 export const ROUTES: Route[] = [
-  { id: 'route-england',      type: 'raid',        origin: 'hub-denmark', points: [[-1.8, 55.6]] },
-  { id: 'route-france',       type: 'raid',        origin: 'hub-denmark', points: [[1.1, 49.4]] },
-  { id: 'route-iceland',      type: 'exploration', origin: 'hub-norway',  points: [[-6.4, 56.3], [-21.8, 64.1]] },
-  { id: 'route-newfoundland', type: 'exploration', origin: 'hub-iceland', points: [[-45.5, 61.1], [-55.5, 51.5]] },
-  { id: 'route-frisia',       type: 'raid',        origin: 'hub-denmark', points: [[5.3, 53.2]] },
-  { id: 'route-nantes',       type: 'raid',        origin: 'hub-denmark', points: [[-4.5, 48.0], [-1.6, 47.2]] },
-  { id: 'route-mediterranean',type: 'exploration', origin: 'hub-denmark', points: [[-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]] },
-  { id: 'route-seine',        type: 'raid',        origin: 'hub-denmark', points: [[0.82, 49.43]] },
-  { id: 'route-volga',        type: 'trade',       origin: 'hub-sweden',  points: [[37.6, 55.7], [49.1, 55.8], [28.9, 41.0]] },
+  { id: 'route-england',       type: 'raid',        origin: 'hub-denmark', points: [[-1.8, 55.6]],                              name: 'North Sea Raid Route',           description: 'The primary Norse corridor across the North Sea from Denmark to the English coast, used repeatedly from the Lindisfarne raid of 793 through the Danish conquest of 1016.' },
+  { id: 'route-france',        type: 'raid',        origin: 'hub-denmark', points: [[1.1, 49.4]],                               name: 'Western Raid Route',             description: "The deep-water Atlantic approach from Denmark south to the Frankish coast of Normandy, the path that brought Rollo's forces to the Seine valley." },
+  { id: 'route-iceland',       type: 'exploration', origin: 'hub-norway',  points: [[-6.4, 56.3], [-21.8, 64.1]],              name: 'Iceland Settlement Route',       description: "The stepping-stone passage from Norway via the Scottish islands to Iceland, pioneered by Norse settlers fleeing Harald Fairhair's centralising rule after 872." },
+  { id: 'route-newfoundland',  type: 'exploration', origin: 'hub-iceland', points: [[-45.5, 61.1], [-55.5, 51.5]],             name: 'Vinland Expedition Route',       description: 'The westward extension of the Norse Atlantic frontier from Iceland through Greenland to the coast of North America, completed by Leif Erikson around 1000 AD.' },
+  { id: 'route-frisia',        type: 'raid',        origin: 'hub-denmark', points: [[5.3, 53.2]],                               name: 'Frisian Raid Route',             description: 'The short but devastating crossing from Jutland to the Frisian coast, used by Danish fleets to strike the wealthy trading ports of Dorestad and the Rhine delta from 810 onward.' },
+  { id: 'route-nantes',        type: 'raid',        origin: 'hub-denmark', points: [[-4.5, 48.0], [-1.6, 47.2]],               name: 'Loire Raid Route',               description: 'The long Atlantic arc from Denmark south past Brittany and into the Loire estuary, enabling the sack of Nantes in 843 and repeated raids deep into the Frankish heartland.' },
+  { id: 'route-mediterranean', type: 'exploration', origin: 'hub-denmark', points: [[-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]], name: 'Mediterranean Expedition Route', description: 'The audacious passage through the Straits of Gibraltar into the Mediterranean, taken by a Danish fleet of 62 ships in 859 that raided Morocco, southern France, and the Italian coast.' },
+  { id: 'route-seine',         type: 'raid',        origin: 'hub-denmark', points: [[0.82, 49.43]],                             name: 'Seine Raid Route',               description: 'The direct crossing from Denmark to the mouth of the Seine, the artery that carried Viking fleets to Paris in 845 and sustained the Norse presence in Normandy for decades.' },
+  { id: 'route-volga',         type: 'trade',       origin: 'hub-sweden',  points: [[37.6, 55.7], [49.1, 55.8], [28.9, 41.0]], name: 'Volga Trade Route',              description: 'The overland and river route from Sweden through the Baltic, down the Volga, and south to Constantinople and the Caspian Sea, the commercial backbone of the Rus trading network.' },
 ];
 
 // used as discrete snap points on the timeline slider

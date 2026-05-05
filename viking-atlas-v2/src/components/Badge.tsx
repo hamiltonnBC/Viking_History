@@ -7,9 +7,9 @@ const TAG_COLORS: Record<EventType, string> = {
   raid:        'var(--blood-bright)',
   settlement:  'var(--parchment, #e8d5a3)',
   trade:       'var(--gold)',
-  exploration: '#60a5fa',
+  exploration: 'var(--exploration)',
   battle:      'var(--blood)',
-  conquest:    'var(--blood-bright)',
+  conquest:    'var(--conquest)',
 };
 
 interface BadgeProps {

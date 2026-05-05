@@ -11,13 +11,13 @@ import { FiltersOverlay } from './components/FiltersOverlay';
 import { HomeSplash } from './components/HomeSplash';
 import { RuneTranslator } from './components/RuneTranslator';
 import { EVENTS, ROUTES, START_YEAR, ORIGIN_HUBS } from './data/vikingData';
-import type { VikingEvent, EventType, OriginHub } from './types';
+import type { VikingEvent, Route, EventType, OriginHub } from './types';
 
 function App() {
   const [isHomeVisible, setIsHomeVisible] = useState(true);
   const [isRuneVisible, setIsRuneVisible] = useState(false);
   const [currentYear, setCurrentYear] = useState(START_YEAR);
-  const [selectedEvent, setSelectedEvent] = useState<VikingEvent | null>(null);
+  const [selectedItem, setSelectedItem] = useState<VikingEvent | Route | null>(null);
   const [activeFilters, setActiveFilters] = useState<EventType[]>([
     'origin', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'
   ]);
@@ -27,9 +27,11 @@ function App() {
   const [selectedHub, setSelectedHub] = useState<OriginHub | null>(null);
   const filtersToggleRef = useRef<HTMLButtonElement>(null);
 
-  // Clear selected event when the timeline moves before it
-  const effectiveSelectedEvent =
-    selectedEvent && currentYear < selectedEvent.year ? null : selectedEvent;
+  // Clear selected event when the timeline moves before it (derived state, no useEffect)
+  const effectiveSelectedItem =
+    selectedItem && 'coords' in selectedItem && currentYear < selectedItem.year
+      ? null
+      : selectedItem;
 
   // Auto-open sidebar when an era jump is requested
   const effectiveSidebarOpen = scrollToEra !== null ? true : isSidebarOpen;
@@ -76,8 +78,9 @@ function App() {
             routes={ROUTES}
             originHubs={ORIGIN_HUBS}
             activeFilters={activeFilters}
-            onEventClick={(event) => { setSelectedEvent(event); setSelectedHub(null); }}
-            onHubClick={(hub) => { setSelectedHub(hub); setSelectedEvent(null); }}
+            onEventClick={event => { setSelectedItem(event); setSelectedHub(null); }}
+            onRouteClick={route => { setSelectedItem(route); setSelectedHub(null); }}
+            onHubClick={hub => { setSelectedHub(hub); setSelectedItem(null); }}
           />
           {/* Reopen tab — visible on the left edge of the map when sidebar is closed */}
           {!effectiveSidebarOpen && (
@@ -110,8 +113,10 @@ function App() {
             toggleButtonRef={filtersToggleRef}
           />
           <InfoPanel 
-            event={effectiveSelectedEvent} 
-            onClose={() => setSelectedEvent(null)} 
+            selectedItem={effectiveSelectedItem}
+            events={EVENTS}
+            onSelectEvent={event => setSelectedItem(event)}
+            onClose={() => setSelectedItem(null)} 
           />
           <HubPanel
             hub={selectedHub}

@@ -10,7 +10,7 @@ export interface FilterDescriptor {
 export const ALL_FILTERS: FilterDescriptor[] = [
   {
     type: 'origin',
-    label: 'Origins',
+    label: 'Ships',
     color: 'var(--gold-bright)',
     description: 'Explore the Norse world before the era of raids, encompassing their masterful shipbuilding, intricate burial customs, and the vibrant culture that launched an entire age.',
   },
@@ -35,7 +35,7 @@ export const ALL_FILTERS: FilterDescriptor[] = [
   {
     type: 'exploration',
     label: 'Exploration',
-    color: '#60a5fa',
+    color: 'var(--exploration)',
     description: 'Driven by curiosity and necessity, Vikings reached Iceland, Greenland, and North America centuries before Columbus.',
   },
   {
@@ -47,7 +47,7 @@ export const ALL_FILTERS: FilterDescriptor[] = [
   {
     type: 'conquest',
     label: 'Conquests',
-    color: 'var(--blood-bright)',
+    color: 'var(--conquest)',
     description: 'Witness the permanent territorial takeovers executed by Norse warlords who eventually abandoned raiding in favor of ruling entire newly formed kingdoms.',
   },
 ];

@@ -35,6 +35,8 @@ export interface Route {
   /** First element is an origin hub ID, rest are [lon, lat] waypoints */
   origin: string;
   points: [number, number][];
+  name: string;
+  description: string;
 }
 
 export interface VikingData {
