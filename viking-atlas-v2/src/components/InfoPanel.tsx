@@ -75,6 +75,9 @@ export function InfoPanel({ selectedItem, onClose, events, routes, onSelectEvent
               {selectedItem.body.split('\n\n').map((p, idx) => (
                 <p key={idx}>{p}</p>
               ))}
+              {selectedItem.source && (
+                <p className="panel-route-source">{selectedItem.source}</p>
+              )}
               {connectedRoutes.length > 0 && (
                 <div className="panel-connected-routes">
                   <h3 className="panel-connected-routes-title">Connected Routes</h3>

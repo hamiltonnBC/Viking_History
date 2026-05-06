@@ -27,6 +27,8 @@ export interface VikingEvent {
   body: string;
   type: EventType;
   routes?: string[];
+  /** Academic source citation */
+  source?: string;
 }
 
 export interface Route {
