@@ -11,6 +11,7 @@ export interface Era {
 export interface OriginHub {
   id: string;
   label: string;
+  subtitle?: string;
   coords: [number, number];
   description: string;
   /** IDs of TIMELINE_ENTRIES associated with this country */

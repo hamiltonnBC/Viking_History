@@ -8,6 +8,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-denmark',
     label: 'Denmark',
+    subtitle: 'Scandinavian Homeland',
     coords: [9.8, 55.8],
     description: 'The heartland of Viking power. Denmark\'s Jutland peninsula and islands served as the primary launching point for raids across Western Europe, including a 200-ship fleet that attacked Frisia in 810. Home to the great trading centre of Hedeby, the royal seat at Jelling, and Lejre on the island of Zealand — which featured the largest known early medieval Scandinavian hall. Danish kings like Cnut the Great built a North Sea empire that stretched from Scandinavia to England after conquering it in 1016.',
     relatedEntryIds: [
@@ -30,6 +31,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-norway-west',
     label: 'Western Norway',
+    subtitle: 'Atlantic Departure Point',
     coords: [5.3, 60.4],
     description: 'The fjord-carved Atlantic coast from Bergen to Trondheim was the departure point for all Norse voyages westward. From these sheltered harbours, emigrants sailed to the Faroe Islands, Iceland, Greenland, and ultimately North America. Raiders also departed these waters to round Scotland and strike Ireland. Norway is renowned for its long, protected coastal navigation routes, and its sailors developed the skills — reading clouds, currents, birds, and whales — that made transatlantic crossings possible.',
     relatedEntryIds: [
@@ -44,6 +46,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-norway-east',
     label: 'Eastern Norway',
+    subtitle: 'Skagerrak & Baltic Gateway',
     coords: [10.4, 59.9],
     description: 'The Oslo Fjord and Vestfold region was the political heartland of early Norwegian kingship and the gateway to the Skagerrak and Baltic trade routes. The great ship burials at Oseberg (c. 834, where two women were interred with exceptionally rich grave goods) and Gokstad were interred here. The merchant Ottar sailed from the far north to reach the trading hub in this fjord. Connected to Denmark across the Skagerrak and to Sweden via coastal routes, eastern Norway linked the Atlantic world to the Baltic.',
     relatedEntryIds: [
@@ -58,6 +61,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-sweden',
     label: 'Sweden',
+    subtitle: 'Eastern Trade & Exploration',
     coords: [18.0, 59.3],
     description: 'While Danes and Norwegians sailed west, Swedish Vikings — known as the Rus or Varangians — turned east. From the trading hub of Birka on Lake Mälaren, they navigated Russia\'s vast river systems to reach Constantinople and Baghdad. Gamla Uppsala hosted a great chieftain\'s hall, while the island of Gotland in the Baltic Sea was a key naval hub featuring numerous picture stones depicting sailing ships and a trading community with shipyard at Paviken. Valsgärde, north of Uppsala, contains fifteen ship burials spanning from the late 6th century to roughly the year 1000.',
     relatedEntryIds: [
@@ -73,6 +77,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-iceland',
     label: 'Iceland',
+    subtitle: 'North Atlantic Colony',
     coords: [-21.8, 64.1],
     description: 'Settled by Norwegian emigrants fleeing the centralising rule of Harald Fairhair, Iceland became a unique Viking republic. Its Althing (established 930 AD) was one of the world\'s oldest parliaments. Settlers rapidly cut down the island\'s native forests to build homes and ships, prompting them to seek resources further west — directly motivating the expeditions to Greenland and Vinland. Iceland\'s saga tradition preserved the memory of the entire Viking Age.',
     relatedEntryIds: [
@@ -86,6 +91,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-greenland',
     label: 'Greenland',
+    subtitle: 'Westernmost Norse Settlement',
     coords: [-44.5, 61.5],
     description: 'Settled toward the end of the 10th century by Erik the Red, who built his chieftain\'s farm at Brattahlid in the Eastern Settlement. The colony grew to support over a dozen parish churches and was granted its own bishop at Gardar in 1126. The Western Settlement featured sites like the "Farm Beneath the Sand." The Norse survived by farming and exporting arctic goods like walrus ivory, but the settlements mysteriously died out by the 15th century — the final written record being a wedding at Hvalsey church in 1408.',
     relatedEntryIds: [
@@ -97,6 +103,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-vinland',
     label: 'Vinland',
+    subtitle: 'The New World',
     coords: [-55.5, 51.5],
     description: 'Discovered around the year 1000 by the Greenland explorer Leif Eriksson, "Vinland" (Newfoundland) was the site of a temporary Norse settlement at L\'Anse aux Meadows — proving European arrival in America five centuries before Columbus. "Markland" (likely the forested Labrador Peninsula) was used as a vital source of timber for the Greenlanders, whose own island lacked the wood needed to build homes and ships. The settlements were eventually abandoned due to hostile encounters with indigenous populations the Norse called "skrælingar."',
     relatedEntryIds: [
@@ -107,6 +114,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-england',
     label: 'England',
+    subtitle: 'Raid Target & Danelaw',
     coords: [-1.5, 53.0],
     description: 'England bore the brunt of Viking aggression for three centuries. The island monastery of Lindisfarne in Northumbria suffered the first known major Viking raid in 793. The chieftain Halvdan conquered Northumbria in 876, while Guthrum conquered East Anglia, establishing the Danelaw — a vast region where Scandinavian laws and culture took root. York (Jórvík) served as an important royal seat for Norse kings. The Battle of Maldon in 991 led to massive Danegeld tribute payments, and Cnut of Denmark conquered the entire kingdom in 1016.',
     relatedEntryIds: [
@@ -127,6 +135,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-france',
     label: 'France',
+    subtitle: 'Frankish Empire',
     coords: [2.0, 47.5],
     description: 'Francia was one of the richest targets in Viking Europe. The city of Nantes on the Loire was brutally massacred on St. John\'s Day in 843. Paris and Rouen on the Seine were attacked in 845, during which Vikings captured and executed 111 Frankish soldiers. The raids culminated in 911 when King Charles the Simple granted the Viking chieftain Rollo lands at the mouth of the Seine — creating Normandy, the "Land of the Northmen," whose descendants would conquer England in 1066. A Viking fleet stopped at Jumièges in 862 to repair their ships, showing strategic depth beyond simple raiding.',
     relatedEntryIds: [
@@ -144,6 +153,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-ireland',
     label: 'Ireland',
+    subtitle: 'Norse Urban Settlement',
     coords: [-7.5, 53.3],
     description: 'Ireland\'s wealthy monasteries drew Viking raiders from the early 9th century. In 917, the Viking Sitric arrived with a fleet and founded the city of Dublin on the Liffey River, which rapidly grew into Ireland\'s first major commercial centre. Scandinavian kings ruled Dublin for decades, including Sitric Silkenbeard, who maintained power even after fighting the massive Battle of Clontarf in 1014 against the Irish high king Brian Boru. What began as seasonal plundering evolved into permanent settlement — the Norse founded Dublin, Waterford, Wexford, and Limerick.',
     relatedEntryIds: [
@@ -158,6 +168,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-russia',
     label: 'Rus Lands',
+    subtitle: 'Eastern River Network',
     coords: [32.0, 55.0],
     description: 'In the early 9th century, the Varangian chieftain Rurik traveled across the Baltic Sea and took up residence in Novgorod, founding the Rurikid dynasty that ruled Russia until the 16th century. Swedish Vikings penetrated deep into Eastern Europe via the Dnieper and Volga rivers, establishing trading posts and extracting tribute from Slavic peoples. Gnëzdovo, near Smolensk, served as a major transport hub and shipyard at the crossroads of these river routes. Their path to Constantinople — the "road from the Varangians to the Greeks" — was one of the great trade arteries of the medieval world.',
     relatedEntryIds: [

@@ -1,107 +1,107 @@
 interface Figure {
   name: string;
-  description: string;
-  role: string;
-  location: string;
-  impact: string;
+  who: string;
+  what: string;
+  where: string;
+  pages: string;
 }
 
 const FIGURES: Record<string, Figure[]> = {
   "Major Emigrants, Settlers, and Explorers": [
     {
       name: "Roric (Rörik)",
-      role: "Viking chieftain from an important Danish family",
-      location: "Denmark to Frisia (modern-day Belgium and Netherlands)",
-      description: "A powerful Viking who initially plundered coastal areas, later occupied the wealthy trade town of Dorestad.",
-      impact: "Successfully forced Frankish emperors to accept him as a ruling vassal. He eventually converted to Christianity."
+      who: "A Viking chieftain belonging to an important Danish family.",
+      what: "He was a powerful Viking who initially plundered coastal areas, later occupied the wealthy trade town of Dorestad, and successfully forced Frankish emperors (Lothar and Louis the German) to accept him as a ruling vassal. He eventually converted to Christianity.",
+      where: "He sailed from Denmark to Frisia (roughly modern-day Belgium and the Netherlands).",
+      pages: "47, 48, 49"
     },
     {
       name: "Rurik (Riurik)",
-      role: "Scandinavian/Varangian chieftain",
-      location: "Baltic Sea to Novgorod, Russia",
-      description: "Invited by indigenous tribes to rule over them and establish law.",
-      impact: "Successfully founded the Rurikid dynasty which ruled Russia as grand princes and czars until the sixteenth century."
+      who: "A Scandinavian/Varangian chieftain.",
+      what: "According to local chronicles, he was invited by indigenous tribes to rule over them and establish law, successfully founding the Rurikid dynasty which would rule Russia as grand princes and czars until the sixteenth century.",
+      where: "He crossed the Baltic Sea and took up residence in Novgorod, Russia.",
+      pages: "49, 50"
     },
     {
       name: "Erik the Red",
-      role: "Scandinavian chieftain",
-      location: "Iceland to Greenland",
-      description: "Exiled from Iceland for committing murder, he led an expedition to establish the Eastern Settlement in Greenland.",
-      impact: "Built his farm and chieftain's hall at Brattahlid and established the Norse presence in Greenland."
+      who: "A Scandinavian chieftain who originally lived in Iceland.",
+      what: "After being exiled for committing murder, he led an expedition to establish the Eastern Settlement in Greenland, building his farm and chieftain's hall at Brattahlid.",
+      where: "From Iceland to Greenland.",
+      pages: "60, 61"
     },
     {
       name: "Leif Eriksson",
-      role: "Greenland Norse explorer, son of Erik the Red",
-      location: "Greenland to Vinland (Newfoundland, North America)",
-      description: "Around the year 1000, he sailed west from Greenland, passing Markland (Labrador).",
-      impact: "Became the first known European to visit North America, establishing a temporary settlement in Vinland."
+      who: "A Greenland Norse explorer, the son of Erik the Red.",
+      what: "Around the year 1000, he sailed west from Greenland, passing Markland (the forested Labrador peninsula) to explore and temporarily settle Vinland (Newfoundland, North America), becoming the first known European to visit North America.",
+      where: "From Greenland to Vinland (Newfoundland, North America).",
+      pages: "61, 68"
     },
     {
       name: "Ottar",
-      role: "Scandinavian chieftain and merchant",
-      location: "North Norway to Wessex, England",
-      description: "Regularly navigated long coastal routes, hunted walrus for ivory and hides.",
-      impact: "Traveled to the court of King Alfred in England to share his knowledge of the north."
+      who: "A Scandinavian chieftain and merchant from the far north of Norway.",
+      what: "He regularly navigated the long, protected coastal routes down the Norwegian coast, hunted walrus for their ivory and durable hides, and traveled to the court of King Alfred in England to share his knowledge.",
+      where: "Down the coast of Norway to the Oslo Fjord, and onward to Wessex, England.",
+      pages: "79, 84"
     },
     {
       name: "Ingvar",
-      role: "Swedish Viking chieftain",
-      location: "Sweden to the Caspian Sea",
-      description: "Led a massive Viking expedition east and south down the rivers of Russia.",
-      impact: "The raid mostly ended in disaster, resulting in 26 Swedish runestones memorializing the fallen."
+      who: "A Swedish Viking chieftain.",
+      what: "In the early 11th century, he gathered a loyal following of warriors and led a rare, massive Viking expedition east and south down the rivers of Russia to the shores of the Caspian Sea (bordering Asia and Europe). The raid met strong resistance and mostly ended in disaster, resulting in 26 Swedish runestones memorializing the fallen.",
+      where: "East and south down the rivers of Russia to the shores of the Caspian Sea.",
+      pages: "82"
     }
   ],
   "Conquerors, Kings, and Warriors": [
     {
       name: "Cnut the Great",
-      role: "Danish King",
-      location: "Denmark to England",
-      description: "Following in the footsteps of his father Svein Forkbeard, he successfully conquered England in its entirety.",
-      impact: "Demanded massive tribute (Danegeld) payments and became one of the most powerful rulers in northern Europe."
+      who: "A Danish King.",
+      what: "Following in the footsteps of his father Svein Forkbeard, he successfully conquered England in its entirety and demanded massive tribute (Danegeld) payments, becoming one of the most powerful rulers in northern Europe.",
+      where: "From Denmark to England.",
+      pages: "34, 41, 56, 57"
     },
     {
       name: "Guthrum (Ethelstan)",
-      role: "Prominent Viking leader of the 'Great Heathen Army'",
-      location: "England (East Anglia)",
-      description: "Conquered territory and fought against King Alfred the Great.",
-      impact: "Assimilated into local culture, accepted Christian baptism with Alfred as his godfather, taking the name Ethelstan."
+      who: "A prominent Viking leader of the 'Great Heathen Army'.",
+      what: "He conquered territory, assimilated into the local culture, and accepted Christian baptism with King Alfred the Great as his godfather (taking the Anglo-Saxon name Ethelstan).",
+      where: "He invaded England and ruled East Anglia.",
+      pages: "34, 52, 53"
     },
     {
       name: "Sitric and Sitric Silkenbeard",
-      role: "Viking Kings of Dublin",
-      location: "Ireland",
-      description: "Sitric established a fortress on the Liffey River in 917, founding the city of Dublin.",
-      impact: "His descendant Sitric Silkenbeard fought the Battle of Clontarf in 1014, retaining power over Dublin until 1036."
+      who: "Sitric was a Viking descendant of the Norse Kings of Northumbria; Sitric Silkenbeard was his great-grandson.",
+      what: "Sitric arrived in Ireland with a fleet in 917 and established a fortress on the Liffey River, founding the city of Dublin. Decades later, his descendant Sitric Silkenbeard ruled Dublin and fought the massive Battle of Clontarf in 1014 against the Irish high king Brian Boru, retaining power over Dublin until 1036.",
+      where: "Ireland (Dublin).",
+      pages: "54, 55, 56"
     },
     {
       name: "Ragnar Hairy-Breeches (Loðbrók) & Ivar Boneless",
-      role: "Legendary Viking warriors",
-      location: "Scandinavia to France and England",
-      description: "Ragnar attacked Paris in 845; Ivar Boneless fought in York, England.",
-      impact: "Their legendary exploits, often exaggerated in sagas, became central to Viking folklore and identity."
+      who: "Legendary Viking warriors from Scandinavia.",
+      what: "Ragnar is famed for attacking Paris in 845 and was written about extensively in later Icelandic sagas, which claim he was executed in Northumbria by King Ella in a pit of poisonous snakes. His son, Ivar Boneless, fought in York, England, where he defeated and killed King Ella in battle (which later storytellers wildly exaggerated into the 'blood eagle' torture myth).",
+      where: "From Scandinavia to Paris and England.",
+      pages: "34, 35, 37"
     }
   ],
   "Key Opponents and Observers": [
     {
       name: "Emperor Charlemagne",
-      role: "King of the Franks and Emperor of the Carolingian Empire",
-      location: "Aachen (Germany) across Europe",
-      description: "A deeply violent ruler who engaged in almost constant warfare to extract tribute.",
-      impact: "Committed mass atrocities against Saxons and once marched an army to confront Vikings in Frisia."
+      who: "The great King of the Franks and Emperor of the Carolingian Empire.",
+      what: "He was a deeply violent ruler who engaged in almost constant warfare to extract tribute and booty from his neighbors to reward his followers. He committed mass atrocities, including ordering the decapitation of 4,500 Saxons in a single day, and once marched an army (with a pet elephant) to confront Vikings in Frisia.",
+      where: "Campaigned from his palace in Aachen across Germany, Italy, Spain, and Hungary, and Frisia.",
+      pages: "9, 41, 42, 43, 44, 71"
     },
     {
       name: "Ealdorman Byrhtnoth",
-      role: "Anglo-Saxon nobleman and warlord",
-      location: "Essex, England",
-      description: "Boldly refused to pay tribute to an invading Viking army.",
-      impact: "Led the English defense at the Battle of Maldon (991), where he fought bravely before being killed."
+      who: "An Anglo-Saxon nobleman and warlord from England.",
+      what: "He boldly refused to pay a tribute of gold rings to an invading Viking army and led the English defense at the Battle of Maldon in Essex (991), where he fought bravely with spear and sword before being wounded and hacked down by the Vikings.",
+      where: "Essex, England.",
+      pages: "27, 28, 29, 30, 40"
     },
     {
       name: "Ahmad ibn Fadlan",
-      role: "Arab traveler and civil servant from Baghdad",
-      location: "Baghdad to Bulghar (Volga River, Russia)",
-      description: "Observed Rus merchants in 921 and wrote detailed accounts of their customs.",
-      impact: "Recorded a famous, gruesome account of a ship-cremation funeral, providing invaluable insight into Viking rituals."
+      who: "An Arab traveler and civil servant from Baghdad in the Arab Caliphate.",
+      what: "In 921, he traveled to the town of Bulghar on the Volga River in modern-day Russia, where he closely observed the Rus merchants and wrote a detailed, famous account of a lavish, gruesome ship-cremation funeral for a Rus chieftain.",
+      where: "From Baghdad to the town of Bulghar on the Volga River.",
+      pages: "94, 95, 96"
     }
   ]
 };
@@ -109,6 +109,9 @@ const FIGURES: Record<string, Figure[]> = {
 export function ImportantFigures() {
   return (
     <div className="important-figures">
+      <p className="figures-source-citation">
+        Source: <em>The Age of the Vikings</em> by Anders Winroth
+      </p>
       {Object.entries(FIGURES).map(([category, figures]) => (
         <section key={category} className="figures-category">
           <h2 className="figures-category-title">{category}</h2>
@@ -117,13 +120,13 @@ export function ImportantFigures() {
               <div key={figure.name} className="figure-card">
                 <div className="figure-header">
                   <h3 className="figure-name">{figure.name}</h3>
-                  <span className="figure-role">{figure.role}</span>
+                  <span className="figure-pages">pp. {figure.pages}</span>
                 </div>
-                <div className="figure-meta">
-                  <span className="figure-location">📍 {figure.location}</span>
+                <div className="figure-content">
+                  <p className="figure-who"><strong>Who:</strong> {figure.who}</p>
+                  <p className="figure-where"><strong>Where:</strong> {figure.where}</p>
+                  <p className="figure-what"><strong>What:</strong> {figure.what}</p>
                 </div>
-                <p className="figure-desc">{figure.description}</p>
-                <p className="figure-impact"><strong>Impact:</strong> {figure.impact}</p>
               </div>
             ))}
           </div>

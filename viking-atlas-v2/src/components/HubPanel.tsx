@@ -27,7 +27,7 @@ export function HubPanel({ hub, onClose }: HubPanelProps) {
         <div className="hub-panel-header">
           <div className="hub-panel-icon">⚓</div>
           <h2 className="hub-panel-title">{hub.label}</h2>
-          <span className="hub-panel-subtitle">Viking Homeland</span>
+          <span className="hub-panel-subtitle">{hub.subtitle || 'Viking Homeland'}</span>
         </div>
 
         <p className="hub-panel-description">{hub.description}</p>

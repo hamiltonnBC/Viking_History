@@ -8,7 +8,8 @@ import clsx from 'clsx';
 
 /**
  * SVG icon paths for each event type.
- * Each icon is designed for a 16×16 viewBox centered at (0,0) — i.e. coords from -8 to +8.
+ * Each icon is designed for a 16×16 viewBox centered at (0,0), i.e. coords from -8 to +8.
+
  */
 const EVENT_ICONS: Record<EventType, string> = {
   // Crossed axes
@@ -325,7 +326,7 @@ export function MapContainer({ currentYear, events, routes, originHubs, activeFi
                       <g className="hotspot-label" transform={`scale(${1 / zoomScale})`}>
                         <rect className="hotspot-label-bg" x={-45} y={BASE_R + 4} width={90} height={14} rx={3} />
                         <text className="hotspot-label-text" y={BASE_R + 14} textAnchor="middle">
-                          {event.title.split(' — ')[0].toUpperCase()}
+                          {event.title.split(' : ')[0].toUpperCase()}
                         </text>
                       </g>
                     </g>

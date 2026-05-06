@@ -288,7 +288,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     year: 937,
     date: '937 AD',
     title: 'The Battle of Brunanburh',
-    body: 'An Old English poem celebrating this battle refers to Viking ships as nagledcnearr ("nailed knarr"), alluding to the "clinker" or lap-strake technique — overlapping planks fastened by iron nails — which created the strong, flexible hulls that made Viking vessels superior to their contemporaries in both speed and durability.',
+    body: 'An Old English poem celebrating this battle refers to Viking ships as nagledcnearr ("nailed knarr"), alluding to the "clinker" or lap-strake technique, overlapping planks fastened by iron nails, which created the strong, flexible hulls that made Viking vessels superior to their contemporaries in both speed and durability.',
     source: 'The Age of the Vikings, Chapter 4',
     tags: ['battle', 'exploration'],
   },

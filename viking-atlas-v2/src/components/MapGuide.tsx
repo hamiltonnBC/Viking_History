@@ -64,7 +64,7 @@ const ROUTE_CATEGORIES: { type: string; label: string; color: string; descriptio
     type: 'raid',
     label: 'Raid Routes',
     color: 'var(--blood-bright)',
-    description: 'Paths taken by Viking war fleets to reach their targets. These routes followed coastlines or rivers, allowing raiders to strike deep inland — from the Seine to Paris, the Loire to Nantes, across the Irish Sea to Dublin, and even through the Straits of Gibraltar into the Mediterranean.',
+    description: 'Paths taken by Viking war fleets to reach their targets. These routes followed coastlines or rivers, allowing raiders to strike deep inland; from the Seine to Paris, the Loire to Nantes, across the Irish Sea to Dublin, and even through the Straits of Gibraltar into the Mediterranean.',
   },
   {
     type: 'trade',
@@ -76,7 +76,7 @@ const ROUTE_CATEGORIES: { type: string; label: string; color: string; descriptio
     type: 'exploration',
     label: 'Exploration Routes',
     color: 'var(--exploration)',
-    description: 'Voyages of discovery into uncharted territory. These routes trace the Norse expansion westward across the Atlantic — from Norway to the Faroe Islands, Iceland, Greenland, and ultimately North America.',
+    description: 'Voyages of discovery into uncharted territory. These routes trace the Norse expansion westward across the Atlantic; from Norway to the Faroe Islands, Iceland, Greenland, and ultimately North America.',
   },
 ];
 

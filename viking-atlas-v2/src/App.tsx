@@ -91,7 +91,7 @@ function App() {
             onRouteClick={route => { setSelectedItem(route); setSelectedHub(null); }}
             onHubClick={hub => { setSelectedHub(hub); setSelectedItem(null); }}
           />
-          {/* Reopen tab — visible on the left edge of the map when sidebar is closed */}
+          {/* Reopen tab: visible on the left edge of the map when sidebar is closed */}
           {!effectiveSidebarOpen && (
             <button
               className="sidebar-reopen-tab"
