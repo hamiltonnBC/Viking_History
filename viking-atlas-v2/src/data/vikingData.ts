@@ -585,10 +585,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'The Roskilde Giant',
     date: 'c. 1025 AD',
     tag: 'Ships',
-    body: 'A 36-metre prestige longship built at Roskilde confirmed that the legendary "Great Serpent" warships of the sagas were real. Ships of this size required vast national resources and served as the ultimate symbol of royal power in the Viking world, acting as a floating throne that could dominate any harbour it entered.',
+    body: 'A longship found in Roskilde measured approximately 36 meters long, confirming that medieval saga claims of the "Long Serpent" having space for sixty-eight rowers were not literary exaggeration. These prestige ships were the pinnacle of Viking Age military technology and represented a major investment of huge resources to construct.',
     type: 'ships',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, p. 89'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 75, 78-79'
   },
   {
     id: 'spot-rome-sitric',
@@ -600,7 +600,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'The Norse King of Dublin made a pilgrimage to Rome, walking the same roads as Frankish emperors and Anglo-Saxon kings. Within three generations of their first Irish raids, Viking descendants had become rulers who navigated Christian Europe not by longship but by diplomacy and devotion.',
     type: 'exploration',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, p. 55'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, p. 55'
   },
   {
     id: 'spot-nissan',
@@ -612,7 +612,7 @@ export const EVENTS: VikingEvent[] = [
     body: "King Harald Hardruler of Norway fought the Danish King Svein Estridsson in a naval engagement at the mouth of the Nissan River on the Swedish coast. The Norwegians won the battle, but Svein escaped in a small rowboat under cover of darkness. The clash was one of the last great Scandinavian naval battles of the Viking Age.",
     type: 'battle',
     routes: ['route-scandinavia'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 88'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, p. 88'
   },
   {
     id: 'spot-greenland-gardar',
@@ -621,10 +621,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'A Bishop for Greenland',
     date: '1126 AD',
     tag: 'Settlement',
-    body: 'The Norse Greenland colony received its own bishop, resident at Gardar in the Eastern Settlement. The appointment confirmed that what Eirik the Red had founded as an exile\'s refuge was now a recognised diocese of the Roman Church and the westernmost outpost of medieval European civilisation.',
+    body: 'Greenland was colonized on the initiative of Erik the Red after he was forced to leave Iceland for committing murder. In 1126, the Norse settlement was given its own bishop, who resided in Gardar.',
     type: 'settlement',
     routes: ['route-newfoundland'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 62'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, pp. 60, 62'
   },
   {
     id: 'spot-greenland-hvalsey',
@@ -633,10 +633,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Last Record of Norse Greenland',
     date: '1408 AD',
     tag: 'Settlement',
-    body: 'A wedding at Hvalsey church is the last written evidence of a living Norse community in Greenland. The settlers had arrived as adventurers, become farmers and bishops, and now simply vanished, leaving only stone churches and mystery behind. The Viking world was over.',
+    body: 'A wedding ceremony at the church of Hvalsey in the fall of 1408 is the final written record of the Norse population in Greenland. Within decades, the settlements vanished. The exact reasons for their disappearance remain a mystery, with debated theories including a failure to adopt a diet more suitable for a deteriorating climate, defeat in armed conflicts with the Inuit, or the population simply opting to move elsewhere, such as returning to Iceland or taking English employment as fishers in North America.',
     type: 'settlement',
     routes: ['route-newfoundland'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 66'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 10, pp. 241-242'
   },
 ];
 
