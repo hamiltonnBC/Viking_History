@@ -41,6 +41,9 @@ export function InfoPanel({ selectedItem, onClose, events, routes, onSelectEvent
             </div>
             <div className="panel-body">
               <p className="panel-route-description">{selectedItem.description}</p>
+              {selectedItem.source && (
+                <p className="panel-route-source">{selectedItem.source}</p>
+              )}
               {connectedEvents.length > 0 && (
                 <div className="panel-connected-events">
                   <h3 className="panel-connected-events-title">Connected Events</h3>

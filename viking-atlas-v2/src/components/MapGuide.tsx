@@ -60,19 +60,19 @@ const ROUTE_TYPES: { type: string; label: string; color: string; description: st
     type: 'raid',
     label: 'Raid Route',
     color: 'var(--blood-bright)',
-    description: 'Paths taken by Viking war fleets to reach their targets. These routes typically followed coastlines or rivers, allowing raiders to strike deep inland.',
+    description: 'Paths taken by Viking war fleets to reach their targets. These routes followed coastlines or rivers, allowing raiders to strike deep inland — from the Seine to Paris, the Loire to Nantes, across the Irish Sea to Dublin, and even through the Straits of Gibraltar into the Mediterranean.',
   },
   {
     type: 'trade',
     label: 'Trade Route',
     color: 'var(--gold)',
-    description: 'Commercial corridors used by Norse merchants. The most famous ran from Scandinavia through Russia to Constantinople and the Caspian Sea.',
+    description: 'Commercial corridors used by Norse merchants. The Dnieper route ran south to Constantinople, the Volga route reached the Caspian Sea and Arab Caliphate, and protected coastal routes connected Scandinavian ports through sheltered archipelagos.',
   },
   {
     type: 'exploration',
     label: 'Exploration Route',
     color: 'var(--exploration)',
-    description: 'Voyages of discovery into uncharted territory. These routes trace the Norse expansion westward across the Atlantic to Iceland, Greenland, and North America.',
+    description: 'Voyages of discovery into uncharted territory. These routes trace the Norse expansion westward across the Atlantic — from Norway to the Faroe Islands, Iceland, Greenland, and ultimately North America.',
   },
 ];
 

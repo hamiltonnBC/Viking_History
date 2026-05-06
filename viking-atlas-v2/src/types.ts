@@ -37,6 +37,8 @@ export interface Route {
   points: [number, number][];
   name: string;
   description: string;
+  /** Academic source citation */
+  source?: string;
 }
 
 export interface VikingData {

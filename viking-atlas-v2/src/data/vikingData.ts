@@ -284,7 +284,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'Irish annals record the destruction of the monastery at Dún Masc (modern Co. Laois), including the killing of the abbot of Tír dá Glas. The entry illustrates how thoroughly Norse raiding had penetrated the Irish interior by the mid-9th century.',
     type: 'raid',
-    routes: []
+    routes: ['route-ireland']
   },
   {
     id: 'spot-paris-845',
@@ -295,7 +295,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'Vikings sail up the Seine and besiege Paris. When King Charles the Bald assembles his army, the raiders execute 111 Frankish captives on the opposite bank in plain view, successfully shattering morale. Charles ultimately pays a massive ransom of 7,000 lbs of silver just to make them leave.',
     type: 'raid',
-    routes: ['route-nantes']
+    routes: ['route-seine']
   },
   {
     id: 'spot-thames-851',
@@ -314,9 +314,9 @@ export const EVENTS: VikingEvent[] = [
     coords: [-5.3536, 36.1408],
     title: 'Mediterranean Raid',
     date: '859 AD',
-    tag: 'Exploration',
+    tag: 'Raid',
     body: 'A Danish fleet of 62 ships passes through the Straits of Gibraltar and sails into the Mediterranean, raiding the coasts of Morocco, southern France, and Italy. The expedition, which possibly reached as far as Alexandria, proved that Viking ships could navigate practically any waters on earth.',
-    type: 'exploration',
+    type: 'raid',
     routes: ['route-mediterranean']
   },
 
@@ -352,7 +352,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'Viking leader Halvdan carved up Northumbria and distributed farms to his warriors. This was the decisive shift from raiding to permanent colonisation. The Norse were no longer visitors but actual landlords, plowing fields that had once belonged to the very men they killed.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-england'],
   },
   {
     id: 'spot-guthrum-baptism',
@@ -363,7 +363,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'At Aller in Somerset, defeated Viking leader Guthrum was baptised with Alfred the Great as his godfather, taking the Christian name Æthelstan. The ceremony sealed the Treaty of Wedmore and legitimised Norse rule in the Danelaw by the conventions of Christian kingship.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-england'],
   },
   {
     id: 'spot-benfleet',
@@ -374,7 +374,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'English forces stormed the Viking fortification at Benfleet, Essex, capturing the family of chieftain Hæsten. The presence of families inside the fort confirms that large-scale Viking campaigns included wives, children, and livestock, proving that these were migration events rather than mere raids.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-england'],
   },
   {
     id: 'spot-gokstad',
@@ -396,7 +396,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Trade',
     body: 'Norsemen of the Rurikid Rus signed a commercial treaty at Constantinople granting them favourable trading rights in the Byzantine capital. Delegates bore Scandinavian names, confirming that the eastern Viking network had formalised into a state capable of conducting diplomacy with the greatest empire in Europe.',
     type: 'trade',
-    routes: ['route-volga'],
+    routes: ['route-dnieper'],
   },
   {
     id: 'spot-dublin-917',
@@ -407,7 +407,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'The Viking leader Sitric established a permanent fortified settlement above the River Liffey at Dublin. The city grew into Ireland\'s first major commercial hub. It became a crossroads of the slave trade, silver economy, and North Sea commerce that would effectively shape Irish history for centuries.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-ireland'],
   },
   {
     id: 'spot-ibn-fadlan-volga',
@@ -451,7 +451,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Battle',
     body: 'Irish forces under Brian Boru defeated the Norse-allied army of Sitric Silkenbeard near Dublin. The battle\'s later reputation as a national Irish victory over the Vikings obscures the reality: Norse warriors fought on both sides, and the conflict was a political power struggle in which ethnicity was irrelevant.',
     type: 'battle',
-    routes: [],
+    routes: ['route-ireland'],
   },
   {
     id: 'spot-cnut-london',
@@ -495,7 +495,7 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'The Norse Greenland colony received its own bishop, resident at Gardar in the Eastern Settlement. The appointment confirmed that what Eirik the Red had founded as an exile\'s refuge was now a recognised diocese of the Roman Church and the westernmost outpost of medieval European civilisation.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-newfoundland'],
   },
   {
     id: 'spot-greenland-hvalsey',
@@ -506,20 +506,23 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'A wedding at Hvalsey church is the last written evidence of a living Norse community in Greenland. The settlers had arrived as adventurers, become farmers and bishops, and now simply vanished, leaving only stone churches and mystery behind. The Viking world was over.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-newfoundland'],
   },
 ];
 
 export const ROUTES: Route[] = [
-  { id: 'route-england',       type: 'raid',        origin: 'hub-denmark', points: [[-1.8, 55.6]],                              name: 'North Sea Raid Route',           description: 'The primary Norse corridor across the North Sea from Denmark to the English coast, used repeatedly from the Lindisfarne raid of 793 through the Danish conquest of 1016.' },
-  { id: 'route-france',        type: 'raid',        origin: 'hub-denmark', points: [[1.1, 49.4]],                               name: 'Western Raid Route',             description: "The deep-water Atlantic approach from Denmark south to the Frankish coast of Normandy, the path that brought Rollo's forces to the Seine valley." },
-  { id: 'route-iceland',       type: 'exploration', origin: 'hub-norway',  points: [[-6.4, 56.3], [-21.8, 64.1]],              name: 'Iceland Settlement Route',       description: "The stepping-stone passage from Norway via the Scottish islands to Iceland, pioneered by Norse settlers fleeing Harald Fairhair's centralising rule after 872." },
-  { id: 'route-newfoundland',  type: 'exploration', origin: 'hub-iceland', points: [[-45.5, 61.1], [-55.5, 51.5]],             name: 'Vinland Expedition Route',       description: 'The westward extension of the Norse Atlantic frontier from Iceland through Greenland to the coast of North America, completed by Leif Erikson around 1000 AD.' },
-  { id: 'route-frisia',        type: 'raid',        origin: 'hub-denmark', points: [[5.3, 53.2]],                               name: 'Frisian Raid Route',             description: 'The short but devastating crossing from Jutland to the Frisian coast, used by Danish fleets to strike the wealthy trading ports of Dorestad and the Rhine delta from 810 onward.' },
-  { id: 'route-nantes',        type: 'raid',        origin: 'hub-denmark', points: [[-4.5, 48.0], [-1.6, 47.2]],               name: 'Loire Raid Route',               description: 'The long Atlantic arc from Denmark south past Brittany and into the Loire estuary, enabling the sack of Nantes in 843 and repeated raids deep into the Frankish heartland.' },
-  { id: 'route-mediterranean', type: 'exploration', origin: 'hub-denmark', points: [[-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]], name: 'Mediterranean Expedition Route', description: 'The audacious passage through the Straits of Gibraltar into the Mediterranean, taken by a Danish fleet of 62 ships in 859 that raided Morocco, southern France, and the Italian coast.' },
-  { id: 'route-seine',         type: 'raid',        origin: 'hub-denmark', points: [[0.82, 49.43]],                             name: 'Seine Raid Route',               description: 'The direct crossing from Denmark to the mouth of the Seine, the artery that carried Viking fleets to Paris in 845 and sustained the Norse presence in Normandy for decades.' },
-  { id: 'route-volga',         type: 'trade',       origin: 'hub-sweden',  points: [[37.6, 55.7], [49.1, 55.8], [28.9, 41.0]], name: 'Volga Trade Route',              description: 'The overland and river route from Sweden through the Baltic, down the Volga, and south to Constantinople and the Caspian Sea, the commercial backbone of the Rus trading network.' },
+  { id: 'route-england',       type: 'raid',        origin: 'hub-denmark', points: [[-1.8, 55.6]],                              name: 'North Sea Raid Route',           description: 'The primary Norse corridor across the North Sea from Denmark to the English coast. Fast, open-water sea voyages allowed sudden, unheralded attacks on undefended towns and monasteries, used repeatedly from the Lindisfarne raid of 793 through the Danish conquest of 1016.', source: 'Source: The Age of the Vikings, Winroth, pp. 11, 18, 21, 56' },
+  { id: 'route-france',        type: 'raid',        origin: 'hub-denmark', points: [[1.1, 49.4]],                               name: 'Seine & Frankish Raid Route',    description: 'The deep-water approach from Scandinavia to the Frankish coast. Viking fleets navigated the Seine to Rouen and Paris, the Loire to Nantes, and the Garonne to Toulouse. Later, ambitious chieftains used these corridors to conquer territory, culminating in the establishment of Normandy.', source: 'Source: The Age of the Vikings, Winroth, pp. 15, 16, 20, 22, 48, 53, 72, 77' },
+  { id: 'route-iceland',       type: 'exploration', origin: 'hub-norway',  points: [[-7.0, 62.0], [-21.8, 64.1]],              name: 'Iceland Settlement Route',       description: "The stepping-stone passage from the western coast of Norway via the Faroe Islands to Iceland, pioneered by Norse settlers fleeing Harald Fairhair's centralising rule after 872. Navigated by observing natural clues like cloud formations, sea currents, bird species, and whales.", source: 'Source: The Age of the Vikings, Winroth, pp. 51, 60, 85' },
+  { id: 'route-newfoundland',  type: 'exploration', origin: 'hub-iceland', points: [[-45.5, 61.1], [-55.5, 51.5]],             name: 'Vinland Expedition Route',       description: "The westward extension of the Norse Atlantic frontier from Iceland through Greenland to North America, passing Markland (the forested Labrador peninsula) to reach Vinland (Newfoundland). Driven by Greenland's lack of timber, prompting sailors to seek wood for building homes and ships. Completed by Leif Eriksson around 1000 AD.", source: 'Source: The Age of the Vikings, Winroth, pp. 60, 66, 67–68, 85' },
+  { id: 'route-frisia',        type: 'raid',        origin: 'hub-denmark', points: [[5.3, 53.2]],                               name: 'Frisian Raid Route',             description: 'The short but devastating crossing from Jutland to the Frisian coast, used by Danish fleets to strike the wealthy trading ports of Dorestad and the Rhine delta from 810 onward. These raids exposed a Frankish vulnerability: their land-based army could not respond to an enemy that appeared from the sea and vanished before engagement.', source: 'Source: The Age of the Vikings, Winroth, pp. 15, 16, 22, 72' },
+  { id: 'route-nantes',        type: 'raid',        origin: 'hub-denmark', points: [[-4.5, 48.0], [-1.6, 47.2]],               name: 'Loire Raid Route',               description: 'The long Atlantic arc from Scandinavia south past Brittany and into the Loire estuary, enabling the sack of Nantes in 843 and repeated raids deep into the Frankish heartland. Viking fleets used occupied island bases like Noirmoutier at the Loire mouth as staging points.', source: 'Source: The Age of the Vikings, Winroth, pp. 15, 16, 77' },
+  { id: 'route-mediterranean', type: 'raid',        origin: 'hub-denmark', points: [[-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]], name: 'Mediterranean Raid Route',       description: 'The audacious raiding passage through the Straits of Gibraltar into the Mediterranean, taken by a Danish fleet of 62 ships in 859 that attacked the coasts of Morocco, southern France, and Italy. The expedition proved that Viking ships could navigate practically any waters on earth.', source: 'Source: The Age of the Vikings, Winroth, pp. 11, 16, 77' },
+  { id: 'route-seine',         type: 'raid',        origin: 'hub-denmark', points: [[0.82, 49.43]],                             name: 'Seine Raid Route',               description: 'The direct crossing from Denmark to the mouth of the Seine, the artery that carried Viking fleets to Paris in 845 and sustained the Norse presence in Normandy for decades. Fleets navigated the Seine to Rouen and Paris, extracting massive tribute payments.', source: 'Source: The Age of the Vikings, Winroth, pp. 15, 20, 40, 72' },
+  { id: 'route-volga',         type: 'trade',       origin: 'hub-sweden',  points: [[37.6, 55.7], [49.1, 55.8], [50.0, 42.0]], name: 'Volga Trade Route',              description: 'The river route from Sweden through the Baltic and down the Volga to the shores of the Caspian Sea and the Arab Caliphate. Scandinavian merchants carried furs, slaves, and amber south in exchange for Arab silver, Chinese silk, Indian gems, and the high-quality Asian steel used for forging Ulfberht swords.', source: 'Source: The Age of the Vikings, Winroth, pp. 9, 10, 32, 80, 81, 82' },
+  { id: 'route-dnieper',       type: 'trade',       origin: 'hub-sweden',  points: [[32.0, 54.8], [30.5, 50.4], [28.9, 41.0]], name: 'Dnieper Trade Route',            description: 'The "Road from the Varangians to the Greeks" — the river route from Sweden down the Dnieper (starting from Smolensk) through portaging between rivers to Constantinople. The commercial and diplomatic backbone of the Rus state, used to extract tribute from Slavic peoples and conduct trade with the Byzantine Empire.', source: 'Source: The Age of the Vikings, Winroth, pp. 9, 49, 80, 81, 82' },
+  { id: 'route-scandinavia',   type: 'trade',       origin: 'hub-norway',  points: [[5.3, 60.4], [10.4, 59.9], [18.0, 59.3], [24.9, 60.2]], name: 'Scandinavian Coastal Route', description: 'Domestic, protected navigation routes that allowed ships to utilise localised archipelagos to safely travel without entering the volatile open ocean. Ships could "sail by the coast the whole way," remaining close to land to avoid storms and find safe places to camp at night. Stretched from eastern Scania through the Baltic archipelago to the Gulf of Finland, and along the long western coast of Norway.', source: 'Source: The Age of the Vikings, Winroth, p. 84' },
+  { id: 'route-ireland',       type: 'raid',        origin: 'hub-norway',  points: [[-7.5, 53.3]],                             name: 'Irish Sea Raid Route',           description: 'The sea crossing from Scandinavia to Ireland, bringing Norse raiders to the wealthy monasteries of the Irish interior. What began as seasonal plundering evolved into permanent settlement — the Norse founded Dublin, Waterford, Wexford, and Limerick, Ireland\'s first true urban centres.', source: 'Source: The Age of the Vikings, Winroth, pp. 54, 55, 57' },
 ];
 
 // used as discrete snap points on the timeline slider
