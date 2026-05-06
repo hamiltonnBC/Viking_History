@@ -25,13 +25,13 @@ const TOPICS: Topic[] = [
   {
     id: 'important-figures',
     title: 'Important Figures',
-    subtitle: 'The chieftains, explorers, and kings who defined the age',
+    subtitle: 'The explorers and kings who defined the age',
     icon: '',
   },
   {
     id: 'story-telling',
     title: 'Story-Telling',
-    subtitle: 'Sagas, skalds, and the oral tradition of the North',
+    subtitle: 'The oral traditions of the North',
     icon: '',
   },
   {
@@ -61,7 +61,7 @@ const TOPICS: Topic[] = [
   {
     id: 'gallery',
     title: 'Gallery',
-    subtitle: 'Visual history, artifacts, and reconstructions',
+    subtitle: 'Visual history',
     icon: '',
   },
   {

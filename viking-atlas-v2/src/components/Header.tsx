@@ -7,9 +7,10 @@ interface HeaderProps {
   onOpenDetails: () => void;
   onOpenMapGuide: () => void;
   onOpenLearnMore: () => void;
+  onOpenClass: () => void;
 }
 
-export function Header({ currentYear, onOpenHome, onOpenDetails, onOpenMapGuide, onOpenLearnMore }: HeaderProps) {
+export function Header({ currentYear, onOpenHome, onOpenDetails, onOpenMapGuide, onOpenLearnMore, onOpenClass }: HeaderProps) {
   const era: Era | undefined = ERAS.find(e => currentYear >= e.min && currentYear <= e.max);
 
   return (
@@ -28,6 +29,9 @@ export function Header({ currentYear, onOpenHome, onOpenDetails, onOpenMapGuide,
         </button>
         <button className="home-toggle-btn" onClick={onOpenLearnMore} title="Learn More">
           <span className="home-toggle-label">Learn More</span>
+        </button>
+        <button className="home-toggle-btn" onClick={onOpenClass} title="Show Class">
+          <span className="home-toggle-label">Class</span>
         </button>
         <button className="home-toggle-btn" onClick={onOpenDetails} title="Show Details">
           <span className="home-toggle-label">Details</span>
