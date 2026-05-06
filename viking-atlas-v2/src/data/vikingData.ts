@@ -154,7 +154,7 @@ export const ORIGIN_HUBS: OriginHub[] = [
     id: 'hub-ireland',
     label: 'Ireland',
     subtitle: 'Norse Urban Settlement',
-    coords: [-7.5, 53.3],
+    coords: [-6.3, 53.35],
     description: 'Ireland\'s wealthy monasteries drew Viking raiders from the early 9th century. In 917, the Viking Sitric arrived with a fleet and founded the city of Dublin on the Liffey River, which rapidly grew into Ireland\'s first major commercial centre. Scandinavian kings ruled Dublin for decades, including Sitric Silkenbeard, who maintained power even after fighting the massive Battle of Clontarf in 1014 against the Irish high king Brian Boru. What began as seasonal plundering evolved into permanent settlement; the Norse founded Dublin, Waterford, Wexford, and Limerick.',
     relatedEntryIds: [
       'tl-plunder-dun-masc',
