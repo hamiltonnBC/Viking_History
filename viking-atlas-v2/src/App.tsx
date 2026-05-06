@@ -13,6 +13,7 @@ import { RuneTranslator } from './components/RuneTranslator';
 import { DetailsPage } from './components/DetailsPage';
 import { MapGuide } from './components/MapGuide';
 import { LearnMore } from './components/LearnMore';
+import { ClassPage } from './components/ClassPage';
 import { FigureProvider } from './FigureContext';
 import { EVENTS, ROUTES, START_YEAR, ORIGIN_HUBS } from './data/vikingData';
 import type { VikingEvent, Route, EventType, OriginHub } from './types';
@@ -23,6 +24,7 @@ function App() {
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
   const [isMapGuideVisible, setIsMapGuideVisible] = useState(false);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
+  const [isClassVisible, setIsClassVisible] = useState(false);
   const [highlightedFigureId, setHighlightedFigureId] = useState<string | null>(null);
   const [currentYear, setCurrentYear] = useState(START_YEAR);
   const [selectedItem, setSelectedItem] = useState<VikingEvent | Route | null>(null);
@@ -85,7 +87,15 @@ function App() {
         }} 
         highlightedFigureId={highlightedFigureId}
       />
-      <Header currentYear={currentYear} onOpenHome={() => setIsHomeVisible(true)} onOpenDetails={() => setIsDetailsVisible(true)} onOpenMapGuide={() => setIsMapGuideVisible(true)} onOpenLearnMore={() => setIsLearnMoreVisible(true)} />
+      <ClassPage isVisible={isClassVisible} onClose={() => setIsClassVisible(false)} />
+      <Header 
+        currentYear={currentYear} 
+        onOpenHome={() => setIsHomeVisible(true)} 
+        onOpenDetails={() => setIsDetailsVisible(true)} 
+        onOpenMapGuide={() => setIsMapGuideVisible(true)} 
+        onOpenLearnMore={() => setIsLearnMoreVisible(true)} 
+        onOpenClass={() => setIsClassVisible(true)}
+      />
       
       <main className="atlas-container">
         <Sidebar
