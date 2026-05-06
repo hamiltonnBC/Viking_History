@@ -10,7 +10,7 @@ export function StoryTelling() {
 
       <section className="story-section">
         <div className="story-header">
-          <h2>📜 The Sagas</h2>
+          <h2>The Sagas</h2>
           <span className="figure-pages">pp. 9-10</span>
         </div>
         <p>
@@ -26,7 +26,7 @@ export function StoryTelling() {
 
       <section className="story-section">
         <div className="story-header">
-          <h2>🎤 Skaldic Poetry</h2>
+          <h2>Skaldic Poetry</h2>
           <span className="figure-pages">pp. 11-13</span>
         </div>
         <p>
@@ -39,7 +39,7 @@ export function StoryTelling() {
 
       <section className="story-section">
         <div className="story-header">
-          <h2>🪨 Runestones: Stories in Stone</h2>
+          <h2>Runestones: Stories in Stone</h2>
           <span className="figure-pages">p. 82</span>
         </div>
         <p>
@@ -55,7 +55,7 @@ export function StoryTelling() {
 
       <section className="story-section">
         <div className="story-header">
-          <h2>⛵ Material Storytelling</h2>
+          <h2>Material Storytelling</h2>
           <span className="figure-pages">p. 83</span>
         </div>
         <p>

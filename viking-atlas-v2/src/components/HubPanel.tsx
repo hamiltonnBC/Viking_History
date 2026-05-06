@@ -57,7 +57,7 @@ export function HubPanel({ hub, onClose }: HubPanelProps) {
               <h4 className="hub-entry-title">{entry.title}</h4>
               <p className="hub-entry-body">{linkifyText(entry.body)}</p>
               <footer className="hub-entry-source">
-                <span>📖</span>
+                <span>Source:</span>
                 <span>{entry.source}</span>
               </footer>
             </div>

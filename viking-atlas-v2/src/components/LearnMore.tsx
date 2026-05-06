@@ -20,55 +20,55 @@ const TOPICS: Topic[] = [
     id: 'who-were-vikings',
     title: 'Who Were the Vikings?',
     subtitle: 'Origins and culture of the Norse people',
-    icon: '⚔️',
+    icon: '',
   },
   {
     id: 'important-figures',
     title: 'Important Figures',
     subtitle: 'The chieftains, explorers, and kings who defined the age',
-    icon: '👑',
+    icon: '',
   },
   {
     id: 'story-telling',
     title: 'Story-Telling',
     subtitle: 'Sagas, skalds, and the oral tradition of the North',
-    icon: '📖',
+    icon: '',
   },
   {
     id: 'spread-of-christianity',
     title: 'Spread of Christianity',
     subtitle: 'How the Norse world transitioned from paganism to the Christian faith',
-    icon: '✝️',
+    icon: '',
   },
   {
     id: 'history-during-viking-age',
     title: 'History During the Viking Age',
     subtitle: 'What was happening in the rest of Europe while the Vikings raided',
-    icon: '📜',
+    icon: '',
   },
   {
     id: 'ships-and-seafaring',
     title: 'Ships and Seafaring',
     subtitle: 'Longships, navigation, and the technology that made expansion possible',
-    icon: '⛵',
+    icon: '',
   },
   {
     id: 'trade-and-economy',
     title: 'Trade and Economy',
     subtitle: 'The commercial networks that spanned continents',
-    icon: '⚖️',
+    icon: '',
   },
   {
     id: 'gallery',
     title: 'Gallery',
     subtitle: 'Visual history, artifacts, and reconstructions',
-    icon: '🖼️',
+    icon: '',
   },
   {
     id: 'legacy-and-influence',
     title: 'Legacy and Influence',
     subtitle: 'How the Viking Age shaped modern language & culture',
-    icon: '🏛️',
+    icon: '',
   },
 ];
 
@@ -114,7 +114,7 @@ export function LearnMore({ isVisible, onClose, highlightedFigureId }: LearnMore
               ✕
             </button>
           </div>
-          <h1>{topic?.icon} {topic?.title}</h1>
+          <h1>{topic?.title}</h1>
           <div className="learn-more-detail-body">
             {content}
           </div>
@@ -143,7 +143,6 @@ export function LearnMore({ isVisible, onClose, highlightedFigureId }: LearnMore
               className="learn-more-card"
               onClick={() => setActiveTopic(topic.id)}
             >
-              <span className="learn-more-card-icon">{topic.icon}</span>
               <span className="learn-more-card-title">{topic.title}</span>
               <span className="learn-more-card-subtitle">{topic.subtitle}</span>
             </button>

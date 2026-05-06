@@ -39,7 +39,7 @@ export function ChronicleEntry({ entry }: ChronicleEntryProps) {
         <>
           <p className="chronicle-entry-body">{linkifyText(entry.body)}</p>
           <footer className="chronicle-entry-source">
-            <span className="chronicle-source-icon">📖</span>
+            <span className="chronicle-source-text">Source:</span>
             <span>{entry.source}</span>
           </footer>
         </>
