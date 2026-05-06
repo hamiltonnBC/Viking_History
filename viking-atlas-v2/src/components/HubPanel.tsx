@@ -32,6 +32,10 @@ export function HubPanel({ hub, onClose }: HubPanelProps) {
 
         <p className="hub-panel-description">{hub.description}</p>
 
+        {hub.source && (
+          <p className="panel-route-source">{hub.source}</p>
+        )}
+
         <div className="hub-panel-entries-header">
           <span className="hub-panel-entries-label">Chronicle</span>
           <span className="hub-panel-entries-count">{relatedEntries.length}</span>

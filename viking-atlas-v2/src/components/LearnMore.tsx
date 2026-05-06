@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ImportantFigures } from './ImportantFigures';
+import { StoryTelling } from './StoryTelling';
 
 interface LearnMoreProps {
   isVisible: boolean;
@@ -18,6 +20,18 @@ const TOPICS: Topic[] = [
     title: 'Who Were the Vikings?',
     subtitle: 'Origins and culture of the Norse people',
     icon: '⚔️',
+  },
+  {
+    id: 'important-figures',
+    title: 'Important Figures',
+    subtitle: 'The chieftains, explorers, and kings who defined the age',
+    icon: '👑',
+  },
+  {
+    id: 'story-telling',
+    title: 'Story-Telling',
+    subtitle: 'Sagas, skalds, and the oral tradition of the North',
+    icon: '📖',
   },
   {
     id: 'spread-of-christianity',
@@ -63,9 +77,18 @@ export function LearnMore({ isVisible, onClose }: LearnMoreProps) {
     setActiveTopic(null);
   };
 
-  // Topic detail page (placeholder)
+  // Topic detail page
   if (activeTopic) {
     const topic = TOPICS.find(t => t.id === activeTopic);
+    
+    let content = <p className="learn-more-placeholder">Content coming soon.</p>;
+    
+    if (activeTopic === 'important-figures') {
+      content = <ImportantFigures />;
+    } else if (activeTopic === 'story-telling') {
+      content = <StoryTelling />;
+    }
+
     return (
       <div className={`details-page ${isVisible ? 'visible' : 'hidden'}`}>
         <div className="details-page-content learn-more-detail">
@@ -78,7 +101,9 @@ export function LearnMore({ isVisible, onClose }: LearnMoreProps) {
             </button>
           </div>
           <h1>{topic?.icon} {topic?.title}</h1>
-          <p className="learn-more-placeholder">Content coming soon.</p>
+          <div className="learn-more-detail-body">
+            {content}
+          </div>
         </div>
       </div>
     );

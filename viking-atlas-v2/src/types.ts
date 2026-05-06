@@ -15,6 +15,8 @@ export interface OriginHub {
   description: string;
   /** IDs of TIMELINE_ENTRIES associated with this country */
   relatedEntryIds: string[];
+  /** Academic source citation */
+  source?: string;
 }
 
 export interface VikingEvent {
