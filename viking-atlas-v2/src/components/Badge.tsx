@@ -3,7 +3,7 @@ import type { EventType } from '../types';
 
 /** Maps each EventType to its brand color CSS variable */
 const TAG_COLORS: Record<EventType, string> = {
-  origin:      'var(--gold-bright)',
+  ships:       'var(--gold-bright)',
   raid:        'var(--blood-bright)',
   settlement:  'var(--parchment, #e8d5a3)',
   trade:       'var(--gold)',
@@ -19,7 +19,7 @@ interface BadgeProps {
 }
 
 const TAG_LABELS: Record<EventType, string> = {
-  origin:      'Origin',
+  ships:       'Ships',
   raid:        'Raid',
   settlement:  'Settlement',
   trade:       'Trade',

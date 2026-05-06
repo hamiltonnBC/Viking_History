@@ -9,10 +9,10 @@ export interface FilterDescriptor {
 
 export const ALL_FILTERS: FilterDescriptor[] = [
   {
-    type: 'origin',
+    type: 'ships',
     label: 'Ships',
     color: 'var(--gold-bright)',
-    description: 'Explore the Norse world before the era of raids, encompassing their masterful shipbuilding, intricate burial customs, and the vibrant culture that launched an entire age.',
+    description: 'The longships, warships, and ship burials that defined Norse maritime culture and made the Viking Age possible.',
   },
   {
     type: 'raid',

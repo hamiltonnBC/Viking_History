@@ -14,15 +14,16 @@ A technical walkthrough of the React + TypeScript + D3 application.
 6. [The Sidebar & Chronicle](#the-sidebar--chronicle)
 7. [The Info Panel & Hub Panel](#the-info-panel--hub-panel)
 8. [Filters](#filters)
-9. [Rune Translator](#rune-translator)
-10. [Styling System](#styling-system)
-11. [Adding New Content](#adding-new-content)
+9. [Overlay Pages](#overlay-pages)
+10. [Rune Translator](#rune-translator)
+11. [Styling System](#styling-system)
+12. [Adding New Content](#adding-new-content)
 
 ---
 
 ## Overview
 
-Viking Atlas is an interactive historical map that lets you travel through the Viking Age (750–1408 AD) using a timeline slider. As you advance the year, map hotspots progressively appear at their real geographic coordinates — each one clickable for a detailed description. Routes animate between origin hubs and destinations. A sidebar provides a scrollable **Chronicle** of scholarly events sourced from *The Age of the Vikings* (Winroth, 2016).
+Viking Atlas is an interactive historical map that lets you travel through the Viking Age (750–1408 AD) using a timeline slider. As you advance the year, map hotspots progressively appear at their real geographic coordinates, each one clickable for a detailed description. Routes animate between origin hubs and destinations. A sidebar provides a scrollable **Chronicle** of scholarly events sourced from *The Age of the Vikings* (Winroth, 2016).
 
 The application renders entirely in the browser. There is no backend, no database, and no API calls at runtime. All data is compiled TypeScript, and all map geometry is computed client-side using D3.
 
@@ -35,7 +36,7 @@ The application renders entirely in the browser. There is no backend, no databas
 | **React 19** | UI component tree, declarative rendering, state management |
 | **TypeScript 5.9** | Strict typing for all data models and component props |
 | **Vite 8** | Dev server and production bundler |
-| **D3 7.9 (d3-geo, d3-zoom)** | Map projection math and zoom transforms — *not* DOM manipulation |
+| **D3 7.9 (d3-geo, d3-zoom)** | Map projection math and zoom transforms (not DOM manipulation) |
 | **Vanilla CSS** | Design system via CSS custom properties (no framework) |
 | **clsx** | Conditional className utility |
 | **Vitest** | Unit testing with property-based testing via fast-check |
@@ -46,7 +47,7 @@ The application renders entirely in the browser. There is no backend, no databas
 
 There are **three data files** that power the application.
 
-### 1. `vikingData.ts` — Map Data
+### 1. `vikingData.ts` - Map Data
 
 This drives everything visual on the map. It exports:
 
@@ -71,7 +72,7 @@ interface VikingEvent {
   date: string;           // human-readable, e.g. "June 8, 793 AD"
   tag: string;            // display label for the badge
   body: string;           // prose description shown in the InfoPanel
-  type: EventType;        // controls dot color and filter behaviour
+  type: EventType;        // controls icon, color, and filter behaviour
   routes?: string[];      // IDs of Route objects to activate with this event
 }
 ```
@@ -103,13 +104,13 @@ interface OriginHub {
 }
 ```
 
-**`EventType`** is a union that controls map dot colours, route visibility, and sidebar filtering:
+**`EventType`** is a union that controls map icon shapes, colours, and sidebar filtering:
 
 ```ts
-type EventType = 'origin' | 'raid' | 'settlement' | 'trade' | 'conquest' | 'exploration' | 'battle';
+type EventType = 'ships' | 'raid' | 'settlement' | 'trade' | 'conquest' | 'exploration' | 'battle';
 ```
 
-### 2. `timelineEntries.ts` — Chronicle Data
+### 2. `timelineEntries.ts` - Chronicle Data
 
 The scholarly layer, derived from *The Age of the Vikings* (Winroth, 2016):
 
@@ -154,7 +155,26 @@ const pathGenerator = d3.geoPath().projection(projection);
 2. **Country labels** — Positioned at feature centroids with manual overrides
 3. **Routes** — `<path>` elements with animated dashes, arrowhead markers at endpoints
 4. **Origin hub markers** — Ring + dot markers at fixed departure ports
-5. **Event hotspots** — `<circle>` elements with labels, revealed as timeline progresses
+5. **Event hotspot icons** — Thematic SVG icons with labels, revealed as timeline progresses
+
+### Hotspot Icons
+
+Each `VikingEvent` renders as a `<g className="hotspot">` group containing a thematic SVG icon and a text label. Icons are defined in the `EVENT_ICONS` map at the top of `MapContainer.tsx`:
+
+| EventType | Icon Shape |
+|-----------|-----------|
+| ships | Viking longship |
+| raid | Crossed axes |
+| settlement | House with peaked roof |
+| trade | Ship/boat |
+| conquest | Crown |
+| exploration | Compass rose |
+| battle | Crossed swords |
+
+Each icon is rendered as a `<path>` element with:
+- A faint background `<circle>` at 20% opacity for a halo effect
+- A `filter="url(#icon-glow)"` drop-shadow for visibility against the dark map
+- Scaling that adjusts with the zoom level (`iconScale = (BASE_R / 8) / zoomScale`)
 
 ### Visibility Logic
 
@@ -168,10 +188,10 @@ D3 zoom is the one exception to "React renders everything" — it directly manip
 
 ### Interactions
 
-- **Hotspot click** → opens InfoPanel with event details
-- **Route click** → opens InfoPanel with route details and connected events
-- **Hub click** → opens HubPanel with country description and related chronicle entries
-- **Route hover** → tooltip with route name follows cursor
+- **Hotspot click** — opens InfoPanel with event details
+- **Route click** — opens InfoPanel with route details and connected events
+- **Hub click** — opens HubPanel with country description and related chronicle entries
+- **Route hover** — tooltip with route name follows cursor
 
 ---
 
@@ -191,13 +211,14 @@ The `Timeline` component is a `<footer>` fixed to the bottom of the viewport.
 
 ```ts
 function snapToNearestEvent(raw: number): number {
-  return EVENT_YEARS.reduce((best, year) =>
+  const snapPoints = [START_YEAR, ...EVENT_YEARS];
+  return snapPoints.reduce((best, year) =>
     Math.abs(year - raw) < Math.abs(best - raw) ? year : best
   );
 }
 ```
 
-This prevents the slider from landing on empty years where nothing would change visually.
+This prevents the slider from landing on empty years where nothing would change visually. `START_YEAR` (750) is included as a valid snap point so the user can always drag the slider back to the beginning.
 
 ---
 
@@ -230,8 +251,10 @@ This one-way signal pattern prevents circular state updates.
 
 A 400px slide-in panel on the right edge of the map. Two modes:
 
-- **Event mode**: title, date, Badge, body text.
-- **Route mode**: route name, description, list of connected events as clickable buttons.
+- **Event mode**: title, date, Badge, body text, and a "Connected Routes" section with buttons to navigate to any route the event belongs to.
+- **Route mode**: route name, description, Badge, and a "Connected Events" list with buttons to navigate to each event on that route.
+
+This bidirectional navigation (event to route and route to event) allows users to explore the relationships between events and the paths that connect them.
 
 ### HubPanel
 
@@ -241,6 +264,7 @@ Similar slide-in panel for origin hubs. Shows:
 - Historical description paragraph
 - Related chronicle entries (looked up by `relatedEntryIds`), sorted chronologically
 - Each entry shows date, tags (as Badges), title, body, and source citation
+- Uses a sticky close bar so the close button remains accessible while scrolling
 
 ---
 
@@ -253,6 +277,43 @@ The `FiltersOverlay` is a floating dropdown anchored to a "Filters" button in th
 - Active count badge on the trigger button
 - Closes on outside click via `mousedown` listener
 - Filter state (`activeFilters`) affects both the map (hotspot/route visibility) and the sidebar (chronicle entry filtering)
+
+---
+
+## Overlay Pages
+
+The application uses full-screen overlay components rather than client-side routing. Each overlay is toggled by a boolean state in `App.tsx` and uses the same slide-in/out CSS animation pattern (`.visible` / `.hidden` classes with `transform` and `opacity` transitions).
+
+### About (`HomeSplash`)
+- Triggered by the "About" button in the header
+- Contains the app introduction text and author credits
+- Has a "Click here to view the timeline" button to dismiss
+
+### Details (`DetailsPage`)
+- Triggered by the "Details" button in the header
+- Documents that the era categories (Age of Raids, Age of Conquest & Settlement, Age of Kings, End of the Viking Age) are not formally recognised academic periodisations
+- Credits the History.com article "Vikings: History" as inspiration for the era structure
+- Lists data sources (Winroth, 2016) and technology stack
+
+### Map Guide (`MapGuide`)
+- Triggered by the "Map Guide" button in the header
+- Two-column layout (collapses to single column on mobile)
+- Left column: all 7 event icons with their colours and descriptions
+- Right column: all 3 route colour types with dashed-line swatches and descriptions
+- Serves as a visual legend for the map
+
+### Learn More (`LearnMore`)
+- Triggered by the "Learn More" button in the header
+- Displays a 3-column grid of 6 topic cards:
+  1. Who Were the Vikings?
+  2. Spread of Christianity
+  3. History During the Viking Age
+  4. Ships and Seafaring
+  5. Trade and Economy
+  6. Legacy and Influence
+- Each card navigates to a dedicated detail sub-page (managed via local `activeTopic` state)
+- Detail sub-pages have a "Back" button (returns to topic grid) and a close button (closes overlay entirely)
+- Detail page content is placeholder ("Content coming soon") ready for future expansion
 
 ---
 
@@ -292,7 +353,7 @@ All styles live in a single `App.css` file using CSS custom properties.
 --blood-bright: #e40707;    /* raid */
 --conquest: #462ff8;        /* conquest */
 --gold: #1f8e3e;            /* trade */
---gold-bright: #F59E0B;     /* accents, dates, ships/origin */
+--gold-bright: #F59E0B;     /* accents, dates, ships */
 --parchment: #f9eccc;       /* settlement */
 --exploration: #60e5fa;     /* exploration */
 
@@ -345,6 +406,33 @@ All styles live in a single `App.css` file using CSS custom properties.
 1. Add to the `ERAS` array in `vikingData.ts` with `min`, `max`, `label`, and `summary`.
 2. The Timeline will automatically render a new era pill.
 
+### Adding a New EventType
+
+1. Add the literal to the `EventType` union in `src/types.ts`
+2. Add a colour mapping in `Badge.tsx` (`TAG_COLORS`)
+3. Add a label mapping in `Badge.tsx` (`TAG_LABELS`)
+4. Add the filter entry in `src/data/filterConstants.ts` (`ALL_FILTERS`)
+5. Add a colour mapping in `MapContainer.tsx` (`getEventColor`)
+6. Add an SVG icon path in `MapContainer.tsx` (`EVENT_ICONS`)
+7. Add a CSS variable for the colour in `:root` in `App.css`
+8. Add an SVG `<marker>` in `MapContainer.tsx`'s `<defs>` block if it's also a route type
+9. Add the icon and description to `MapGuide.tsx` (`EVENT_ICONS` array)
+
+### Adding a Learn More Topic
+
+Add an entry to the `TOPICS` array in `src/components/LearnMore.tsx`:
+
+```ts
+{
+  id: 'my-topic',
+  title: 'My Topic Title',
+  subtitle: 'Brief description of what this covers',
+  icon: '🏛️',
+}
+```
+
+The detail sub-page will automatically be created with placeholder content. Replace the placeholder in the `activeTopic` render branch with real content when ready.
+
 ---
 
 ## Performance Notes
@@ -355,3 +443,17 @@ All styles live in a single `App.css` file using CSS custom properties.
 - **CSS transitions** for hardware-accelerated panel animations
 - **Slider snapping** prevents unnecessary re-renders on empty years
 - **Derived state** computed inline (no extra renders from `useEffect` chains)
+
+---
+
+> The in-app credits block lives in the **About page** (`HomeSplash`). The credits below are for the documentation file only.
+
+### Made by Nicholas Hamilton & America Gaona Borges
+
+**Nicholas Hamilton**
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/hamiltonnBC)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nicholas-trey-hamilton/)
+
+**America Gaona Borges**
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gaonaborgesa)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/america-gaona-borges/)

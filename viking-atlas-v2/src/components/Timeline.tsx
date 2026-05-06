@@ -8,9 +8,10 @@ interface TimelineProps {
   onEraJump: (eraIndex: number) => void;
 }
 
-// Snaps raw slider value to the nearest event year.
+// Snaps raw slider value to the nearest event year (includes START_YEAR so the user can always return to the beginning).
 function snapToNearestEvent(raw: number): number {
-  return EVENT_YEARS.reduce((best, year) =>
+  const snapPoints = [START_YEAR, ...EVENT_YEARS];
+  return snapPoints.reduce((best, year) =>
     Math.abs(year - raw) < Math.abs(best - raw) ? year : best
   );
 }
@@ -28,7 +29,7 @@ export function Timeline({ currentYear, onYearChange, onOpenRunes, onEraJump }: 
     if (idx > 0) {
       onYearChange(EVENT_YEARS[idx - 1]);
     } else if (idx === -1) {
-      // currentYear is between snap points — jump to the nearest earlier event
+      // currentYear is between snap points; jump to the nearest earlier event
       const earlier = [...EVENT_YEARS].reverse().find(y => y < currentYear);
       if (earlier !== undefined) onYearChange(earlier);
     }
@@ -39,7 +40,7 @@ export function Timeline({ currentYear, onYearChange, onOpenRunes, onEraJump }: 
     if (idx !== -1 && idx < EVENT_YEARS.length - 1) {
       onYearChange(EVENT_YEARS[idx + 1]);
     } else if (idx === -1) {
-      // currentYear is between snap points — jump to the nearest later event
+      // currentYear is between snap points; jump to the nearest later event
       const later = EVENT_YEARS.find(y => y > currentYear);
       if (later !== undefined) onYearChange(later);
     }
@@ -47,7 +48,7 @@ export function Timeline({ currentYear, onYearChange, onOpenRunes, onEraJump }: 
 
   return (
     <footer className="timeline-container">
-      {/* Era pill buttons, above the slider — to traverse through eras */}
+      {/* Era pill buttons, above the slider, to traverse through eras */}
       <div className="era-pills">
         {ERAS.map((era, i) => (
           <button
@@ -84,7 +85,7 @@ export function Timeline({ currentYear, onYearChange, onOpenRunes, onEraJump }: 
               style={{ left: `${((year - START_YEAR) / (END_YEAR - START_YEAR)) * 100}%` }}
               onClick={() => onYearChange(year)}
               aria-label={`${year} AD`}
-              title={`${year} AD — ${EVENTS.filter(e => e.year === year).map(e => e.title).join(', ')}`}
+              title={`${year} AD: ${EVENTS.filter(e => e.year === year).map(e => e.title).join(', ')}`}
             />
           ))}
 

@@ -26,7 +26,7 @@ export function FiltersOverlay({
   useEffect(() => {
     if (!isOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
-      // Ignore clicks on the toggle button — it handles open/close itself
+      // Ignore clicks on the toggle button; it handles open/close itself
       if (toggleButtonRef.current?.contains(e.target as Node)) return;
       if (overlayRef.current && !overlayRef.current.contains(e.target as Node)) {
         onClose();

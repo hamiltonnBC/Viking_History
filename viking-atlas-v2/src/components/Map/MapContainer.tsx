@@ -6,6 +6,28 @@ import { ZoomControls } from './ZoomControls';
 import { ZoomContext } from './ZoomContext';
 import clsx from 'clsx';
 
+/**
+ * SVG icon paths for each event type.
+ * Each icon is designed for a 16×16 viewBox centered at (0,0), i.e. coords from -8 to +8.
+
+ */
+const EVENT_ICONS: Record<EventType, string> = {
+  // Crossed axes
+  raid: 'M-3,-6 L-1,-2 L-5,2 L-4,3 L0,-1 L1,1 L-1,3 L0,4 L2,2 L4,6 L5,5 L3,1 L5,-1 L4,-2 L2,0 L1,-1 L3,-5 L2,-6 L0,-3 L-2,-6 Z',
+  // House with peaked roof
+  settlement: 'M0,-6 L-6,0 L-4,0 L-4,5 L-2,5 L-2,1 L2,1 L2,5 L4,5 L4,0 L6,0 Z',
+  // Ship/boat
+  trade: 'M0,-5 L0,0 M-6,1 C-6,-1 -3,-2 0,-2 C3,-2 6,-1 6,1 L5,3 C3,4 -3,4 -5,3 Z M0,-2 L0,-5 L2,-3 Z',
+  // Crown
+  conquest: 'M-5,1 L-5,-3 L-3,0 L0,-4 L3,0 L5,-3 L5,1 L5,3 L-5,3 Z M-5,3 L-5,5 L5,5 L5,3 Z',
+  // Compass rose
+  exploration: 'M0,-7 L2,-2 L7,0 L2,2 L0,7 L-2,2 L-7,0 L-2,-2 Z M0,-4 L1,-1 L4,0 L1,1 L0,4 L-1,1 L-4,0 L-1,-1 Z',
+  // Crossed swords
+  battle: 'M-5,-5 L5,5 M-4,-5 L-5,-4 M4,5 L5,4 M5,-5 L-5,5 M4,-5 L5,-4 M-4,5 L-5,4 M-1,0 A1,1,0,1,1,1,0 A1,1,0,1,1,-1,0',
+  // Viking longship
+  ships: 'M-8,2 C-8,0 -6,-2 -4,-3 L-2,-3.5 L0,-4 L2,-3.5 L4,-3 C6,-2 8,0 8,2 L7,3.5 C5,5 -5,5 -7,3.5 Z M-9,1 L-8,2 M9,1 L8,2 M-9,1 C-9.5,0 -9,-1 -8.5,-2 M9,1 C9.5,0 9,-1 8.5,-2 M0,-4 L0,-8 M0,-8 L-1,-7 L-1,-5 L0,-4 M-1,-7 L-4,-6 L-3,-5 L-1,-5',
+};
+
 interface MapContainerProps {
   currentYear: number;
   events: VikingEvent[];
@@ -138,7 +160,7 @@ export function MapContainer({ currentYear, events, routes, originHubs, activeFi
     if (type === 'conquest') return 'var(--conquest)';
     if (type === 'battle') return 'var(--blood)';
     if (type === 'trade') return 'var(--gold)';
-    if (type === 'origin') return 'var(--gold-bright)';
+    if (type === 'ships') return 'var(--gold-bright)';
     if (type === 'settlement') return 'var(--parchment)';
     if (type === 'exploration') return 'var(--exploration)';
     return 'var(--text-primary)';
@@ -165,6 +187,9 @@ export function MapContainer({ currentYear, events, routes, originHubs, activeFi
         style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
       >
         <defs>
+          <filter id="icon-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodOpacity="0.6" />
+          </filter>
           <marker id="arrow-raid" markerWidth="3" markerHeight="3" refX="2.5" refY="1.5" orient="auto" markerUnits="strokeWidth">
             <path d="M 0 0 L 3 1.5 L 0 3 Z" fill="var(--blood-bright)" />
           </marker>
@@ -283,14 +308,25 @@ export function MapContainer({ currentYear, events, routes, originHubs, activeFi
                 const coords = projection(event.coords);
                 if (!coords) return null;
                 const [x, y] = coords;
+                const iconScale = (BASE_R / 8) / zoomScale;
                 return (
                   <g key={event.id} transform={`translate(${x}, ${y})`}>
                     <g className="hotspot" onClick={() => onEventClick(event)}>
-                      <circle r={BASE_R / zoomScale} fill={getEventColor(event.type)} />
+                      {/* Glow background circle */}
+                      <circle r={BASE_R / zoomScale} fill={getEventColor(event.type)} opacity={0.2} />
+                      {/* Icon */}
+                      <g transform={`scale(${iconScale})`} filter="url(#icon-glow)">
+                        <path
+                          d={EVENT_ICONS[event.type]}
+                          fill={getEventColor(event.type)}
+                          stroke="rgba(0,0,0,0.5)"
+                          strokeWidth={0.5}
+                        />
+                      </g>
                       <g className="hotspot-label" transform={`scale(${1 / zoomScale})`}>
                         <rect className="hotspot-label-bg" x={-45} y={BASE_R + 4} width={90} height={14} rx={3} />
                         <text className="hotspot-label-text" y={BASE_R + 14} textAnchor="middle">
-                          {event.title.split(' — ')[0].toUpperCase()}
+                          {event.title.split(' : ')[0].toUpperCase()}
                         </text>
                       </g>
                     </g>

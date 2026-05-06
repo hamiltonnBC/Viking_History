@@ -1,4 +1,4 @@
-export type EventType = 'origin' | 'raid' | 'settlement' | 'trade' | 'conquest' | 'exploration' | 'battle';
+export type EventType = 'ships' | 'raid' | 'settlement' | 'trade' | 'conquest' | 'exploration' | 'battle';
 export type RouteType = 'raid' | 'exploration' | 'trade';
 
 export interface Era {
@@ -11,10 +11,13 @@ export interface Era {
 export interface OriginHub {
   id: string;
   label: string;
+  subtitle?: string;
   coords: [number, number];
   description: string;
   /** IDs of TIMELINE_ENTRIES associated with this country */
   relatedEntryIds: string[];
+  /** Academic source citation */
+  source?: string;
 }
 
 export interface VikingEvent {
@@ -27,6 +30,8 @@ export interface VikingEvent {
   body: string;
   type: EventType;
   routes?: string[];
+  /** Academic source citation */
+  source?: string;
 }
 
 export interface Route {
@@ -37,6 +42,8 @@ export interface Route {
   points: [number, number][];
   name: string;
   description: string;
+  /** Academic source citation */
+  source?: string;
 }
 
 export interface VikingData {

@@ -8,8 +8,9 @@ export const ORIGIN_HUBS: OriginHub[] = [
   {
     id: 'hub-denmark',
     label: 'Denmark',
+    subtitle: 'Scandinavian Homeland',
     coords: [9.8, 55.8],
-    description: 'The heartland of Viking power. Denmark\'s Jutland peninsula and islands served as the primary launching point for raids across Western Europe. Home to the great trading centre of Hedeby and the royal seat at Jelling, Danish kings like Cnut the Great built a North Sea empire that stretched from Scandinavia to England.',
+    description: 'The heartland of Viking power. Denmark\'s Jutland peninsula and islands served as the primary launching point for raids across Western Europe, including a 200-ship fleet that attacked Frisia in 810. Home to the great trading centre of Hedeby, the royal seat at Jelling, and Lejre on the island of Zealand, which featured the largest known early medieval Scandinavian hall. Danish kings like Cnut the Great built a North Sea empire that stretched from Scandinavia to England after conquering it in 1016.',
     relatedEntryIds: [
       'tl-danish-fleet-charlemagne',
       'tl-frisia-dorestad-raids',
@@ -25,30 +26,44 @@ export const ORIGIN_HUBS: OriginHub[] = [
       'tl-battle-maldon-danegeld',
       'tl-battle-nissan',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 2, 7, 56, 71, 74',
   },
   {
-    id: 'hub-norway',
-    label: 'Norway',
+    id: 'hub-norway-west',
+    label: 'Western Norway',
+    subtitle: 'Atlantic Departure Point',
+    coords: [5.3, 60.4],
+    description: 'The fjord-carved Atlantic coast from Bergen to Trondheim was the departure point for all Norse voyages westward. From these sheltered harbours, emigrants sailed to the Faroe Islands, Iceland, Greenland, and ultimately North America. Raiders also departed these waters to round Scotland and strike Ireland. Norway is renowned for its long, protected coastal navigation routes, and its sailors developed the skills, reading clouds, currents, birds, and whales, that made transatlantic crossings possible.',
+    relatedEntryIds: [
+      'tl-vinland-discovery',
+      'tl-greenland-bishop',
+      'tl-greenland-last-record',
+      'tl-storm-swanage',
+      'tl-battle-svoldr',
+    ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 84, 85',
+  },
+  {
+    id: 'hub-norway-east',
+    label: 'Eastern Norway',
+    subtitle: 'Skagerrak & Baltic Gateway',
     coords: [10.4, 59.9],
-    description: 'Norway\'s deep fjords and rugged coastline bred the finest sailors of the Viking Age. Norwegian explorers pushed west across the Atlantic to discover Iceland, Greenland, and Vinland. The Oseberg and Gokstad ship burials reveal a culture obsessed with maritime mastery, where a chieftain\'s ship was his most prized possession in life and death.',
+    description: 'The Oslo Fjord and Vestfold region was the political heartland of early Norwegian kingship and the gateway to the Skagerrak and Baltic trade routes. The great ship burials at Oseberg (c. 834, where two women were interred with exceptionally rich grave goods) and Gokstad were interred here. The merchant Ottar sailed from the far north to reach the trading hub in this fjord. Connected to Denmark across the Skagerrak and to Sweden via coastal routes, eastern Norway linked the Atlantic world to the Baltic.',
     relatedEntryIds: [
       'tl-oseberg-ship-built',
       'tl-oseberg-burial',
       'tl-ottar-voyage',
       'tl-gokstad-chieftain',
-      'tl-battle-svoldr',
       'tl-battle-nesjar',
-      'tl-vinland-discovery',
-      'tl-greenland-bishop',
-      'tl-greenland-last-record',
-      'tl-storm-swanage',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 7, 30, 74, 84, 92–93',
   },
   {
     id: 'hub-sweden',
     label: 'Sweden',
+    subtitle: 'Eastern Trade & Exploration',
     coords: [18.0, 59.3],
-    description: 'While Danes and Norwegians sailed west, Swedish Vikings — known as the Rus or Varangians — turned east. From the trading hub of Birka on Lake Mälaren, they navigated Russia\'s vast river systems to reach Constantinople and Baghdad, establishing the trade networks that would eventually become the Russian state.',
+    description: 'While Danes and Norwegians sailed west, Swedish Vikings, known as the Rus or Varangians, turned east. From the trading hub of Birka on Lake Mälaren, they navigated Russia\'s vast river systems to reach Constantinople and Baghdad. Gamla Uppsala hosted a great chieftain\'s hall, while the island of Gotland in the Baltic Sea was a key naval hub featuring numerous picture stones depicting sailing ships and a trading community with shipyard at Paviken. Valsgärde, north of Uppsala, contains fifteen ship burials spanning from the late 6th century to roughly the year 1000.',
     relatedEntryIds: [
       'tl-varangian-tribute',
       'tl-adoption-sail',
@@ -57,24 +72,51 @@ export const ORIGIN_HUBS: OriginHub[] = [
       'tl-ingvar-caspian',
       'tl-ship-specialization',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 2, 64, 80, 88–89, 94',
   },
   {
     id: 'hub-iceland',
     label: 'Iceland',
+    subtitle: 'North Atlantic Colony',
     coords: [-21.8, 64.1],
-    description: 'Settled by Norwegian emigrants fleeing the centralising rule of Harald Fairhair, Iceland became a unique Viking republic. Its Althing (established 930 AD) was one of the world\'s oldest parliaments. Iceland served as the stepping stone for further Atlantic exploration to Greenland and Vinland, and its saga tradition preserved the memory of the entire Viking Age.',
+    description: 'Settled by Norwegian emigrants fleeing the centralising rule of Harald Fairhair, Iceland became a unique Viking republic. Its Althing (established 930 AD) was one of the world\'s oldest parliaments. Settlers rapidly cut down the island\'s native forests to build homes and ships, prompting them to seek resources further west; directly motivating the expeditions to Greenland and Vinland. Iceland\'s saga tradition preserved the memory of the entire Viking Age.',
     relatedEntryIds: [
       'tl-vinland-discovery',
       'tl-greenland-bishop',
       'tl-greenland-last-record',
       'tl-skuldelev-1',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 60, 67',
+  },
+  {
+    id: 'hub-greenland',
+    label: 'Greenland',
+    subtitle: 'Westernmost Norse Settlement',
+    coords: [-44.5, 61.5],
+    description: 'Settled toward the end of the 10th century by Erik the Red, who built his chieftain\'s farm at Brattahlid in the Eastern Settlement. The colony grew to support over a dozen parish churches and was granted its own bishop at Gardar in 1126. The Western Settlement featured sites like the "Farm Beneath the Sand." The Norse survived by farming and exporting arctic goods like walrus ivory, but the settlements mysteriously died out by the 15th century. The final written record is a wedding at Hvalsey church in 1408.',
+    relatedEntryIds: [
+      'tl-greenland-bishop',
+      'tl-greenland-last-record',
+    ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 60–61, 64, 65–66',
+  },
+  {
+    id: 'hub-vinland',
+    label: 'Vinland',
+    subtitle: 'The New World',
+    coords: [-55.5, 51.5],
+    description: 'Discovered around the year 1000 by the Greenland explorer Leif Eriksson, "Vinland" (Newfoundland) was the site of a temporary Norse settlement at L\'Anse aux Meadows, proving European arrival in America five centuries before Columbus. "Markland" (likely the forested Labrador Peninsula) was used as a vital source of timber for the Greenlanders, whose own island lacked the wood needed to build homes and ships. The settlements were eventually abandoned due to hostile encounters with indigenous populations the Norse called "skrælingar."',
+    relatedEntryIds: [
+      'tl-vinland-discovery',
+    ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 67–69',
   },
   {
     id: 'hub-england',
     label: 'England',
+    subtitle: 'Raid Target & Danelaw',
     coords: [-1.5, 53.0],
-    description: 'England bore the brunt of Viking aggression for three centuries. From the first raid on Lindisfarne in 793 to the Norman Conquest of 1066, Norse warriors raided, settled, and eventually ruled large parts of the island. The Danelaw — a region of Norse law and custom — reshaped English language, place-names, and culture permanently.',
+    description: 'England bore the brunt of Viking aggression for three centuries. The island monastery of Lindisfarne in Northumbria suffered the first known major Viking raid in 793. The chieftain Halvdan conquered Northumbria in 876, while Guthrum conquered East Anglia, establishing the Danelaw, a vast region where Scandinavian laws and culture took root. York (Jórvík) served as an important royal seat for Norse kings. The Battle of Maldon in 991 led to massive Danegeld tribute payments, and Cnut of Denmark conquered the entire kingdom in 1016.',
     relatedEntryIds: [
       'tl-lindisfarne',
       'tl-thames-fleet',
@@ -88,12 +130,14 @@ export const ORIGIN_HUBS: OriginHub[] = [
       'tl-archbishop-alfheah',
       'tl-cnut-reign',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 21, 27–28, 40, 52–54, 56',
   },
   {
     id: 'hub-france',
     label: 'France',
+    subtitle: 'Frankish Empire',
     coords: [2.0, 47.5],
-    description: 'Francia was one of the richest targets in Viking Europe. Norse fleets sailed up the Seine, Loire, and Garonne to sack Paris, Nantes, and dozens of monasteries. The raids culminated in 911 when King Charles the Simple granted the Viking chieftain Rollo lands at the mouth of the Seine — creating Normandy, the "Land of the Northmen," whose descendants would conquer England in 1066.',
+    description: 'Francia was one of the richest targets in Viking Europe. The city of Nantes on the Loire was brutally massacred on St. John\'s Day in 843. Paris and Rouen on the Seine were attacked in 845, during which Vikings captured and executed 111 Frankish soldiers. The raids culminated in 911 when King Charles the Simple granted the Viking chieftain Rollo lands at the mouth of the Seine, creating Normandy, the "Land of the Northmen," whose descendants would conquer England in 1066. A Viking fleet stopped at Jumièges in 862 to repair their ships, showing strategic depth beyond simple raiding.',
     relatedEntryIds: [
       'tl-charlemagne-pavia',
       'tl-massacre-verden',
@@ -104,12 +148,14 @@ export const ORIGIN_HUBS: OriginHub[] = [
       'tl-jumiegos-repairs',
       'tl-mediterranean-raid',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15–16, 22–23, 48, 53, 80',
   },
   {
     id: 'hub-ireland',
     label: 'Ireland',
-    coords: [-7.5, 53.3],
-    description: 'Ireland\'s wealthy monasteries drew Viking raiders from the early 9th century. What began as seasonal plundering evolved into permanent settlement — the Norse founded Dublin, Waterford, Wexford, and Limerick, Ireland\'s first true urban centres. By the 10th century, Norse and Irish cultures had deeply intertwined through trade, intermarriage, and shared political ambition.',
+    subtitle: 'Norse Urban Settlement',
+    coords: [-6.3, 53.35],
+    description: 'Ireland\'s wealthy monasteries drew Viking raiders from the early 9th century. In 917, the Viking Sitric arrived with a fleet and founded the city of Dublin on the Liffey River, which rapidly grew into Ireland\'s first major commercial centre. Scandinavian kings ruled Dublin for decades, including Sitric Silkenbeard, who maintained power even after fighting the massive Battle of Clontarf in 1014 against the Irish high king Brian Boru. What began as seasonal plundering evolved into permanent settlement; the Norse founded Dublin, Waterford, Wexford, and Limerick.',
     relatedEntryIds: [
       'tl-plunder-dun-masc',
       'tl-dublin-fortress',
@@ -117,18 +163,21 @@ export const ORIGIN_HUBS: OriginHub[] = [
       'tl-sitric-rome',
       'tl-skuldelev-2-dublin',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 54, 55–56',
   },
   {
     id: 'hub-russia',
     label: 'Rus Lands',
+    subtitle: 'Eastern River Network',
     coords: [32.0, 55.0],
-    description: 'Swedish Vikings known as the Varangians penetrated deep into Eastern Europe via the Dnieper and Volga rivers. They established trading posts, extracted tribute from Slavic peoples, and founded the Rurikid dynasty that ruled Russia for seven centuries. Their route to Constantinople — the "road from the Varangians to the Greeks" — was one of the great trade arteries of the medieval world.',
+    description: 'In the early 9th century, the Varangian chieftain Rurik traveled across the Baltic Sea and took up residence in Novgorod, founding the Rurikid dynasty that ruled Russia until the 16th century. Swedish Vikings penetrated deep into Eastern Europe via the Dnieper and Volga rivers, establishing trading posts and extracting tribute from Slavic peoples. Gnëzdovo, near Smolensk, served as a major transport hub and shipyard at the crossroads of these river routes. Their path to Constantinople, the "road from the Varangians to the Greeks," was one of the great trade arteries of the medieval world.',
     relatedEntryIds: [
       'tl-varangian-tribute',
       'tl-rus-byzantine-treaty',
       'tl-ibn-fadlan-cremation',
       'tl-ingvar-caspian',
     ],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 49, 80',
   },
 ];
 
@@ -150,7 +199,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'Norse warriors strike the undefended monastery at Lindisfarne, carrying off gold, silver, and captives. This shocking attack is traditionally considered the start of the Viking Age in Europe.',
     type: 'raid',
-    routes: ['route-england']
+    routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 21'
   },
   {
     id: 'spot-iceland',
@@ -161,7 +211,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'Ingólfr Arnarson becomes the first permanent Norse settler in Iceland, establishing Reykjavík. Fleeing centralizing rule in Norway, settlers construct one of the world\'s oldest parliaments, the Althing.',
     type: 'settlement',
-    routes: ['route-iceland']
+    routes: ['route-iceland'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 51, 60'
   },
   {
     id: 'spot-normandy',
@@ -172,7 +223,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'Frankish King Charles the Simple grants lands at the mouth of the Seine to the Norse chieftain Rollo. Rollo\'s followers settle the region, creating Normandy ("Land of the Northmen"), profoundly shaping European history.',
     type: 'settlement',
-    routes: ['route-france']
+    routes: ['route-france'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 48, 53'
   },
   {
     id: 'spot-vinland',
@@ -183,7 +235,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Exploration',
     body: 'Leif Eriksson leads an expedition from Greenland to North America, arriving 500 years before Columbus. Though settlements at places like L\'Anse aux Meadows proved temporary, it marks their furthest reach.',
     type: 'exploration',
-    routes: ['route-newfoundland']
+    routes: ['route-newfoundland'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 60, 68'
   },
   {
     id: 'spot-hastings',
@@ -194,7 +247,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Battle',
     body: 'The Viking Age ends with two great battles in 1066. King Harald Hardrada of Norway is killed at Stamford Bridge. Weeks later, William the Conqueror, a descendant of Rollo, wins the Battle of Hastings and conquers England.',
     type: 'battle',
-    routes: []
+    routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 48, 53'
   },
 
   // ── From the Chronicle ─────────────────────────────────────────────────
@@ -207,7 +261,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Conquest',
     body: 'Charlemagne seizes the Lombard treasury in Pavia, demonstrating the "gift economy" that rewarded loyal followers with plunder and establishing the same model Viking chieftains would later adopt to sustain their own power.',
     type: 'conquest',
-    routes: []
+    routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, p. 36'
   },
   {
     id: 'spot-verden',
@@ -218,7 +273,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Battle',
     body: 'Charlemagne orders the execution of 4,500 Saxon prisoners in a single day. This act of extreme state violence provides context for the era: the Christian world Norsemen raided was itself capable of breathtaking brutality.',
     type: 'battle',
-    routes: []
+    routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, p. 37'
   },
   {
     id: 'spot-avar-ring',
@@ -229,7 +285,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Conquest',
     body: 'Charlemagne\'s army defeats the Avars in the Carpathian Basin and plunders their legendary treasury. The massive redistribution of this wealth to Frankish nobles illustrated the critical importance of battlefield plunder for maintaining political loyalty.',
     type: 'conquest',
-    routes: []
+    routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, p. 36'
   },
   {
     id: 'spot-frisia-810',
@@ -240,7 +297,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'A fleet of 200 Danish ships ravages the Frisian coast and extorts a heavy ransom. The campaign exposed a Frankish vulnerability: their land-based army could not respond to an enemy that appeared without warning from the sea and vanished before they could engage.',
     type: 'raid',
-    routes: ['route-frisia']
+    routes: ['route-frisia'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 71'
   },
   {
     id: 'spot-oseberg',
@@ -248,10 +306,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [10.4285, 59.2167],
     title: 'Oseberg Ship Burial',
     date: 'c. 834 AD',
-    tag: 'Origin',
+    tag: 'Ships',
     body: 'Two high-status women are interred in the Oseberg ship at Vestfold, Norway. As the oldest known Norse sailing ship, the vessel and its rich grave goods reveal a world-view in which the dead required a ship to voyage to the afterlife.',
-    type: 'origin',
-    routes: []
+    type: 'ships',
+    routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 91, 93'
   },
   {
     id: 'spot-dorestad-raids',
@@ -262,7 +321,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'Viking fleets launch consistent, annual attacks on the great Frisian trading hub of Dorestad. These raids established the pattern of "warfare by incursion" characterized by swift strikes on wealthy centres followed by rapid withdrawal, a strategy that ultimately defined the middle Viking Age.',
     type: 'raid',
-    routes: ['route-frisia']
+    routes: ['route-frisia'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15, 47'
   },
   {
     id: 'spot-nantes',
@@ -273,7 +333,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'A Viking fleet sacks Nantes on the feast of St. John the Baptist, a day when the city would be absolutely packed with pilgrims and valuables. This carefully timed strike revealed impressive Norse intelligence-gathering capabilities and their willingness to exploit the Christian religious calendar.',
     type: 'raid',
-    routes: ['route-nantes']
+    routes: ['route-nantes'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15–16'
   },
   {
     id: 'spot-dun-masc',
@@ -284,7 +345,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'Irish annals record the destruction of the monastery at Dún Masc (modern Co. Laois), including the killing of the abbot of Tír dá Glas. The entry illustrates how thoroughly Norse raiding had penetrated the Irish interior by the mid-9th century.',
     type: 'raid',
-    routes: []
+    routes: ['route-ireland'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 16'
   },
   {
     id: 'spot-paris-845',
@@ -295,7 +357,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'Vikings sail up the Seine and besiege Paris. When King Charles the Bald assembles his army, the raiders execute 111 Frankish captives on the opposite bank in plain view, successfully shattering morale. Charles ultimately pays a massive ransom of 7,000 lbs of silver just to make them leave.',
     type: 'raid',
-    routes: ['route-nantes']
+    routes: ['route-seine'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 22–23'
   },
   {
     id: 'spot-thames-851',
@@ -306,7 +369,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Raid',
     body: 'The Anglo-Saxon Chronicle records 350 Viking ships entering the mouth of the Thames, making it the largest recorded Norse fleet to attack England. The force sacks Canterbury and London before being defeated by the West Saxon king Æthelwulf at the Battle of Aclea.',
     type: 'raid',
-    routes: ['route-england']
+    routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 20'
   },
   {
     id: 'spot-mediterranean',
@@ -314,10 +378,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [-5.3536, 36.1408],
     title: 'Mediterranean Raid',
     date: '859 AD',
-    tag: 'Exploration',
+    tag: 'Raid',
     body: 'A Danish fleet of 62 ships passes through the Straits of Gibraltar and sails into the Mediterranean, raiding the coasts of Morocco, southern France, and Italy. The expedition, which possibly reached as far as Alexandria, proved that Viking ships could navigate practically any waters on earth.',
-    type: 'exploration',
-    routes: ['route-mediterranean']
+    type: 'raid',
+    routes: ['route-mediterranean'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 72'
   },
 
   // ── Part 2: Geographic events (862–1408) ──────────────────────────────
@@ -331,6 +396,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Following raids on the Seine, a Viking band established a temporary shipyard at Jumièges in Normandy. Viking naval dominance depended on constant maintenance, and the ability to occupy territory long enough to refit showed a strategic depth beyond simple hit-and-run raiding.',
     type: 'raid',
     routes: ['route-seine'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 72'
   },
   {
     id: 'spot-york-866',
@@ -342,6 +408,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'The sons of Ragnar defeated and killed King Ella of Northumbria, seizing York (Jórvík). The city became the capital of a Norse kingdom in England and a major centre of Viking culture, trade, and craftsmanship for nearly a century.',
     type: 'conquest',
     routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 47, 52'
   },
   {
     id: 'spot-york-northumbria',
@@ -352,7 +419,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'Viking leader Halvdan carved up Northumbria and distributed farms to his warriors. This was the decisive shift from raiding to permanent colonisation. The Norse were no longer visitors but actual landlords, plowing fields that had once belonged to the very men they killed.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 52'
   },
   {
     id: 'spot-guthrum-baptism',
@@ -363,7 +431,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'At Aller in Somerset, defeated Viking leader Guthrum was baptised with Alfred the Great as his godfather, taking the Christian name Æthelstan. The ceremony sealed the Treaty of Wedmore and legitimised Norse rule in the Danelaw by the conventions of Christian kingship.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 52'
   },
   {
     id: 'spot-benfleet',
@@ -374,7 +443,20 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'English forces stormed the Viking fortification at Benfleet, Essex, capturing the family of chieftain Hæsten. The presence of families inside the fort confirms that large-scale Viking campaigns included wives, children, and livestock, proving that these were migration events rather than mere raids.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 57'
+  },
+  {
+    id: 'spot-ottar-voyage',
+    year: 890,
+    coords: [10.7, 59.4],
+    title: "Ottar's Coastal Voyage",
+    date: 'c. 890 AD',
+    tag: 'Trade',
+    body: "The chieftain and merchant Ottar regularly sailed from his home in the far north of Norway down to a trading hub in the Oslo Fjord, navigating the long western coast by camping at night and using familiar landmarks. His account, recorded at the court of King Alfred, is the earliest first-person description of Scandinavian coastal navigation.",
+    type: 'trade',
+    routes: ['route-scandinavia'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 84'
   },
   {
     id: 'spot-gokstad',
@@ -382,10 +464,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [10.28, 59.11],
     title: 'Gokstad Ship Burial',
     date: 'c. 900 AD',
-    tag: 'Origin',
+    tag: 'Ships',
     body: 'A powerful Norwegian chieftain was interred in a clinker-built longship at Gokstad, Vestfold. His skeletal wounds show he died in violent close-quarters combat. The Gokstad ship, recovered in 1880, is considered one of the finest surviving examples of Viking shipbuilding.',
-    type: 'origin',
+    type: 'ships',
     routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 91, 93'
   },
   {
     id: 'spot-constantinople',
@@ -396,7 +479,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Trade',
     body: 'Norsemen of the Rurikid Rus signed a commercial treaty at Constantinople granting them favourable trading rights in the Byzantine capital. Delegates bore Scandinavian names, confirming that the eastern Viking network had formalised into a state capable of conducting diplomacy with the greatest empire in Europe.',
     type: 'trade',
-    routes: ['route-volga'],
+    routes: ['route-dnieper'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 50'
   },
   {
     id: 'spot-dublin-917',
@@ -407,7 +491,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'The Viking leader Sitric established a permanent fortified settlement above the River Liffey at Dublin. The city grew into Ireland\'s first major commercial hub. It became a crossroads of the slave trade, silver economy, and North Sea commerce that would effectively shape Irish history for centuries.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-ireland'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 54'
   },
   {
     id: 'spot-ibn-fadlan-volga',
@@ -415,10 +500,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [49.1221, 55.7887],
     title: 'Ship Cremation on the Volga',
     date: 'c. 921 AD',
-    tag: 'Origin',
+    tag: 'Ships',
     body: 'Arab diplomat Ibn Fadlan witnessed a Rus chieftain\'s funeral on the Volga, recording the sacrificial burning of the leader inside his ship along with a slave girl, horses, and cattle. His vivid account, written with shocked fascination, remains the most detailed eye-witness description of Norse funerary practice ever recorded.',
-    type: 'origin',
+    type: 'ships',
     routes: ['route-volga'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 94'
   },
   {
     id: 'spot-hedeby',
@@ -426,10 +512,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [9.5599, 54.6266],
     title: 'The Hedeby Warship',
     date: '985 AD',
-    tag: 'Origin',
+    tag: 'Ships',
     body: 'A 31-metre longship with benches for 60 rowers was sunk in Hedeby harbour. Ships of this scale required the productive output of an entire chieftain\'s domain to construct and man, and functioned as floating declarations of power as much as weapons of war.',
-    type: 'origin',
+    type: 'ships',
     routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, p. 89'
   },
   {
     id: 'spot-maldon',
@@ -441,6 +528,19 @@ export const EVENTS: VikingEvent[] = [
     body: 'English leader Byrhtnoth was killed at Maldon in Essex after refusing Viking tribute demands. His defeat triggered the institutionalisation of Danegeld, a nationwide protection tax that funnelled enormous silver wealth into Viking hands and helped bankroll Scandinavian kingdoms for decades.',
     type: 'battle',
     routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, pp. 27, 40'
+  },
+  {
+    id: 'spot-svoldr',
+    year: 1000,
+    coords: [12.5, 54.5],
+    title: 'Battle of Svöldr',
+    date: '1000 AD',
+    tag: 'Battle',
+    body: "A great naval clash in the western Baltic where Norwegian King Olav Tryggvason fought against a coalition of Swedish and Danish kings. Olav fell in battle, leaping from his flagship the Long Serpent into the sea rather than be captured. The battle demonstrated that control of Scandinavian coastal waters was the key to political power in the North.",
+    type: 'battle',
+    routes: ['route-scandinavia'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 88'
   },
   {
     id: 'spot-clontarf',
@@ -451,7 +551,20 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Battle',
     body: 'Irish forces under Brian Boru defeated the Norse-allied army of Sitric Silkenbeard near Dublin. The battle\'s later reputation as a national Irish victory over the Vikings obscures the reality: Norse warriors fought on both sides, and the conflict was a political power struggle in which ethnicity was irrelevant.',
     type: 'battle',
-    routes: [],
+    routes: ['route-ireland'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 55'
+  },
+  {
+    id: 'spot-nesjar',
+    year: 1016,
+    coords: [10.0, 59.0],
+    title: 'Battle of Nesjar',
+    date: '1016 AD',
+    tag: 'Battle',
+    body: "A major sea battle in the Oslo Fjord where Olav Haraldsson won the Norwegian kingship by defeating a coalition of local chieftains loyal to Danish overlordship. The victory established Olav as sole king of Norway and demonstrated that naval supremacy in home waters was the prerequisite for Scandinavian kingship.",
+    type: 'battle',
+    routes: ['route-scandinavia'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 88'
   },
   {
     id: 'spot-cnut-london',
@@ -463,6 +576,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Cnut of Denmark became King of England after defeating Edmund Ironside, going on to rule a North Sea empire encompassing England, Denmark, and Norway. He used English tax revenues to pay his Viking household troops, turning the old Danegeld system into the financial engine of Scandinavian imperial ambition.',
     type: 'conquest',
     routes: ['route-england'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 56'
   },
   {
     id: 'spot-roskilde-ship',
@@ -470,10 +584,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [12.0803, 55.6415],
     title: 'The Roskilde Giant',
     date: 'c. 1025 AD',
-    tag: 'Origin',
+    tag: 'Ships',
     body: 'A 36-metre prestige longship built at Roskilde confirmed that the legendary "Great Serpent" warships of the sagas were real. Ships of this size required vast national resources and served as the ultimate symbol of royal power in the Viking world, acting as a floating throne that could dominate any harbour it entered.',
-    type: 'origin',
+    type: 'ships',
     routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, p. 89'
   },
   {
     id: 'spot-rome-sitric',
@@ -485,6 +600,19 @@ export const EVENTS: VikingEvent[] = [
     body: 'The Norse King of Dublin made a pilgrimage to Rome, walking the same roads as Frankish emperors and Anglo-Saxon kings. Within three generations of their first Irish raids, Viking descendants had become rulers who navigated Christian Europe not by longship but by diplomacy and devotion.',
     type: 'exploration',
     routes: [],
+    source: 'Source: The Age of the Vikings, Winroth, p. 55'
+  },
+  {
+    id: 'spot-nissan',
+    year: 1062,
+    coords: [12.3, 56.7],
+    title: 'Battle of the Nissan River',
+    date: '1062 AD',
+    tag: 'Battle',
+    body: "King Harald Hardruler of Norway fought the Danish King Svein Estridsson in a naval engagement at the mouth of the Nissan River on the Swedish coast. The Norwegians won the battle, but Svein escaped in a small rowboat under cover of darkness. The clash was one of the last great Scandinavian naval battles of the Viking Age.",
+    type: 'battle',
+    routes: ['route-scandinavia'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 88'
   },
   {
     id: 'spot-greenland-gardar',
@@ -495,7 +623,8 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'The Norse Greenland colony received its own bishop, resident at Gardar in the Eastern Settlement. The appointment confirmed that what Eirik the Red had founded as an exile\'s refuge was now a recognised diocese of the Roman Church and the westernmost outpost of medieval European civilisation.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-newfoundland'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 62'
   },
   {
     id: 'spot-greenland-hvalsey',
@@ -506,20 +635,120 @@ export const EVENTS: VikingEvent[] = [
     tag: 'Settlement',
     body: 'A wedding at Hvalsey church is the last written evidence of a living Norse community in Greenland. The settlers had arrived as adventurers, become farmers and bishops, and now simply vanished, leaving only stone churches and mystery behind. The Viking world was over.',
     type: 'settlement',
-    routes: [],
+    routes: ['route-newfoundland'],
+    source: 'Source: The Age of the Vikings, Winroth, p. 66'
   },
 ];
 
 export const ROUTES: Route[] = [
-  { id: 'route-england',       type: 'raid',        origin: 'hub-denmark', points: [[-1.8, 55.6]],                              name: 'North Sea Raid Route',           description: 'The primary Norse corridor across the North Sea from Denmark to the English coast, used repeatedly from the Lindisfarne raid of 793 through the Danish conquest of 1016.' },
-  { id: 'route-france',        type: 'raid',        origin: 'hub-denmark', points: [[1.1, 49.4]],                               name: 'Western Raid Route',             description: "The deep-water Atlantic approach from Denmark south to the Frankish coast of Normandy, the path that brought Rollo's forces to the Seine valley." },
-  { id: 'route-iceland',       type: 'exploration', origin: 'hub-norway',  points: [[-6.4, 56.3], [-21.8, 64.1]],              name: 'Iceland Settlement Route',       description: "The stepping-stone passage from Norway via the Scottish islands to Iceland, pioneered by Norse settlers fleeing Harald Fairhair's centralising rule after 872." },
-  { id: 'route-newfoundland',  type: 'exploration', origin: 'hub-iceland', points: [[-45.5, 61.1], [-55.5, 51.5]],             name: 'Vinland Expedition Route',       description: 'The westward extension of the Norse Atlantic frontier from Iceland through Greenland to the coast of North America, completed by Leif Erikson around 1000 AD.' },
-  { id: 'route-frisia',        type: 'raid',        origin: 'hub-denmark', points: [[5.3, 53.2]],                               name: 'Frisian Raid Route',             description: 'The short but devastating crossing from Jutland to the Frisian coast, used by Danish fleets to strike the wealthy trading ports of Dorestad and the Rhine delta from 810 onward.' },
-  { id: 'route-nantes',        type: 'raid',        origin: 'hub-denmark', points: [[-4.5, 48.0], [-1.6, 47.2]],               name: 'Loire Raid Route',               description: 'The long Atlantic arc from Denmark south past Brittany and into the Loire estuary, enabling the sack of Nantes in 843 and repeated raids deep into the Frankish heartland.' },
-  { id: 'route-mediterranean', type: 'exploration', origin: 'hub-denmark', points: [[-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]], name: 'Mediterranean Expedition Route', description: 'The audacious passage through the Straits of Gibraltar into the Mediterranean, taken by a Danish fleet of 62 ships in 859 that raided Morocco, southern France, and the Italian coast.' },
-  { id: 'route-seine',         type: 'raid',        origin: 'hub-denmark', points: [[0.82, 49.43]],                             name: 'Seine Raid Route',               description: 'The direct crossing from Denmark to the mouth of the Seine, the artery that carried Viking fleets to Paris in 845 and sustained the Norse presence in Normandy for decades.' },
-  { id: 'route-volga',         type: 'trade',       origin: 'hub-sweden',  points: [[37.6, 55.7], [49.1, 55.8], [28.9, 41.0]], name: 'Volga Trade Route',              description: 'The overland and river route from Sweden through the Baltic, down the Volga, and south to Constantinople and the Caspian Sea, the commercial backbone of the Rus trading network.' },
+  {
+    id: 'route-england',
+    type: 'raid',
+    origin: 'hub-denmark',
+    points: [[-1.0, 54.0], [-0.1, 51.5]],
+    name: 'North Sea Raid Route',
+    description: 'The primary Norse corridor across the North Sea from Denmark to the English coast. Fast, open-water sea voyages allowed sudden, unheralded attacks on undefended towns and monasteries, used repeatedly from the Lindisfarne raid of 793 through the Danish conquest of 1016.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 11, 18, 21, 56',
+  },
+  {
+    id: 'route-france',
+    type: 'raid',
+    origin: 'hub-denmark',
+    points: [[3.0, 52.0], [1.1, 49.4]],
+    name: 'Seine & Frankish Raid Route',
+    description: 'The deep-water approach from Scandinavia through the southern North Sea to the Frankish coast. Viking fleets navigated the Seine to Rouen and Paris, the Loire to Nantes, and the Garonne to Toulouse. Later, ambitious chieftains used these corridors to conquer territory, culminating in the establishment of Normandy.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15, 16, 20, 22, 48, 53, 72, 77',
+  },
+  {
+    id: 'route-iceland',
+    type: 'exploration',
+    origin: 'hub-norway-west',
+    points: [[-7.0, 62.0], [-21.8, 64.1]],
+    name: 'Iceland Settlement Route',
+    description: "The stepping-stone passage from the western coast of Norway via the Faroe Islands to Iceland, pioneered by Norse settlers fleeing Harald Fairhair's centralising rule after 872. Navigated by observing natural clues like cloud formations, sea currents, bird species, and whales.",
+    source: 'Source: The Age of the Vikings, Winroth, pp. 51, 60, 85',
+  },
+  {
+    id: 'route-newfoundland',
+    type: 'exploration',
+    origin: 'hub-iceland',
+    points: [[-45.5, 61.1], [-55.5, 51.5]],
+    name: 'Vinland Expedition Route',
+    description: "The westward extension of the Norse Atlantic frontier from Iceland through Greenland to North America, passing Markland (the forested Labrador peninsula) to reach Vinland (Newfoundland). Driven by Greenland's lack of timber, prompting sailors to seek wood for building homes and ships. Completed by Leif Eriksson around 1000 AD.",
+    source: 'Source: The Age of the Vikings, Winroth, pp. 60, 66, 67–68, 85',
+  },
+  {
+    id: 'route-frisia',
+    type: 'raid',
+    origin: 'hub-denmark',
+    points: [[5.3, 53.2], [5.1, 52.0]],
+    name: 'Frisian Raid Route',
+    description: 'The short but devastating crossing from Jutland to the Frisian coast, used by Danish fleets to strike the wealthy trading ports of Dorestad and the Rhine delta from 810 onward. These raids exposed a Frankish vulnerability: their land-based army could not respond to an enemy that appeared from the sea and vanished before engagement.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15, 16, 22, 72',
+  },
+  {
+    id: 'route-nantes',
+    type: 'raid',
+    origin: 'hub-denmark',
+    points: [[1.5, 51.5], [-4.5, 48.0], [-1.6, 47.2]],
+    name: 'Loire Raid Route',
+    description: 'The long Atlantic arc from Scandinavia south through the English Channel, past Brittany, and into the Loire estuary, enabling the sack of Nantes in 843 and repeated raids deep into the Frankish heartland. Viking fleets used occupied island bases like Noirmoutier at the Loire mouth as staging points.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15, 16, 77',
+  },
+  {
+    id: 'route-mediterranean',
+    type: 'raid',
+    origin: 'hub-denmark',
+    points: [[1.0, 51.0], [-6.0, 47.0], [-9.5, 39.0], [-5.4, 36.1], [2.3, 43.3], [12.5, 41.9]],
+    name: 'Mediterranean Raid Route',
+    description: 'The audacious raiding passage from Denmark south through the English Channel, down the Atlantic coast of France and Iberia, through the Straits of Gibraltar into the Mediterranean, taken by a Danish fleet of 62 ships in 859 that attacked the coasts of Morocco, southern France, and Italy.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 11, 16, 77',
+  },
+  {
+    id: 'route-seine',
+    type: 'raid',
+    origin: 'hub-denmark',
+    points: [[3.0, 52.0], [0.82, 49.43], [2.35, 48.86]],
+    name: 'Seine Raid Route',
+    description: 'The crossing from Denmark through the southern North Sea to the mouth of the Seine, the artery that carried Viking fleets upriver to Paris in 845 and sustained the Norse presence in Normandy for decades. Fleets navigated the Seine to Rouen and Paris, extracting massive tribute payments.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 15, 20, 40, 72',
+  },
+  {
+    id: 'route-volga',
+    type: 'trade',
+    origin: 'hub-sweden',
+    points: [[24.0, 59.5], [31.0, 58.5], [37.6, 55.7], [49.1, 55.8], [50.0, 42.0]],
+    name: 'Volga Trade Route',
+    description: 'The river route from Sweden across the Baltic Sea, through the Gulf of Finland to Novgorod, then via portage to the Volga and down to the shores of the Caspian Sea and the Arab Caliphate. Scandinavian merchants carried furs, slaves, and amber south in exchange for Arab silver, Chinese silk, Indian gems, and the high-quality Asian steel used for forging Ulfberht swords.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 9, 10, 32, 80, 81, 82',
+  },
+  {
+    id: 'route-dnieper',
+    type: 'trade',
+    origin: 'hub-sweden',
+    points: [[24.0, 59.5], [31.0, 58.5], [32.0, 54.8], [30.5, 50.4], [28.9, 41.0]],
+    name: 'Dnieper Trade Route',
+    description: 'The "Road from the Varangians to the Greeks"; from Sweden across the Baltic to the Gulf of Finland, then via Novgorod and portage to the Dnieper (starting from Smolensk), south through Kiev to Constantinople. The commercial and diplomatic backbone of the Rus state, used to extract tribute from Slavic peoples and conduct trade with the Byzantine Empire.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 9, 49, 80, 81, 82',
+  },
+  {
+    id: 'route-scandinavia',
+    type: 'trade',
+    origin: 'hub-norway-east',
+    points: [[10.5, 57.8], [12.0, 55.8], [16.0, 57.0], [20.0, 59.0], [24.9, 60.2]],
+    name: 'Scandinavian Coastal Route',
+    description: 'Domestic, protected navigation routes that allowed ships to utilise localised archipelagos to safely travel without entering the volatile open ocean. Ships could "sail by the coast the whole way," remaining close to land to avoid storms and find safe places to camp at night. Stretched from the Skagerrak through the Øresund into the Baltic Sea and along the Swedish-Finnish archipelago to the Gulf of Finland.',
+    source: 'Source: The Age of the Vikings, Winroth, p. 84',
+  },
+  {
+    id: 'route-ireland',
+    type: 'raid',
+    origin: 'hub-norway-west',
+    points: [[-3.0, 59.0], [-6.0, 56.0], [-6.5, 54.5], [-6.26, 53.33]],
+    name: 'Irish Sea Raid Route',
+    description: 'The sea crossing from Norway via the Orkney and Shetland islands, around the north of Scotland, and south through the Irish Sea to Dublin. What began as seasonal plundering of wealthy monasteries evolved into permanent settlement; the Norse founded Dublin, Waterford, Wexford, and Limerick, Ireland\'s first true urban centres.',
+    source: 'Source: The Age of the Vikings, Winroth, pp. 54, 55, 57',
+  },
 ];
 
 // used as discrete snap points on the timeline slider

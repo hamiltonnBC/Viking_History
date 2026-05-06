@@ -37,7 +37,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'The Adoption of the Sail',
     body: "Around this time, picture stones on the island of Gotland began to depict ships with sails rather than just rowing boats. This technological shift was the \"great mystery\" of Scandinavian history, as it took centuries for the Norse to adopt Roman-style sailing technology, but once they did, it allowed for the long-distance ocean travel required for the Viking Age.",
     source: 'The Age of the Vikings, pp. 11, 73',
-    tags: ['exploration', 'origin'],
+    tags: ['exploration', 'ships'],
   },
   {
     id: 'tl-varangian-tribute',
@@ -55,7 +55,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'The Raid on Lindisfarne',
     body: "Vikings plundered the island monastery of Lindisfarne in northeastern England, an event often cited as the definitive start of the Viking Age. It was historically significant for the theological shock it sent through Europe.",
     source: 'The Age of the Vikings, Chapter 2',
-    tags: ['raid', 'origin'],
+    tags: ['raid'],
   },
   {
     id: 'tl-avar-ring',
@@ -82,7 +82,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'Construction of the Oseberg Ship',
     body: "Built in Norway, this is the oldest Scandinavian sailing ship found by archaeologists. Its design shows the early, somewhat awkward transition to sail technology, featuring a mast that was likely unsafe in high winds, yet it remains one of the most exquisitely carved examples of Viking naval art.",
     source: 'The Age of the Vikings, pp. 11, 73',
-    tags: ['exploration', 'origin'],
+    tags: ['exploration', 'ships'],
   },
   {
     id: 'tl-oseberg-burial',
@@ -91,7 +91,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'The Oseberg Ship Burial',
     body: "Two high-status women were buried in the Oseberg ship with incredibly rich grave goods, including a wagon, sleds, and slaughtered horses. This burial illustrates the Norse belief that the Afterworld was reached by ship, with the vessel functioning as a \"ferry\" to the realm of the dead.",
     source: 'The Age of the Vikings, pp. 11, 73',
-    tags: ['origin'],
+    tags: ['ships'],
   },
   {
     id: 'tl-frisia-dorestad-raids',
@@ -254,7 +254,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'Death of the Gokstad Chieftain',
     body: 'A powerful man was buried in a magnificent ship at Gokstad in Norway. His skeletal remains show he died from violent wounds to his legs with slashing cuts consistent with close-quarters battle. This provides an incredibly rare archaeological look at the brutal reality of Viking Age combat.',
     source: 'The Age of the Vikings, Chapter 2',
-    tags: ['battle', 'origin'],
+    tags: ['battle', 'ships'],
   },
   {
     id: 'tl-rus-byzantine-treaty',
@@ -281,14 +281,14 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: "Ibn Fadlan's Witness to a Ship Cremation",
     body: 'The Arab diplomat Ibn Fadlan observed the funeral of a Rus chieftain on the Volga River, where the leader was burned inside his ship along with a sacrificed slave girl and numerous animals. His account is the most detailed contemporary description of Viking mortuary ritual, and reveals the full, violent scale of Norse beliefs about the afterlife.',
     source: 'The Age of the Vikings, Chapter 4',
-    tags: ['origin', 'exploration'],
+    tags: ['ships', 'exploration'],
   },
   {
     id: 'tl-brunanburh',
     year: 937,
     date: '937 AD',
     title: 'The Battle of Brunanburh',
-    body: 'An Old English poem celebrating this battle refers to Viking ships as nagledcnearr ("nailed knarr"), alluding to the "clinker" or lap-strake technique — overlapping planks fastened by iron nails — which created the strong, flexible hulls that made Viking vessels superior to their contemporaries in both speed and durability.',
+    body: 'An Old English poem celebrating this battle refers to Viking ships as nagledcnearr ("nailed knarr"), alluding to the "clinker" or lap-strake technique, overlapping planks fastened by iron nails, which created the strong, flexible hulls that made Viking vessels superior to their contemporaries in both speed and durability.',
     source: 'The Age of the Vikings, Chapter 4',
     tags: ['battle', 'exploration'],
   },
@@ -299,7 +299,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'The Hedeby Warship',
     body: 'A 31-meter longship found in Hedeby harbor featured space for 60 rowers. Such ships required massive investments of resources and took thousands of hours to weave sails and forge nails. Ultimately, they served as overt symbols of a chieftain\'s extreme wealth and ability to project military power.',
     source: 'The Age of the Vikings, Chapter 4',
-    tags: ['origin', 'exploration'],
+    tags: ['ships', 'exploration'],
   },
   {
     id: 'tl-battle-maldon-danegeld',
@@ -380,7 +380,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'The Roskilde Giant',
     body: 'A longship found in Roskilde measured approximately 36 meters long, confirming that medieval saga claims of "Great Serpents" with over 60 oarsmen were not literary exaggeration. These prestige ships were the pinnacle of Viking Age military technology and required the resources of an entire kingdom to construct.',
     source: 'The Age of the Vikings, Chapter 4',
-    tags: ['origin', 'exploration'],
+    tags: ['ships', 'exploration'],
   },
   {
     id: 'tl-sitric-rome',
@@ -425,7 +425,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'Blocking of Roskilde Fjord',
     body: 'Five aging longships were deliberately sunk to block the entrance to Roskilde Fjord, protecting the seat of Danish royal power from naval attack. The act marks the end of these vessels\' 30-to-40-year working lives, and shows the Norse repurposing their greatest technological achievement as a static defensive barrier.',
     source: 'The Age of the Vikings, Chapter 4',
-    tags: ['origin', 'conquest'],
+    tags: ['ships', 'conquest'],
   },
   {
     id: 'tl-greenland-bishop',
@@ -434,7 +434,7 @@ export const TIMELINE_ENTRIES: TimelineEntry[] = [
     title: 'A Bishop for Greenland',
     body: 'The Norse settlement in Greenland had grown established enough to receive its own bishop, who resided at Gardar. The appointment signalled that what began as an overflow colony from Iceland was now recognized as a permanent, fully Christian outpost of European civilization at the edge of the known world.',
     source: 'The Age of the Vikings, Chapter 3',
-    tags: ['settlement', 'origin'],
+    tags: ['settlement'],
   },
   {
     id: 'tl-greenland-last-record',

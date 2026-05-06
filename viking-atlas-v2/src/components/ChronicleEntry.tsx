@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { Badge } from './Badge';
+import { useFigure } from '../FigureContext';
 import type { TimelineEntry } from '../data/timelineEntries';
 
 interface ChronicleEntryProps {
@@ -8,6 +9,7 @@ interface ChronicleEntryProps {
 }
 
 export function ChronicleEntry({ entry }: ChronicleEntryProps) {
+  const { linkifyText } = useFigure();
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -35,9 +37,9 @@ export function ChronicleEntry({ entry }: ChronicleEntryProps) {
 
       {isExpanded && (
         <>
-          <p className="chronicle-entry-body">{entry.body}</p>
+          <p className="chronicle-entry-body">{linkifyText(entry.body)}</p>
           <footer className="chronicle-entry-source">
-            <span className="chronicle-source-icon">📖</span>
+            <span className="chronicle-source-text">Source:</span>
             <span>{entry.source}</span>
           </footer>
         </>
