@@ -1,4 +1,4 @@
-export type EventType = 'origin' | 'raid' | 'settlement' | 'trade' | 'conquest' | 'exploration' | 'battle';
+export type EventType = 'ships' | 'raid' | 'settlement' | 'trade' | 'conquest' | 'exploration' | 'battle';
 export type RouteType = 'raid' | 'exploration' | 'trade';
 
 export interface Era {

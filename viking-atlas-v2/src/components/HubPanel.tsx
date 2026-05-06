@@ -20,7 +20,9 @@ export function HubPanel({ hub, onClose }: HubPanelProps) {
 
   return (
     <div className={clsx('hub-panel', { open: !!hub })}>
-      <button className="panel-close" onClick={onClose}>✕</button>
+      <div className="hub-panel-close-bar">
+        <button className="panel-close" onClick={onClose}>✕</button>
+      </div>
       <div className="hub-panel-content">
         <div className="hub-panel-header">
           <div className="hub-panel-icon">⚓</div>

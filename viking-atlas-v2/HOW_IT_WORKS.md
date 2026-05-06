@@ -15,14 +15,16 @@ A technical walkthrough of the React + TypeScript + D3 application.
 7. [The Timeline Slider](#the-timeline-slider)
 8. [The Sidebar & Chronicle](#the-sidebar--chronicle)
 9. [The Info Panel](#the-info-panel)
-10. [Styling System](#styling-system)
-11. [Adding New Events](#adding-new-events)
+10. [The Hub Panel](#the-hub-panel)
+11. [Overlay Pages](#overlay-pages)
+12. [Styling System](#styling-system)
+13. [Adding New Events](#adding-new-events)
 
 ---
 
 ## Overview
 
-Viking Atlas is an interactive historical map that lets you travel through the Viking Age (750–1100 AD) using a timeline slider. As you advance the year, map hotspots progressively appear at their real geographic coordinates — each one clickable for a detailed description. A sidebar provides filter controls and a scrollable **Chronicle** of scholarly events sourced from *The Age of the Vikings* (Winroth, 2016).
+Viking Atlas is an interactive historical map that lets you travel through the Viking Age (750-1408 AD) using a timeline slider. As you advance the year, map hotspots progressively appear at their real geographic coordinates, each one clickable for a detailed description. A sidebar provides filter controls and a scrollable **Chronicle** of scholarly events sourced from *The Age of the Vikings* (Winroth, 2016).
 
 The application renders entirely in the browser. There is no backend, no database, and no API calls at runtime. All data is compiled TypeScript, and all map geometry is computed client-side using D3.
 
@@ -35,7 +37,7 @@ The application renders entirely in the browser. There is no backend, no databas
 | **React 18** | UI component tree, declarative rendering, state management |
 | **TypeScript** | Strict typing for all data models and component props |
 | **Vite** | Dev server and production bundler |
-| **D3 (d3-geo, d3-zoom)** | Map projection math and zoom transforms — *not* DOM manipulation |
+| **D3 (d3-geo, d3-zoom)** | Map projection math and zoom transforms (not DOM manipulation) |
 | **Vanilla CSS** | Design system via CSS custom properties (no framework) |
 | **clsx** | Conditional className utility |
 
@@ -54,25 +56,36 @@ viking-atlas-v2/
 │   ├── types.ts                # Shared TypeScript interfaces
 │   │
 │   ├── data/
-│   │   ├── vikingData.ts       # Map events, routes, eras (the "main" dataset)
+│   │   ├── vikingData.ts       # Map events, routes, eras, origin hubs
 │   │   ├── timelineEntries.ts  # Scholarly chronicle entries (sidebar-only)
 │   │   └── filterConstants.ts  # ALL_FILTERS array shared by FiltersOverlay
 │   │
+│   ├── utils/
+│   │   ├── timelineUtils.ts    # getActiveEraIndex helper
+│   │   └── runeTranslator.ts   # Elder Futhark translation logic
+│   │
 │   └── components/
-│       ├── Header.tsx          # Top bar: title, year, era name
+│       ├── Header.tsx          # Top bar: title, year, era name, nav buttons
 │       ├── Timeline.tsx        # Bottom slider + era pills + prev/next
 │       ├── Sidebar.tsx         # Collapsible Chronicle panel
 │       ├── FiltersOverlay.tsx  # Floating filter dropdown (map overlay)
 │       ├── Badge.tsx           # Reusable colored tag pill
 │       ├── ChronicleEntry.tsx  # Single expandable chronicle card
 │       ├── InfoPanel.tsx       # Slide-in detail panel (event or route)
+│       ├── HubPanel.tsx        # Slide-in panel for origin hub (country) details
+│       ├── HomeSplash.tsx      # About page overlay
+│       ├── DetailsPage.tsx     # Application details overlay (era categories, sources)
+│       ├── MapGuide.tsx        # Map legend overlay (icons + route colours)
+│       ├── LearnMore.tsx       # Topic grid overlay with sub-pages
 │       ├── RuneTranslator.tsx  # Rune translation overlay
 │       └── Map/
-│           ├── MapContainer.tsx    # SVG map, routes, hotspots
+│           ├── MapContainer.tsx    # SVG map, routes, hotspot icons
+│           ├── ZoomContext.tsx     # React context for zoom controls
 │           └── ZoomControls.tsx    # +/−/reset buttons
 │
 └── data/
-    └── timelinevikings.md      # Source material (reference only)
+    ├── timelinevikings.md      # Source material (reference only)
+    └── timelinevikings_pt2.md  # Source material part 2 (reference only)
 ```
 
 ---
@@ -81,14 +94,18 @@ viking-atlas-v2/
 
 There are **two separate but related datasets**.
 
-### 1. `vikingData.ts` — Map Data
+### 1. `vikingData.ts` - Map Data
 
-This drives everything visual on the map. It exports three constants:
+This drives everything visual on the map. It exports:
 
 ```ts
-EVENTS: VikingEvent[]   // hotspots on the map
-ROUTES: Route[]         // animated lines between points
-ERAS: Era[]             // named historical periods
+EVENTS: VikingEvent[]       // hotspots on the map
+ROUTES: Route[]             // animated lines between points
+ERAS: Era[]                 // named historical periods
+ORIGIN_HUBS: OriginHub[]    // departure port markers (countries)
+EVENT_YEARS: number[]       // sorted unique years used as snap points
+START_YEAR: number          // 750
+END_YEAR: number            // 1408
 ```
 
 **`VikingEvent`** is the core type:
@@ -102,7 +119,7 @@ interface VikingEvent {
   date: string;           // human-readable, e.g. "June 8, 793 AD"
   tag: string;            // display label for the badge, e.g. "Raid"
   body: string;           // prose description shown in the InfoPanel
-  type: EventType;        // controls the dot color and filter behaviour
+  type: EventType;        // controls the icon, color, and filter behaviour
   routes?: string[];      // IDs of Route objects to activate with this event
 }
 ```
@@ -113,6 +130,7 @@ interface VikingEvent {
 interface Route {
   id: string;
   type: 'raid' | 'exploration' | 'trade';
+  origin: string;         // ID of the OriginHub this route starts from
   points: [lng, lat][];   // sequence of geographic coordinates
   name: string;           // displayed in the tooltip and InfoPanel header
   description: string;    // shown in the InfoPanel route view
@@ -121,7 +139,19 @@ interface Route {
 
 Routes stay invisible (opacity 0) until an event that references them becomes active. They then animate with a dashed, glowing stroke.
 
-**`EventType`** is a union that both controls map dot colours and links map events to sidebar filters:
+**`OriginHub`** represents a Viking homeland departure point:
+
+```ts
+interface OriginHub {
+  id: string;
+  label: string;            // e.g. "Denmark", "Norway"
+  coords: [lng, lat];
+  description: string;      // shown in the HubPanel
+  relatedEntryIds: string[]; // IDs of TimelineEntries shown in the HubPanel
+}
+```
+
+**`EventType`** is a union that controls map icon shapes, colours, and filter behaviour:
 
 ```ts
 type EventType =
@@ -136,7 +166,7 @@ type EventType =
 
 ---
 
-### 2. `timelineEntries.ts` — Chronicle Data
+### 2. `timelineEntries.ts` - Chronicle Data
 
 This is the scholarly layer, derived from *The Age of the Vikings* (Winroth, 2016). It has its own type:
 
@@ -148,11 +178,11 @@ interface TimelineEntry {
   title: string;
   body: string;           // full explanatory paragraph
   source: string;         // chapter citation
-  tags: EventType[];      // one or more tags — used for filter linking
+  tags: EventType[];      // one or more tags, used for filter linking
 }
 ```
 
-Chronicle entries are **not** shown on the map — they have no coordinates. They live only in the sidebar Chronicle tab. However, their `tags` array mirrors `EventType`, so they are filtered in/out in sync with the map filter toggles.
+Chronicle entries are **not** shown on the map (they have no coordinates). They live only in the sidebar Chronicle tab. However, their `tags` array mirrors `EventType`, so they are filtered in/out in sync with the map filter toggles.
 
 > **Relationship between the two datasets:** For events that *do* have a real geographic location (e.g. the Sack of Nantes), there is *both* a `VikingEvent` in `vikingData.ts` (for the map hotspot) *and* a `TimelineEntry` in `timelineEntries.ts` (for the scholarly sidebar card). The two share the same `year` and thematic `tags`, but exist independently.
 
@@ -166,26 +196,40 @@ State flows top-down from `App.tsx`. No external state library is needed.
 App
 ├── currentYear: number              ← drives map visibility + header
 ├── selectedItem: VikingEvent|Route  ← drives InfoPanel open/closed
+├── selectedHub: OriginHub|null      ← drives HubPanel open/closed
 ├── activeFilters: EventType[]       ← drives map + sidebar Chronicle
-├── isHomeVisible: boolean           ← controls the About overlay (HomeSplash)
-├── isSidebarOpen: boolean           ← controls sidebar collapse/expand
-├── isFiltersOpen: boolean           ← controls FiltersOverlay visibility
-├── scrollToEra: number | null       ← one-way scroll signal from Timeline to Sidebar
+├── isHomeVisible: boolean           ← About overlay (HomeSplash)
+├── isDetailsVisible: boolean        ← Details overlay (DetailsPage)
+├── isMapGuideVisible: boolean       ← Map Guide overlay (MapGuide)
+├── isLearnMoreVisible: boolean      ← Learn More overlay (LearnMore)
+├── isRuneVisible: boolean           ← Rune Translator overlay
+├── isSidebarOpen: boolean           ← sidebar collapse/expand
+├── isFiltersOpen: boolean           ← FiltersOverlay visibility
+├── scrollToEra: number | null       ← one-way scroll signal Timeline → Sidebar
 │
-├── <Header currentYear />
+├── <HomeSplash />
+├── <RuneTranslator />
+├── <DetailsPage />
+├── <MapGuide />
+├── <LearnMore />
+├── <Header currentYear onOpenHome onOpenDetails onOpenMapGuide onOpenLearnMore />
 ├── <Sidebar isOpen activeFilters scrollToEra onScrollToEraConsumed />
-├── <MapContainer currentYear events routes activeFilters onEventClick onRouteClick />
+├── <MapContainer currentYear events routes originHubs activeFilters ... />
 ├── <FiltersOverlay isOpen activeFilters onToggleFilter onSelectAll />
-├── <InfoPanel selectedItem events onSelectEvent onClose />
-└── <Timeline currentYear onYearChange onEraJump />
+├── <InfoPanel selectedItem events routes onSelectEvent onSelectRoute onClose />
+├── <HubPanel hub onClose />
+└── <Timeline currentYear onYearChange onOpenRunes onEraJump />
 ```
 
 ### How state flows
 
 1. **User drags the slider** → `Timeline` calls `onYearChange(n)` → `App` sets `currentYear` → `MapContainer` re-renders, showing/hiding hotspots and routes.
-2. **User clicks a hotspot** → `MapContainer` calls `onEventClick(event)` → `App` sets `selectedItem` → `InfoPanel` slides in showing event detail.
+2. **User clicks a hotspot** → `MapContainer` calls `onEventClick(event)` → `App` sets `selectedItem` → `InfoPanel` slides in showing event detail (with "Connected Routes" buttons if applicable).
 3. **User clicks a route** → `MapContainer` calls `onRouteClick(route)` → `App` sets `selectedItem` → `InfoPanel` slides in showing route name, description, and connected events.
-4. **User toggles a filter** → `FiltersOverlay` calls `onToggleFilter(type)` → `App` toggles it in the `activeFilters` array → `MapContainer` hides matching dots and routes, `Sidebar` hides matching Chronicle entries.
+4. **User clicks an origin hub** → `MapContainer` calls `onHubClick(hub)` → `App` sets `selectedHub` → `HubPanel` slides in showing country details and related chronicle entries.
+5. **User toggles a filter** → `FiltersOverlay` calls `onToggleFilter(type)` → `App` toggles it in the `activeFilters` array → `MapContainer` hides matching dots and routes, `Sidebar` hides matching Chronicle entries.
+6. **User clicks "View Route" on an event** → `InfoPanel` calls `onSelectRoute(route)` → `App` sets `selectedItem` to the route → panel switches to route mode.
+7. **User clicks a connected event on a route** → `InfoPanel` calls `onSelectEvent(event)` → `App` sets `selectedItem` to the event → panel switches to event mode.
 
 ---
 
@@ -195,7 +239,7 @@ The map is an `<svg>` element managed entirely by React. D3 is used **only for m
 
 ### Projection
 
-`MapContainer` creates a `d3.geoMercator()` projection on mount (via `useMemo`). The projection translates latitude/longitude pairs into SVG pixel coordinates. The projection is recalculated whenever the SVG dimensions change (tracked by a `ResizeObserver`).
+`MapContainer` creates a `d3.geoMercator()` projection on mount (via `useMemo`). The projection translates latitude/longitude pairs into SVG pixel coordinates. The projection is recalculated whenever the SVG dimensions change (tracked by a resize listener).
 
 ### Base geography
 
@@ -207,37 +251,56 @@ World country polygons are loaded from `public/data/world.geojson` via `fetch()`
 ))}
 ```
 
-### Hotspots
+### Hotspot Icons
 
-Each `VikingEvent` becomes a `<g className="hotspot">` group containing a `<circle>` and a `<text>` label. A hotspot is visible when:
+Each `VikingEvent` becomes a `<g className="hotspot">` group containing a thematic SVG icon and a text label. Icons are defined in the `EVENT_ICONS` map at the top of `MapContainer.tsx`:
+
+| EventType | Icon Shape |
+|-----------|-----------|
+| raid | Crossed axes |
+| settlement | House with peaked roof |
+| trade | Ship/boat |
+| conquest | Crown |
+| exploration | Compass rose |
+| battle | Crossed swords |
+| origin | Viking shield (circle with cross) |
+
+Each icon is rendered as a `<path>` element with:
+- A faint background `<circle>` at 20% opacity for a halo effect
+- A `filter="url(#icon-glow)"` drop-shadow for visibility against the dark map
+- Scaling that adjusts with the zoom level (`iconScale = (BASE_R / 8) / zoomScale`)
+
+A hotspot is visible when:
 
 ```ts
 event.year <= currentYear && activeFilters.includes(event.type)
 ```
 
-The dot colour is determined by a `type → colour` map inside the component.
+The icon colour is determined by the `getEventColor(type)` function.
+
+### Origin Hub Markers
+
+`OriginHub` entries are rendered as concentric circles with a text label. They are always visible on the map. Clicking one opens the `HubPanel`.
 
 ### Routes
 
-Each `Route` is drawn as a `<path>` with `className="route"`. It becomes `active` (and gains an animated dashed stroke) when its type is in `activeFilters` AND at least one active event references it. Active routes also render a wide transparent hit-area path on top (20px stroke, `pointerEvents: 'stroke'`) to make them easy to click. Clicking a route calls `onRouteClick`, which opens the `InfoPanel` in route mode showing the route's name, description, and a list of connected events. Hovering a route shows a `route-tooltip` with the route name. Active routes also render SVG `<marker>` arrowheads at the end and a dot at the start, defined in a `<defs>` block — one set per route type (raid, exploration, trade).
+Each `Route` is drawn as a `<path>` with `className="route"`. It becomes `active` (and gains an animated dashed stroke) when its type is in `activeFilters` AND at least one active event references it. Active routes also render a wide transparent hit-area path on top (20px stroke, `pointerEvents: 'stroke'`) to make them easy to click. Clicking a route calls `onRouteClick`, which opens the `InfoPanel` in route mode. Hovering a route shows a `route-tooltip` with the route name. Active routes render SVG `<marker>` arrowheads defined in a `<defs>` block (one set per route type).
 
 ### Zoom
 
-`d3-zoom` is attached to the SVG's `<g>` wrapper via a `useEffect`. Zoom transforms are applied by updating the `transform` attribute on that `<g>` — React does not need to re-render the children; D3 manipulates the transform directly in this one intentional exception to the "D3 for maths only" rule.
-
-The `ZoomControls` component fires zoom actions by calling handler functions exposed on the `window` object by `MapContainer`. This is a pragmatic escape hatch to avoid prop-drilling the D3 zoom instance.
+`d3-zoom` is attached to the SVG's `<g>` wrapper via a `useEffect`. Zoom transforms are applied by updating the `transform` attribute on that `<g>`. The `ZoomControls` component accesses zoom handlers via `ZoomContext` (React context).
 
 ### Cursor Feedback
 
-`MapContainer` tracks a local `isDragging: boolean` state driven entirely by D3's zoom events — `zoom.on('start')` sets it to `true`, `zoom.on('end')` sets it back to `false`. A `window` `mouseup` listener (registered and cleaned up inside the D3 zoom `useEffect`) ensures the cursor resets even if the user releases the mouse button outside the SVG element.
-
-The `isDragging` state is applied as an inline `style` directly on the `<svg>` element (`cursor: grabbing` when dragging, `cursor: grab` otherwise). D3 zoom sets its own inline cursor style on the SVG at initialisation, so that style is immediately cleared (`svg.style('cursor', null)`) to ensure React's inline style is the single source of truth and the `grabbing` cursor is never overridden.
+`MapContainer` tracks a local `isDragging: boolean` state driven by D3's zoom events. The `isDragging` state is applied as an inline `style` directly on the `<svg>` element (`cursor: grabbing` when dragging, `cursor: grab` otherwise).
 
 ---
 
 ## The Timeline Slider
 
-`Timeline` is a styled HTML `<input type="range">` with `min={750}` and `max={1100}`. Its `value` is always `currentYear` (controlled input). On `onChange`, it calls `onYearChange(parseInt(e.target.value))`.
+`Timeline` is a styled HTML `<input type="range">` with `min={750}` and `max={1408}`. Its `value` is always `currentYear` (controlled input). On `onChange`, it snaps to the nearest event year via `snapToNearestEvent()`.
+
+The snap function includes `START_YEAR` (750) as a valid snap point alongside all event years, so the user can always drag the slider back to the beginning even though no event occurs at exactly 750.
 
 A gold fill bar (`timeline-fill`) is positioned behind the thumb and sized as a percentage of the total range:
 
@@ -245,72 +308,98 @@ A gold fill bar (`timeline-fill`) is positioned behind the thumb and sized as a 
 const pct = ((currentYear - START_YEAR) / (END_YEAR - START_YEAR)) * 100;
 ```
 
-Map events appear at the exact year they occurred. Dragging the slider past a year causes that event's hotspot to fade in, and retracting it causes it to disappear.
-
 ### Era Navigation
 
-Era pill buttons (`.era-pill`) are rendered above the slider in a `.era-pills` flex row — one per era. Clicking a pill calls both `onYearChange(era.min)` (to jump the slider to the start of that era) and `onEraJump(i)` (to trigger a scroll in the Sidebar chronicle). The active pill is highlighted based on `getActiveEraIndex(currentYear)`, which finds the era whose `min`/`max` range contains the current year and clamps to the last era if no match is found.
+Era pill buttons (`.era-pill`) are rendered above the slider. Clicking a pill calls both `onYearChange(era.min)` and `onEraJump(i)` (to trigger a scroll in the Sidebar chronicle). The active pill is highlighted based on `getActiveEraIndex(currentYear)`.
 
-Prev/Next arrow buttons (`.timeline-era-btn`) flank the slider inside a `.timeline-nav` flex row. These navigate by **event year** — snapping to the nearest earlier or later entry in `EVENT_YEARS` — rather than by era boundary. They call `onYearChange` only; they do not trigger `onEraJump`.
+Prev/Next arrow buttons (`.timeline-era-btn`) navigate by **event year** (snapping to the nearest earlier or later entry in `EVENT_YEARS`) rather than by era boundary.
 
 ---
 
 ## The Sidebar & Chronicle
 
-`Sidebar` is a collapsible panel. It accepts `isOpen`, `onToggle`, `activeFilters`, `scrollToEra`, and `onScrollToEraConsumed` props. When closed, it slides off-screen via `transform: translateX(-100%)` and `margin-left: -360px`. A collapse button (`.sidebar-collapse-btn`) peeks into the map area from the sidebar's right edge; when the sidebar is closed, a reopen tab (`.sidebar-reopen-tab`) appears on the left edge of the map instead.
+`Sidebar` is a collapsible panel. When closed, it slides off-screen via `transform: translateX(-100%)` and `margin-left: -360px`. A reopen tab appears on the left edge of the map when the sidebar is closed.
 
-Filters have moved out of the sidebar entirely. They are now controlled by `FiltersOverlay` — a floating dropdown anchored to a `Filters` button (`.filters-toggle-btn`) in the top-left corner of the map. The overlay closes when clicking outside it. A badge on the button shows the active count when any filters are disabled.
+Filters are controlled by `FiltersOverlay`, a floating dropdown anchored to a "Filters" button in the top-left corner of the map.
 
 ### Chronicle
 
-Renders `TIMELINE_ENTRIES` filtered to only those whose `tags` overlap `activeFilters`, sorted chronologically. The count badge in the sidebar header updates live.
-
-Each entry is rendered by `<ChronicleEntry>`, which composes:
-- **Date** — gold, uppercase, small
-- **`<Badge>` pills** — one per tag, colour-coded via `--badge-color` CSS property
-- **Title** — bold, white
-- **Body** — de-emphasised prose
-- **Source** — italic citation with a 📖 icon
-
-### Era Section Headers
-
-The chronicle list now includes `.chronicle-era-header` dividers inserted before the first `ChronicleEntry` of each era. Headers are only rendered for eras that have at least one entry in `visibleEntries` (entries matching active filters, sorted by year). Each header has a stable `id="chronicle-era-{i}"` used as a scroll target, and a `.chronicle-era-label` span displaying the era name.
-
-### Scroll-to-Era Signal
-
-`Sidebar` accepts a `scrollToEra: number | null` prop. When non-null, a `useEffect` defers a `scrollIntoView` call to the next animation frame, then calls `onScrollToEraConsumed()` to reset the signal in `App`. If the sidebar is closed when an era jump is triggered, `App` automatically reopens it first. Manual scrolling of the chronicle never updates `currentYear` or `scrollToEra` — the signal is strictly one-way from timeline to chronicle.
+Renders `TIMELINE_ENTRIES` filtered to only those whose `tags` overlap `activeFilters`, sorted chronologically. Era section headers are inserted as dividers. The scroll-to-era signal from the Timeline triggers a `scrollIntoView` call to the corresponding era header.
 
 ### Badge Component
 
-`Badge` is a standalone reusable component that takes a `tag: EventType` and renders a coloured pill. It is used in both `ChronicleEntry` (sidebar) and `InfoPanel` (map click detail), keeping tag styling consistent across contexts:
-
-```tsx
-// Badge.tsx
-<span className="badge" style={{ '--badge-color': TAG_COLORS[tag] }}>
-  {TAG_LABELS[tag]}
-</span>
-```
-
-The colour is injected as a CSS custom property so a single `.badge` CSS rule drives background, border, and text colour with `color-mix()`.
+`Badge` is a standalone reusable component that takes a `tag: EventType` and renders a coloured pill. Used in `ChronicleEntry`, `InfoPanel`, and `HubPanel`.
 
 ---
 
 ## The Info Panel
 
-`InfoPanel` is an absolutely-positioned overlay on the right edge of the map. It is always in the DOM; its visibility is toggled purely by CSS:
+`InfoPanel` is an absolutely-positioned overlay on the right edge of the map. Its visibility is toggled purely by CSS (`transform: translateX(100%)` / `translateX(0)`).
 
-```css
-.info-panel              { transform: translateX(100%); }  /* off-screen */
-.info-panel.open         { transform: translateX(0); }     /* slides in */
-```
+The panel renders in one of two modes:
 
-The slide animation is a CSS transition (`transition: transform 0.5s cubic-bezier(...)`). React's only job is to add/remove the `open` class based on whether `selectedItem` is non-null.
+**Event mode** (user clicked a hotspot):
+- Event title, date, badge, and body text
+- **Connected Routes** section: if the event belongs to one or more routes, buttons are shown to navigate to each route's detail view
 
-The panel renders in one of two modes depending on what was clicked:
+**Route mode** (user clicked a route):
+- Route name, badge, and description
+- **Connected Events** list: buttons for each event on that route, clicking switches to event mode
 
-**Event mode** (user clicked a hotspot): renders the event `title`, `date`, a `<Badge>` for its `type`, and the `body` text split on `<br><br>` into separate `<p>` elements.
+This two-way navigation (event → route and route → event) allows users to explore the relationships between events and the paths that connect them.
 
-**Route mode** (user clicked a route): renders the route `name`, a `<Badge>` for its type, a `description` paragraph, and a "Connected Events" list. Each item in the list is a button — clicking it switches the panel to event mode for that event.
+---
+
+## The Hub Panel
+
+`HubPanel` is a slide-in panel on the right edge of the map (same position as `InfoPanel`, but controlled by `selectedHub` state). It shows:
+
+- Country name and "Viking Homeland" subtitle
+- Description of the country's role in the Viking Age
+- A chronological list of related Chronicle entries (sourced from `relatedEntryIds` on the `OriginHub`)
+
+The close button uses a sticky bar layout so it remains accessible while scrolling through long entry lists.
+
+---
+
+## Overlay Pages
+
+The application uses full-screen overlay components rather than client-side routing. Each overlay is toggled by a boolean state in `App.tsx` and uses the same slide-in/out CSS animation pattern (`.visible` / `.hidden` classes with `transform` and `opacity` transitions).
+
+### About (`HomeSplash`)
+- Triggered by the "About" button in the header
+- Contains the app introduction text and author credits
+- Has a "Click here to view the timeline" button to dismiss
+
+### Details (`DetailsPage`)
+- Triggered by the "Details" button in the header
+- Documents that the era categories (Age of Raids, Age of Conquest & Settlement, Age of Kings, End of the Viking Age) are not formally recognised academic periodisations
+- Credits the History.com article "Vikings: History" as inspiration for the era structure
+- Lists data sources (Winroth, 2016) and technology stack
+
+### Map Guide (`MapGuide`)
+- Triggered by the "Map Guide" button in the header
+- Two-column layout (collapses to single column on mobile)
+- Left column: all 7 event icons with their colours and descriptions
+- Right column: all 3 route colour types with dashed-line swatches and descriptions
+- Serves as a visual legend for the map
+
+### Learn More (`LearnMore`)
+- Triggered by the "Learn More" button in the header
+- Displays a 3-column grid of 6 topic cards:
+  1. Who Were the Vikings?
+  2. Spread of Christianity
+  3. History During the Viking Age
+  4. Ships and Seafaring
+  5. Trade and Economy
+  6. Legacy and Influence
+- Each card navigates to a dedicated detail sub-page (managed via local `activeTopic` state)
+- Detail sub-pages have a "← Back" button (returns to topic grid) and an "✕" button (closes overlay entirely)
+- Detail page content is placeholder ("Content coming soon") ready for future expansion
+
+### Rune Translator (`RuneTranslator`)
+- Triggered by the "Write your name in Runes!" button in the Timeline footer
+- Translates user-entered text into Elder Futhark runes
 
 ---
 
@@ -327,45 +416,21 @@ All styles live in `App.css`. The foundation is a set of CSS custom properties (
   --gold-bright: #F59E0B;   /* ships, UI accents, dates */
   --parchment: #f9eccc;     /* settlement events */
   --exploration: #60e5fa;   /* exploration events */
-  --sea: #111b30;           /* map background */
-  --sea-dark: #040a27;      /* map background outer */
-  --land: #1E293B;          /* country polygon fill */
-  --land-stroke: #596f8c;   /* country polygon outline */
-  --glass-bg: rgba(12,27,62,0.6);
-  --glass-border: rgba(255,255,255,0.144);
+  --sea: #0c1524;           /* map background */
+  --sea-dark: #020617;      /* map background outer */
+  --land: #172033;          /* country polygon fill */
+  --land-stroke: #2a3a52;   /* country polygon outline */
+  --glass-bg: rgba(12,21,36,0.72);
+  --glass-border: rgba(255,255,255,0.07);
 
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
 ```
 
-Glassmorphism panels (sidebar, header, timeline, info panel) all use `backdrop-filter: blur()` on a semi-transparent `var(--glass-bg)` background.
+Glassmorphism panels (sidebar, header, timeline, info panel, overlays) all use `backdrop-filter: blur()` on a semi-transparent background.
 
-Interactive elements use `cubic-bezier(0.16, 1, 0.3, 1)` — an "ease-out spring" curve — for hover/active transitions.
-
-Notable CSS classes:
-
-- `.viking-map` — `cursor: grab` set via inline style; switches to `cursor: grabbing` during active drag (driven by D3 zoom start/end events via `isDragging` state)
-- `.rune-copy-btn` — Copy to Clipboard button inside the Rune Translator overlay
-- `.home-toggle-label` — "About" text label inside the header toggle button; hidden via `display: none` on viewports below 600px
-- `.header-left` — flex column container for the app title and era label in the header
-- `.timeline-nav` — flex row container for the prev arrow, timeline wrapper, and next arrow
-- `.era-pills` — flex row container for the era pill buttons, rendered above the slider
-- `.era-pill` — era jump button; active pill highlighted via `.era-pill.active`
-- `.timeline-era-btn` — prev/next event arrow buttons flanking the timeline wrapper
-- `.chronicle-era-header` — era section divider in the Chronicle tab with `::before`/`::after` separator lines
-- `.chronicle-era-label` — era name text inside `.chronicle-era-header`
-- `.sidebar--closed` — applied when sidebar is collapsed; slides it off-screen via `transform` + `margin-left`
-- `.sidebar-collapse-btn` — tab on the sidebar's right edge that collapses it
-- `.sidebar-reopen-tab` — tab on the map's left edge that reopens the sidebar (rendered by `App` when sidebar is closed)
-- `.filters-toggle-btn` — floating "Filters" button in the top-left of the map
-- `.filters-toggle-badge` — count badge on the filters button when some filters are inactive
-- `.filters-overlay` — floating filter dropdown; animated open/close via opacity + transform
-- `.filters-overlay--open` — applied when the overlay is visible
-- `.route-tooltip` — hover tooltip showing a route's name
-- `.panel-route-description` — route description paragraph in the InfoPanel route view
-- `.panel-connected-events` — container for the connected events list in route view
-- `.panel-connected-event-item` — clickable button for each connected event in route view
+Interactive elements use `cubic-bezier(0.16, 1, 0.3, 1)` (an "ease-out spring" curve) for hover/active transitions.
 
 ---
 
@@ -384,7 +449,7 @@ Add an entry to `EVENTS` in `src/data/vikingData.ts`:
   date: '900 AD',
   tag: 'Raid',              // display label
   body: 'What happened...',
-  type: 'raid',             // controls colour + filter visibility
+  type: 'raid',             // controls icon, colour, and filter visibility
   routes: []                // optionally reference Route IDs
 }
 ```
@@ -413,6 +478,7 @@ Add to `ROUTES` in `vikingData.ts` and reference its `id` from the appropriate e
 {
   id: 'route-my-route',
   type: 'raid',
+  origin: 'hub-denmark',    // which OriginHub this route starts from
   points: [[lng1, lat1], [lng2, lat2]],
   name: 'My Route Name',
   description: 'What this route represents...'
@@ -426,12 +492,29 @@ Add to `ROUTES` in `vikingData.ts` and reference its `id` from the appropriate e
 3. Add a label mapping in `Badge.tsx` (`TAG_LABELS`)
 4. Add the filter entry in `src/data/filterConstants.ts` (`ALL_FILTERS`)
 5. Add a colour mapping in `MapContainer.tsx` (`getEventColor`)
-6. Add a CSS variable for the colour in `:root` in `App.css`
-7. Add an SVG `<marker>` in `MapContainer.tsx`'s `<defs>` block if it's also a route type
+6. Add an SVG icon path in `MapContainer.tsx` (`EVENT_ICONS`)
+7. Add a CSS variable for the colour in `:root` in `App.css`
+8. Add an SVG `<marker>` in `MapContainer.tsx`'s `<defs>` block if it's also a route type
+9. Add the icon and description to `MapGuide.tsx` (`EVENT_ICONS` array)
+
+### To add a new Learn More topic
+
+Add an entry to the `TOPICS` array in `src/components/LearnMore.tsx`:
+
+```ts
+{
+  id: 'my-topic',
+  title: 'My Topic Title',
+  subtitle: 'Brief description of what this covers',
+  icon: '🏛️',
+}
+```
+
+The detail sub-page will automatically be created with placeholder content. Replace the placeholder in the `activeTopic` render branch with real content when ready.
 
 ---
 
-> The in-app credits block has moved from the Timeline footer to the **About page** (`HomeSplash`). The credits below are for the documentation file only.
+> The in-app credits block lives in the **About page** (`HomeSplash`). The credits below are for the documentation file only.
 
 ### Made by Nicholas Hamilton & America Gaona Borges
 

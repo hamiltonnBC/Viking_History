@@ -4,9 +4,12 @@ import type { Era } from '../types';
 interface HeaderProps {
   currentYear: number;
   onOpenHome: () => void;
+  onOpenDetails: () => void;
+  onOpenMapGuide: () => void;
+  onOpenLearnMore: () => void;
 }
 
-export function Header({ currentYear, onOpenHome }: HeaderProps) {
+export function Header({ currentYear, onOpenHome, onOpenDetails, onOpenMapGuide, onOpenLearnMore }: HeaderProps) {
   const era: Era | undefined = ERAS.find(e => currentYear >= e.min && currentYear <= e.max);
 
   return (
@@ -19,6 +22,15 @@ export function Header({ currentYear, onOpenHome }: HeaderProps) {
       <div className="header-right">
         <button className="home-toggle-btn" onClick={onOpenHome} title="Show About">
           <span className="home-toggle-label">About</span>
+        </button>
+        <button className="home-toggle-btn" onClick={onOpenMapGuide} title="Show Map Guide">
+          <span className="home-toggle-label">Map Guide</span>
+        </button>
+        <button className="home-toggle-btn" onClick={onOpenLearnMore} title="Learn More">
+          <span className="home-toggle-label">Learn More</span>
+        </button>
+        <button className="home-toggle-btn" onClick={onOpenDetails} title="Show Details">
+          <span className="home-toggle-label">Details</span>
         </button>
       </div>
     </header>

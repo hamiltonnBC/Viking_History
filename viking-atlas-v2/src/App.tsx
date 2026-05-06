@@ -10,16 +10,22 @@ import { Sidebar } from './components/Sidebar';
 import { FiltersOverlay } from './components/FiltersOverlay';
 import { HomeSplash } from './components/HomeSplash';
 import { RuneTranslator } from './components/RuneTranslator';
+import { DetailsPage } from './components/DetailsPage';
+import { MapGuide } from './components/MapGuide';
+import { LearnMore } from './components/LearnMore';
 import { EVENTS, ROUTES, START_YEAR, ORIGIN_HUBS } from './data/vikingData';
 import type { VikingEvent, Route, EventType, OriginHub } from './types';
 
 function App() {
   const [isHomeVisible, setIsHomeVisible] = useState(true);
   const [isRuneVisible, setIsRuneVisible] = useState(false);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+  const [isMapGuideVisible, setIsMapGuideVisible] = useState(false);
+  const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
   const [currentYear, setCurrentYear] = useState(START_YEAR);
   const [selectedItem, setSelectedItem] = useState<VikingEvent | Route | null>(null);
   const [activeFilters, setActiveFilters] = useState<EventType[]>([
-    'origin', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'
+    'ships', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'
   ]);
   const [scrollToEra, setScrollToEra] = useState<number | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -43,7 +49,7 @@ function App() {
   };
 
   const handleSelectAll = () => {
-    const allTypes: EventType[] = ['origin', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'];
+    const allTypes: EventType[] = ['ships', 'raid', 'settlement', 'trade', 'conquest', 'exploration', 'battle'];
     setActiveFilters(prev =>
       prev.length === allTypes.length ? [] : allTypes
     );
@@ -61,7 +67,10 @@ function App() {
     <div id="app">
       <HomeSplash isVisible={isHomeVisible} onEnter={() => setIsHomeVisible(false)} />
       <RuneTranslator isVisible={isRuneVisible} onClose={() => setIsRuneVisible(false)} />
-      <Header currentYear={currentYear} onOpenHome={() => setIsHomeVisible(true)} />
+      <DetailsPage isVisible={isDetailsVisible} onClose={() => setIsDetailsVisible(false)} />
+      <MapGuide isVisible={isMapGuideVisible} onClose={() => setIsMapGuideVisible(false)} />
+      <LearnMore isVisible={isLearnMoreVisible} onClose={() => setIsLearnMoreVisible(false)} />
+      <Header currentYear={currentYear} onOpenHome={() => setIsHomeVisible(true)} onOpenDetails={() => setIsDetailsVisible(true)} onOpenMapGuide={() => setIsMapGuideVisible(true)} onOpenLearnMore={() => setIsLearnMoreVisible(true)} />
       
       <main className="atlas-container">
         <Sidebar
@@ -115,7 +124,9 @@ function App() {
           <InfoPanel 
             selectedItem={effectiveSelectedItem}
             events={EVENTS}
+            routes={ROUTES}
             onSelectEvent={event => setSelectedItem(event)}
+            onSelectRoute={route => setSelectedItem(route)}
             onClose={() => setSelectedItem(null)} 
           />
           <HubPanel

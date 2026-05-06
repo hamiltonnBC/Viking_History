@@ -8,9 +8,10 @@ interface TimelineProps {
   onEraJump: (eraIndex: number) => void;
 }
 
-// Snaps raw slider value to the nearest event year.
+// Snaps raw slider value to the nearest event year (includes START_YEAR so the user can always return to the beginning).
 function snapToNearestEvent(raw: number): number {
-  return EVENT_YEARS.reduce((best, year) =>
+  const snapPoints = [START_YEAR, ...EVENT_YEARS];
+  return snapPoints.reduce((best, year) =>
     Math.abs(year - raw) < Math.abs(best - raw) ? year : best
   );
 }
