@@ -68,7 +68,7 @@ function App() {
       <HomeSplash isVisible={isHomeVisible} onEnter={() => setIsHomeVisible(false)} />
       <RuneTranslator isVisible={isRuneVisible} onClose={() => setIsRuneVisible(false)} />
       <DetailsPage isVisible={isDetailsVisible} onClose={() => setIsDetailsVisible(false)} />
-      <MapGuide isVisible={isMapGuideVisible} onClose={() => setIsMapGuideVisible(false)} />
+      <MapGuide isVisible={isMapGuideVisible} onClose={() => setIsMapGuideVisible(false)} onSelectRoute={route => { setSelectedItem(route); setSelectedHub(null); }} />
       <LearnMore isVisible={isLearnMoreVisible} onClose={() => setIsLearnMoreVisible(false)} />
       <Header currentYear={currentYear} onOpenHome={() => setIsHomeVisible(true)} onOpenDetails={() => setIsDetailsVisible(true)} onOpenMapGuide={() => setIsMapGuideVisible(true)} onOpenLearnMore={() => setIsLearnMoreVisible(true)} />
       
