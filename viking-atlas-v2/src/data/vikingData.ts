@@ -200,7 +200,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Norse warriors strike the undefended monastery at Lindisfarne, carrying off gold, silver, and captives. This shocking attack is traditionally considered the start of the Viking Age in Europe.',
     type: 'raid',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 21'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 21-22'
   },
   {
     id: 'spot-iceland',
@@ -236,7 +236,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Leif Eriksson leads an expedition from Greenland to North America, arriving 500 years before Columbus. Though settlements at places like L\'Anse aux Meadows proved temporary, it marks their furthest reach.',
     type: 'exploration',
     routes: ['route-newfoundland'],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 60, 68'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, pp. 67-68'
   },
   {
     id: 'spot-hastings',
@@ -262,7 +262,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Charlemagne seizes the Lombard treasury in Pavia, demonstrating the "gift economy" that rewarded loyal followers with plunder and establishing the same model Viking chieftains would later adopt to sustain their own power.',
     type: 'conquest',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, p. 36'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 42-44'
   },
   {
     id: 'spot-verden',
@@ -270,11 +270,11 @@ export const EVENTS: VikingEvent[] = [
     coords: [9.2352, 52.9226],
     title: 'Massacre of Verden',
     date: '782 AD',
-    tag: 'Battle',
+    tag: 'Conquest',
     body: 'Charlemagne orders the execution of 4,500 Saxon prisoners in a single day. This act of extreme state violence provides context for the era: the Christian world Norsemen raided was itself capable of breathtaking brutality.',
-    type: 'battle',
+    type: 'conquest',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, p. 37'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, p. 42'
   },
   {
     id: 'spot-avar-ring',
@@ -286,7 +286,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Charlemagne\'s army defeats the Avars in the Carpathian Basin and plunders their legendary treasury. The massive redistribution of this wealth to Frankish nobles illustrated the critical importance of battlefield plunder for maintaining political loyalty.',
     type: 'conquest',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, p. 36'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 42-44'
   },
   {
     id: 'spot-frisia-810',
@@ -298,7 +298,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'A fleet of 200 Danish ships ravages the Frisian coast and extorts a heavy ransom. The campaign exposed a Frankish vulnerability: their land-based army could not respond to an enemy that appeared without warning from the sea and vanished before they could engage.',
     type: 'raid',
     routes: ['route-frisia'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 71'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 71-72'
   },
   {
     id: 'spot-oseberg',
@@ -310,7 +310,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Two high-status women are interred in the Oseberg ship at Vestfold, Norway. As the oldest known Norse sailing ship, the vessel and its rich grave goods reveal a world-view in which the dead required a ship to voyage to the afterlife.',
     type: 'ships',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 91, 93'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 92-93'
   },
   {
     id: 'spot-dorestad-raids',
@@ -319,10 +319,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Devastation of Dorestad',
     date: '836–837 AD',
     tag: 'Raid',
-    body: 'Viking fleets launch consistent, annual attacks on the great Frisian trading hub of Dorestad. These raids established the pattern of "warfare by incursion" characterized by swift strikes on wealthy centres followed by rapid withdrawal, a strategy that ultimately defined the middle Viking Age.',
+    body: 'Viking fleets repeatedly attacked the Frisian coast and the trading hub of Dorestad throughout the 830s. A contemporary chronicler described the 837 raid as their "usual" surprise attack, demonstrating that "warfare by incursion" was already their established and preferred mode of warfare.',
     type: 'raid',
     routes: ['route-frisia'],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 15, 47'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 18, 20, and Chapter 5, p. 122'
   },
   {
     id: 'spot-nantes',
@@ -334,7 +334,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'A Viking fleet sacks Nantes on the feast of St. John the Baptist, a day when the city would be absolutely packed with pilgrims and valuables. This carefully timed strike revealed impressive Norse intelligence-gathering capabilities and their willingness to exploit the Christian religious calendar.',
     type: 'raid',
     routes: ['route-nantes'],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 15–16'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 15-18'
   },
   {
     id: 'spot-dun-masc',
@@ -343,10 +343,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Plunder of Dún Masc',
     date: '844 AD',
     tag: 'Raid',
-    body: 'Irish annals record the destruction of the monastery at Dún Masc (modern Co. Laois), including the killing of the abbot of Tír dá Glas. The entry illustrates how thoroughly Norse raiding had penetrated the Irish interior by the mid-9th century.',
+    body: "In 844 AD, the Irish annals recorded that Dún Masc was plundered by the 'heathen' Vikings, resulting in the deaths of many individuals, including church officials like the abbot of Tír dá Glas. These historical accounts are frustratingly \"devoid of detail\" regarding the exact circumstances of the attacks. Because of this lack of detail, it is unclear exactly how the victims were killed, and whether the abbot died defending the monastery, was cut down while saying mass, or was executed after a ransom failed to materialize.",
     type: 'raid',
     routes: ['route-ireland'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 16'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 20-21'
   },
   {
     id: 'spot-paris-845',
@@ -358,7 +358,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Vikings sail up the Seine and besiege Paris. When King Charles the Bald assembles his army, the raiders execute 111 Frankish captives on the opposite bank in plain view, successfully shattering morale. Charles ultimately pays a massive ransom of 7,000 lbs of silver just to make them leave.',
     type: 'raid',
     routes: ['route-seine'],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 22–23'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 22-24'
   },
   {
     id: 'spot-thames-851',
@@ -370,7 +370,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'The Anglo-Saxon Chronicle records 350 Viking ships entering the mouth of the Thames, making it the largest recorded Norse fleet to attack England. The force sacks Canterbury and London before being defeated by the West Saxon king Æthelwulf at the Battle of Aclea.',
     type: 'raid',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 20'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, p. 73'
   },
   {
     id: 'spot-mediterranean',
@@ -393,10 +393,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Ship Repairs at Jumièges',
     date: '862 AD',
     tag: 'Raid',
-    body: 'Following raids on the Seine, a Viking band established a temporary shipyard at Jumièges in Normandy. Viking naval dominance depended on constant maintenance, and the ability to occupy territory long enough to refit showed a strategic depth beyond simple hit-and-run raiding.',
+    body: 'Following partially unsuccessful raids on the Seine, a Viking band retreated to Jumièges in Normandy specifically to repair their ships. This demonstrates that Viking naval success relied on constant maintenance and the ability to establish temporary shipyards in occupied territories.',
     type: 'raid',
     routes: ['route-seine'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 72'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 79-80'
   },
   {
     id: 'spot-york-866',
@@ -408,7 +408,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'The sons of Ragnar defeated and killed King Ella of Northumbria, seizing York (Jórvík). The city became the capital of a Norse kingdom in England and a major centre of Viking culture, trade, and craftsmanship for nearly a century.',
     type: 'conquest',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 47, 52'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 35-37'
   },
   {
     id: 'spot-york-northumbria',
@@ -417,10 +417,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Partition of Northumbria',
     date: '876 AD',
     tag: 'Settlement',
-    body: 'Viking leader Halvdan carved up Northumbria and distributed farms to his warriors. This was the decisive shift from raiding to permanent colonisation. The Norse were no longer visitors but actual landlords, plowing fields that had once belonged to the very men they killed.',
+    body: 'After his army conquered Northumbria, the Viking leader Halvdan divided the land among his followers so that they "plowed and provided for themselves," meaning Halvdan no longer needed to provide for them. Historians debate what dividing this land actually meant in practice: was Northumbria entirely depopulated from years of raiding, was the land simply abandoned in pockets, or was the existing population violently expelled or killed by Halvdan\'s large army?',
     type: 'settlement',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 52'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, p. 52'
   },
   {
     id: 'spot-guthrum-baptism',
@@ -429,10 +429,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Baptism of Guthrum',
     date: '878 AD',
     tag: 'Settlement',
-    body: 'At Aller in Somerset, defeated Viking leader Guthrum was baptised with Alfred the Great as his godfather, taking the Christian name Æthelstan. The ceremony sealed the Treaty of Wedmore and legitimised Norse rule in the Danelaw by the conventions of Christian kingship.',
+    body: 'Following his defeat by King Alfred the Great at the Battle of Edington, the Viking leader Guthrum accepted Christianity and took the Anglo-Saxon name Æthelstan. King Alfred served as Guthrum\'s godfather during the baptism. Following this, Viking chieftains rapidly assimilated into the cultures they conquered and settled to legitimize their rule.',
     type: 'settlement',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 52'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, pp. 52-53'
   },
   {
     id: 'spot-benfleet',
@@ -441,10 +441,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Capture of Benfleet',
     date: '893 AD',
     tag: 'Settlement',
-    body: 'English forces stormed the Viking fortification at Benfleet, Essex, capturing the family of chieftain Hæsten. The presence of families inside the fort confirms that large-scale Viking campaigns included wives, children, and livestock, proving that these were migration events rather than mere raids.',
+    body: 'The English captured a Viking fortification at Benfleet, seizing the wife and children of the chieftain Hæsten. This record, supported by genetic evidence, suggests that Vikings routinely brought their families during migration rather than traveling as lone warriors, meaning Norse settlement was really a family enterprise.',
     type: 'settlement',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 57'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, p. 57'
   },
   {
     id: 'spot-ottar-voyage',
@@ -453,10 +453,10 @@ export const EVENTS: VikingEvent[] = [
     title: "Ottar's Coastal Voyage",
     date: 'c. 890 AD',
     tag: 'Trade',
-    body: "The chieftain and merchant Ottar regularly sailed from his home in the far north of Norway down to a trading hub in the Oslo Fjord, navigating the long western coast by camping at night and using familiar landmarks. His account, recorded at the court of King Alfred, is the earliest first-person description of Scandinavian coastal navigation.",
+    body: "The Norwegian chieftain Ottar visited King Alfred and described his month-long coastal journey from the far North to the Oslo Fjord. He provided key details on resources, such as how walrus hide made for very strong and durable ship ropes.",
     type: 'trade',
     routes: ['route-scandinavia'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 84'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 79, 84'
   },
   {
     id: 'spot-gokstad',
@@ -468,7 +468,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'A powerful Norwegian chieftain was interred in a clinker-built longship at Gokstad, Vestfold. His skeletal wounds show he died in violent close-quarters combat. The Gokstad ship, recovered in 1880, is considered one of the finest surviving examples of Viking shipbuilding.',
     type: 'ships',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 91, 93'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 30-31'
   },
   {
     id: 'spot-constantinople',
@@ -480,7 +480,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Norsemen of the Rurikid Rus signed a commercial treaty at Constantinople granting them favourable trading rights in the Byzantine capital. Delegates bore Scandinavian names, confirming that the eastern Viking network had formalised into a state capable of conducting diplomacy with the greatest empire in Europe.',
     type: 'trade',
     routes: ['route-dnieper'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 50'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, p. 50'
   },
   {
     id: 'spot-dublin-917',
@@ -489,10 +489,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Founding of Dublin',
     date: '917 AD',
     tag: 'Settlement',
-    body: 'The Viking leader Sitric established a permanent fortified settlement above the River Liffey at Dublin. The city grew into Ireland\'s first major commercial hub. It became a crossroads of the slave trade, silver economy, and North Sea commerce that would effectively shape Irish history for centuries.',
+    body: 'The Viking leader Sitric arrived in Ireland and constructed a fortress with a planned street layout on a ridge above the "black pool" (dub lind). This site became the city of Dublin, which grew into Ireland\'s first major commercial centre and a hub of the Viking slave and silver trade.',
     type: 'settlement',
     routes: ['route-ireland'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 54'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, pp. 54-55'
   },
   {
     id: 'spot-ibn-fadlan-volga',
@@ -501,10 +501,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Ship Cremation on the Volga',
     date: 'c. 921 AD',
     tag: 'Ships',
-    body: 'Arab diplomat Ibn Fadlan witnessed a Rus chieftain\'s funeral on the Volga, recording the sacrificial burning of the leader inside his ship along with a slave girl, horses, and cattle. His vivid account, written with shocked fascination, remains the most detailed eye-witness description of Norse funerary practice ever recorded.',
+    body: 'The Arab diplomat Ibn Fadlan observed the funeral of a Rus chieftain on the Volga River, where the leader was burned inside his ship along with a sacrificed slave girl and numerous animals. His account is the most detailed contemporary description of Viking mortuary ritual.',
     type: 'ships',
     routes: ['route-volga'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 94'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 94-95'
   },
   {
     id: 'spot-hedeby',
@@ -516,7 +516,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'A 31-metre longship with benches for 60 rowers was sunk in Hedeby harbour. Ships of this scale required the productive output of an entire chieftain\'s domain to construct and man, and functioned as floating declarations of power as much as weapons of war.',
     type: 'ships',
     routes: [],
-    source: 'Source: The Age of the Vikings, Winroth, p. 89'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 74-75, 78-79'
   },
   {
     id: 'spot-maldon',
@@ -528,7 +528,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'English leader Byrhtnoth was killed at Maldon in Essex after refusing Viking tribute demands. His defeat triggered the institutionalisation of Danegeld, a nationwide protection tax that funnelled enormous silver wealth into Viking hands and helped bankroll Scandinavian kingdoms for decades.',
     type: 'battle',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, pp. 27, 40'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 2, pp. 27, 29, 40-41'
   },
   {
     id: 'spot-svoldr',
@@ -537,10 +537,10 @@ export const EVENTS: VikingEvent[] = [
     title: 'Battle of Svöldr',
     date: '1000 AD',
     tag: 'Battle',
-    body: "A great naval clash in the western Baltic where Norwegian King Olav Tryggvason fought against a coalition of Swedish and Danish kings. Olav fell in battle, leaping from his flagship the Long Serpent into the sea rather than be captured. The battle demonstrated that control of Scandinavian coastal waters was the key to political power in the North.",
+    body: "King Olav Tryggvason of Norway fell in this massive sea battle against a Danish and Swedish coalition, as well as a Norwegian chieftain. The fleets lashed their ships together to form a floating battle-platform, turning the engagement into a land battle at sea. It highlighted that by the late Viking Age, decisive power struggles between Scandinavian kings were won and lost on water.",
     type: 'battle',
     routes: ['route-scandinavia'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 88'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 87-88, and Chapter 10, pp. 245-246'
   },
   {
     id: 'spot-clontarf',
@@ -552,7 +552,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Irish forces under Brian Boru defeated the Norse-allied army of Sitric Silkenbeard near Dublin. The battle\'s later reputation as a national Irish victory over the Vikings obscures the reality: Norse warriors fought on both sides, and the conflict was a political power struggle in which ethnicity was irrelevant.',
     type: 'battle',
     routes: ['route-ireland'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 55'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, pp. 55-56'
   },
   {
     id: 'spot-nesjar',
@@ -564,7 +564,7 @@ export const EVENTS: VikingEvent[] = [
     body: "A major sea battle in the Oslo Fjord where Olav Haraldsson won the Norwegian kingship by defeating a coalition of local chieftains loyal to Danish overlordship. The victory established Olav as sole king of Norway and demonstrated that naval supremacy in home waters was the prerequisite for Scandinavian kingship.",
     type: 'battle',
     routes: ['route-scandinavia'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 88'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 4, pp. 87-88'
   },
   {
     id: 'spot-cnut-london',
@@ -576,7 +576,7 @@ export const EVENTS: VikingEvent[] = [
     body: 'Cnut of Denmark became King of England after defeating Edmund Ironside, going on to rule a North Sea empire encompassing England, Denmark, and Norway. He used English tax revenues to pay his Viking household troops, turning the old Danegeld system into the financial engine of Scandinavian imperial ambition.',
     type: 'conquest',
     routes: ['route-england'],
-    source: 'Source: The Age of the Vikings, Winroth, p. 56'
+    source: 'Source: The Age of the Vikings, Winroth, Chapter 3, p. 56, Chapter 6, p. 151, and Chapter 2, pp. 40-41'
   },
   {
     id: 'spot-roskilde-ship',
