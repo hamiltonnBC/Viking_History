@@ -13,6 +13,7 @@ import { RuneTranslator } from './components/RuneTranslator';
 import { DetailsPage } from './components/DetailsPage';
 import { MapGuide } from './components/MapGuide';
 import { LearnMore } from './components/LearnMore';
+import { FigureProvider } from './FigureContext';
 import { EVENTS, ROUTES, START_YEAR, ORIGIN_HUBS } from './data/vikingData';
 import type { VikingEvent, Route, EventType, OriginHub } from './types';
 
@@ -22,6 +23,7 @@ function App() {
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
   const [isMapGuideVisible, setIsMapGuideVisible] = useState(false);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
+  const [highlightedFigureId, setHighlightedFigureId] = useState<string | null>(null);
   const [currentYear, setCurrentYear] = useState(START_YEAR);
   const [selectedItem, setSelectedItem] = useState<VikingEvent | Route | null>(null);
   const [activeFilters, setActiveFilters] = useState<EventType[]>([
@@ -63,13 +65,26 @@ function App() {
     setScrollToEra(null);
   };
 
+  const handleOpenFigure = (id: string) => {
+    setHighlightedFigureId(id);
+    setIsLearnMoreVisible(true);
+  };
+
   return (
-    <div id="app">
+    <FigureProvider onOpenFigure={handleOpenFigure}>
+      <div id="app">
       <HomeSplash isVisible={isHomeVisible} onEnter={() => setIsHomeVisible(false)} />
       <RuneTranslator isVisible={isRuneVisible} onClose={() => setIsRuneVisible(false)} />
       <DetailsPage isVisible={isDetailsVisible} onClose={() => setIsDetailsVisible(false)} />
       <MapGuide isVisible={isMapGuideVisible} onClose={() => setIsMapGuideVisible(false)} onSelectRoute={route => { setSelectedItem(route); setSelectedHub(null); }} />
-      <LearnMore isVisible={isLearnMoreVisible} onClose={() => setIsLearnMoreVisible(false)} />
+      <LearnMore 
+        isVisible={isLearnMoreVisible} 
+        onClose={() => {
+          setIsLearnMoreVisible(false);
+          setHighlightedFigureId(null);
+        }} 
+        highlightedFigureId={highlightedFigureId}
+      />
       <Header currentYear={currentYear} onOpenHome={() => setIsHomeVisible(true)} onOpenDetails={() => setIsDetailsVisible(true)} onOpenMapGuide={() => setIsMapGuideVisible(true)} onOpenLearnMore={() => setIsLearnMoreVisible(true)} />
       
       <main className="atlas-container">
@@ -143,7 +158,8 @@ function App() {
         onEraJump={handleEraJump}
       />
     </div>
-  );
+  </FigureProvider>
+);
 }
 
 export default App;

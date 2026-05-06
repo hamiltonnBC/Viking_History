@@ -2,6 +2,7 @@ import type { OriginHub } from '../types';
 import type { TimelineEntry } from '../data/timelineEntries';
 import { TIMELINE_ENTRIES } from '../data/timelineEntries';
 import { Badge } from './Badge';
+import { useFigure } from '../FigureContext';
 import clsx from 'clsx';
 
 interface HubPanelProps {
@@ -10,6 +11,7 @@ interface HubPanelProps {
 }
 
 export function HubPanel({ hub, onClose }: HubPanelProps) {
+  const { linkifyText } = useFigure();
   if (!hub) return null;
 
   // Get related entries sorted chronologically
@@ -30,7 +32,7 @@ export function HubPanel({ hub, onClose }: HubPanelProps) {
           <span className="hub-panel-subtitle">{hub.subtitle || 'Viking Homeland'}</span>
         </div>
 
-        <p className="hub-panel-description">{hub.description}</p>
+        <p className="hub-panel-description">{linkifyText(hub.description)}</p>
 
         {hub.source && (
           <p className="panel-route-source">{hub.source}</p>
@@ -53,7 +55,7 @@ export function HubPanel({ hub, onClose }: HubPanelProps) {
                 </div>
               </div>
               <h4 className="hub-entry-title">{entry.title}</h4>
-              <p className="hub-entry-body">{entry.body}</p>
+              <p className="hub-entry-body">{linkifyText(entry.body)}</p>
               <footer className="hub-entry-source">
                 <span>📖</span>
                 <span>{entry.source}</span>

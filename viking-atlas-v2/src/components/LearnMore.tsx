@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ImportantFigures } from './ImportantFigures';
 import { StoryTelling } from './StoryTelling';
 
 interface LearnMoreProps {
   isVisible: boolean;
   onClose: () => void;
+  highlightedFigureId?: string | null;
 }
 
 interface Topic {
@@ -58,6 +59,12 @@ const TOPICS: Topic[] = [
     icon: '⚖️',
   },
   {
+    id: 'gallery',
+    title: 'Gallery',
+    subtitle: 'Visual history, artifacts, and reconstructions',
+    icon: '🖼️',
+  },
+  {
     id: 'legacy-and-influence',
     title: 'Legacy and Influence',
     subtitle: 'How the Viking Age shaped modern language & culture',
@@ -65,8 +72,15 @@ const TOPICS: Topic[] = [
   },
 ];
 
-export function LearnMore({ isVisible, onClose }: LearnMoreProps) {
+export function LearnMore({ isVisible, onClose, highlightedFigureId }: LearnMoreProps) {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
+
+  // Sync activeTopic if a figure is highlighted
+  useEffect(() => {
+    if (highlightedFigureId) {
+      setActiveTopic('important-figures');
+    }
+  }, [highlightedFigureId]);
 
   const handleClose = () => {
     setActiveTopic(null);
@@ -84,7 +98,7 @@ export function LearnMore({ isVisible, onClose }: LearnMoreProps) {
     let content = <p className="learn-more-placeholder">Content coming soon.</p>;
     
     if (activeTopic === 'important-figures') {
-      content = <ImportantFigures />;
+      content = <ImportantFigures highlightId={highlightedFigureId} />;
     } else if (activeTopic === 'story-telling') {
       content = <StoryTelling />;
     }

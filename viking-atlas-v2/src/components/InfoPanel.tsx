@@ -1,5 +1,6 @@
 import type { VikingEvent, Route, EventType } from '../types';
 import { Badge } from './Badge';
+import { useFigure } from '../FigureContext';
 import clsx from 'clsx';
 
 interface InfoPanelProps {
@@ -20,6 +21,8 @@ function isRoute(item: VikingEvent | Route | null): item is Route {
 }
 
 export function InfoPanel({ selectedItem, onClose, events, routes, onSelectEvent, onSelectRoute }: InfoPanelProps) {
+  const { linkifyText } = useFigure();
+  
   const connectedEvents = isRoute(selectedItem)
     ? events.filter(e => e.routes?.includes(selectedItem.id))
     : [];
@@ -40,7 +43,7 @@ export function InfoPanel({ selectedItem, onClose, events, routes, onSelectEvent
               <Badge tag={selectedItem.type as EventType} />
             </div>
             <div className="panel-body">
-              <p className="panel-route-description">{selectedItem.description}</p>
+              <p className="panel-route-description">{linkifyText(selectedItem.description)}</p>
               {selectedItem.source && (
                 <p className="panel-route-source">{selectedItem.source}</p>
               )}
@@ -73,7 +76,7 @@ export function InfoPanel({ selectedItem, onClose, events, routes, onSelectEvent
             </div>
             <div className="panel-body">
               {selectedItem.body.split('\n\n').map((p, idx) => (
-                <p key={idx}>{p}</p>
+                <p key={idx}>{linkifyText(p)}</p>
               ))}
               {selectedItem.source && (
                 <p className="panel-route-source">{selectedItem.source}</p>

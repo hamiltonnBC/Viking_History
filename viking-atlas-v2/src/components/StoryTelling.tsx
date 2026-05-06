@@ -1,4 +1,7 @@
+import { useFigure } from '../FigureContext';
+
 export function StoryTelling() {
+  const { linkifyText } = useFigure();
   return (
     <div className="story-telling">
       <p className="figures-source-citation">
@@ -11,16 +14,12 @@ export function StoryTelling() {
           <span className="figure-pages">pp. 9-10</span>
         </div>
         <p>
-          The Vikings lived in an oral culture where history, law, and genealogy were preserved through memory and speech. 
-          Centuries later, these stories were written down in Iceland, becoming known as the <strong>Sagas</strong>.
+          {linkifyText("The Vikings lived in an oral culture where history, law, and genealogy were preserved through memory and speech. Centuries later, these stories were written down in Iceland, becoming known as the Sagas.")}
         </p>
         <div className="story-highlight">
           <h3>The Saga of Ragnar Lothbrok</h3>
           <p>
-            One of the most famous legendary sagas tells the tale of Ragnar Hairy-Breeches. While modern historians 
-            debate his existence, his story, including his death in a pit of snakes in Northumbria, inspired
- 
-            generations of Viking warriors and later storytellers. (pp. 34, 35)
+            {linkifyText("One of the most famous legendary sagas tells the tale of Ragnar Hairy-Breeches. While modern historians debate his existence, his story, including his death in a pit of snakes in Northumbria, inspired generations of Viking warriors and later storytellers. (pp. 34, 35)")}
           </p>
         </div>
       </section>
@@ -31,14 +30,10 @@ export function StoryTelling() {
           <span className="figure-pages">pp. 11-13</span>
         </div>
         <p>
-          The <strong>Skalds</strong> were the court poets of the Viking Age. They composed complex, highly structured 
-          poems that praised the deeds of kings and chieftains. Unlike the anonymous sagas, we often know the 
-          names of these poets.
+          {linkifyText("The Skalds were the court poets of the Viking Age. They composed complex, highly structured poems that praised the deeds of kings and chieftains. Unlike the anonymous sagas, we often know the names of these poets.")}
         </p>
         <p>
-          Skaldic poetry is famous for its use of <em>kennings</em>; metaphorical compound words. For example,
- 
-          "whale-road" meant the sea, and "wound-hoe" meant a sword.
+          {linkifyText("Skaldic poetry is famous for its use of kennings; metaphorical compound words. For example, 'whale-road' meant the sea, and 'wound-hoe' meant a sword.")}
         </p>
       </section>
 
@@ -48,15 +43,12 @@ export function StoryTelling() {
           <span className="figure-pages">p. 82</span>
         </div>
         <p>
-          While the Vikings didn't write books, they did leave thousands of inscriptions on <strong>Runestones</strong>. 
-          Most of these were memorial markers for the dead, but they also told brief stories of travel, 
-          succession, and sometimes, disaster.
+          {linkifyText("While the Vikings didn't write books, they did leave thousands of inscriptions on Runestones. Most of these were memorial markers for the dead, but they also told brief stories of travel, succession, and sometimes, disaster.")}
         </p>
         <div className="story-highlight">
           <h3>The Ingvar Runestones</h3>
           <p>
-            In Sweden, 26 runestones stand as a collective memorial to a massive, failed expedition led by 
-            Ingvar the Far-Traveled. They tell of men who "died in the south, in Serkland (the land of the Saracens)."
+            {linkifyText("In Sweden, 26 runestones stand as a collective memorial to a massive, failed expedition led by Ingvar the Far-Traveled. They tell of men who 'died in the south, in Serkland (the land of the Saracens).'")}
           </p>
         </div>
       </section>
@@ -67,12 +59,10 @@ export function StoryTelling() {
           <span className="figure-pages">p. 83</span>
         </div>
         <p>
-          Sometimes, the Vikings told stories through what they buried. The <strong>Oseberg ship burial</strong> 
-          is a masterpiece of woodcarving, with intricate designs that likely depicted myths and legends 
-          that were already old when the ship was buried in 834.
+          {linkifyText("Sometimes, the Vikings told stories through what they buried. The Oseberg ship burial is a masterpiece of woodcarving, with intricate designs that likely depicted myths and legends that were already old when the ship was buried in 834.")}
         </p>
         <p>
-          The inclusion of a ship in a grave was itself a story; a narrative of the final journey to the Afterworld.
+          {linkifyText("The inclusion of a ship in a grave was itself a story; a narrative of the final journey to the Afterworld.")}
         </p>
       </section>
     </div>
